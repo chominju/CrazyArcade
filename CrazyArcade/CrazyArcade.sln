@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1525
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrazyArcade", "CrazyArcade\CrazyArcade.vcxproj", "{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCTool", "MFCTool\MFCTool.vcxproj", "{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Headers", "Headers", "{6BF49C03-305C-4535-AF57-284F20D30475}"
+	ProjectSection(SolutionItems) = preProject
+		Headers\Define.h = Headers\Define.h
+		Headers\Enum.h = Headers\Enum.h
+		Headers\Extern.h = Headers\Extern.h
+		Headers\Function.h = Headers\Function.h
+		Headers\Headers.h = Headers\Headers.h
+		Headers\Struct.h = Headers\Struct.h
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}.Debug|x64.ActiveCfg = Debug|x64
+		{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}.Debug|x64.Build.0 = Debug|x64
+		{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}.Debug|x86.ActiveCfg = Debug|Win32
+		{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}.Debug|x86.Build.0 = Debug|Win32
+		{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}.Release|x64.ActiveCfg = Release|x64
+		{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}.Release|x64.Build.0 = Release|x64
+		{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}.Release|x86.ActiveCfg = Release|Win32
+		{D6215BD2-ED4A-4651-A095-9315EE1BEB4D}.Release|x86.Build.0 = Release|Win32
+		{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}.Debug|x64.ActiveCfg = Debug|x64
+		{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}.Debug|x64.Build.0 = Debug|x64
+		{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}.Debug|x86.ActiveCfg = Debug|Win32
+		{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}.Debug|x86.Build.0 = Debug|Win32
+		{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}.Release|x64.ActiveCfg = Release|x64
+		{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}.Release|x64.Build.0 = Release|x64
+		{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}.Release|x86.ActiveCfg = Release|Win32
+		{281A3EE6-4507-4DA6-A6F3-274FD0AB4E14}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D2C0B07-D888-45E7-9790-9805203C772F}
+	EndGlobalSection
+EndGlobal
