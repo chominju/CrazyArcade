@@ -11,4 +11,6 @@
 #include "framework.h"
 #include "Headers.h"
 
+#include "MFC_Texture_Manager.h"
+
 #endif //PCH_H

@@ -84,7 +84,9 @@
     <ClInclude Include="MapTool.h">
       <Filter>01.View\Form\MapTool</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Terrain.h">
+      <Filter>05.Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCTool.cpp">
@@ -111,9 +113,6 @@
     <ClCompile Include="Multi_Texture.cpp">
       <Filter>04.Texture\01.Multi_Texture</Filter>
     </ClCompile>
-    <ClCompile Include="MFC_Texture_Manager.cpp">
-      <Filter>04.Texture\02.Manager</Filter>
-    </ClCompile>
     <ClCompile Include="Graphic_Device.cpp">
       <Filter>03.Graphic_Device</Filter>
     </ClCompile>
@@ -123,7 +122,12 @@
     <ClCompile Include="MapTool.cpp">
       <Filter>01.View\Form\MapTool</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Terrain.cpp">
+      <Filter>05.Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="MFC_Texture_Manager.cpp">
+      <Filter>04.Texture\02.Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\MFCTool.ico">
