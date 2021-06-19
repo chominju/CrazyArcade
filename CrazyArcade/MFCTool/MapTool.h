@@ -1,26 +1,23 @@
-#pragma once
+ï»¿#pragma once
 
 
-// CMapTool ´ëÈ­ »óÀÚÀÔ´Ï´Ù.
+// CMapTool ëŒ€í™” ìƒì
 
 class CMapTool : public CDialog
 {
 	DECLARE_DYNAMIC(CMapTool)
 
 public:
-	CMapTool(CWnd* pParent = NULL);   // Ç¥ÁØ »ı¼ºÀÚÀÔ´Ï´Ù.
+	CMapTool(CWnd* pParent = nullptr);   // í‘œì¤€ ìƒì„±ìì…ë‹ˆë‹¤.
 	virtual ~CMapTool();
 
-	BYTE m_drawID;
-
-// ´ëÈ­ »óÀÚ µ¥ÀÌÅÍÀÔ´Ï´Ù.
+// ëŒ€í™” ìƒì ë°ì´í„°ì…ë‹ˆë‹¤.
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_MAPTOOL };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Áö¿øÀÔ´Ï´Ù.
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ì§€ì›ì…ë‹ˆë‹¤.
 
 	DECLARE_MESSAGE_MAP()
-
 };

@@ -2,13 +2,14 @@
 // MainFrm.cpp : CMainFrame 클래스의 구현
 //
 
-#include "stdafx.h"
+#include "pch.h"
+#include "framework.h"
 #include "MFCTool.h"
 
 #include "MainFrm.h"
 #include "MFCToolView.h"
 #include "Form.h"
-#include "MiniView.h"
+//#include "MiniView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -109,7 +110,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_mainSplitter.CreateStatic(this, 1, 2);
 	m_subSplitter.CreateStatic(&m_mainSplitter, 2, 1, WS_VISIBLE | WS_CHILD, m_mainSplitter.IdFromRowCol(0, 0));
 
-	m_subSplitter.CreateView(0, 0, RUNTIME_CLASS(CMiniView), CSize(300, 300), pContext);
+	//m_subSplitter.CreateView(0, 0, RUNTIME_CLASS(CMiniView), CSize(300, 300), pContext);
 	m_subSplitter.CreateView(1, 0, RUNTIME_CLASS(CForm), CSize(300, 300), pContext);
 	m_mainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMFCToolView), CSize(800, 600), pContext);
 

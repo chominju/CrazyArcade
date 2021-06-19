@@ -16,6 +16,6 @@ using namespace std;
 #include "Extern.h"
 #include "Struct.h"
 #include "Function.h"
-#include "FileInfo.h"
+//#include "FileInfo.h"
 #include "Graphic_Device.h"
 #include "Texture_Manager.h"

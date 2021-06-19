@@ -1,8 +1,7 @@
-// Form.cpp : ±¸Çö ÆÄÀÏÀÔ´Ï´Ù.
+ï»¿// Form.cpp: êµ¬í˜„ íŒŒì¼
 //
 
 #include "pch.h"
-#include "framework.h"
 #include "MFCTool.h"
 #include "Form.h"
 
@@ -30,7 +29,7 @@ BEGIN_MESSAGE_MAP(CForm, CFormView)
 END_MESSAGE_MAP()
 
 
-// CForm Áø´ÜÀÔ´Ï´Ù.
+// CForm ì§„ë‹¨
 
 #ifdef _DEBUG
 void CForm::AssertValid() const
@@ -47,4 +46,4 @@ void CForm::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-// CForm ¸Ş½ÃÁö Ã³¸®±âÀÔ´Ï´Ù.
+// CForm ë©”ì‹œì§€ ì²˜ë¦¬ê¸°

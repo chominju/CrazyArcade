@@ -4,7 +4,8 @@
 
 #pragma once
 
-
+class CTerrain;
+class CMFCToolDoc;
 class CMFCToolView : public CView
 {
 protected: // serialization에서만 만들어집니다.

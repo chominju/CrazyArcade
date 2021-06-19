@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "framework.h"
-#include "MFC_Texture_Manager.h"
+#include "Texture_Manager.h"
 #include "Single_Texture.h"
 #include "Multi_Texture.h"
 
@@ -19,7 +19,7 @@ HRESULT CTexture_Manager::Insert_Texture_Manager(TEXTURE_ID id, const wstring & 
 {
 	auto& iter_find = m_mapTexture.find(objectKey);
 	CTexture* newTexture = nullptr;
-	if (m_mapTexture.end == iter_find)
+	if (m_mapTexture.end() == iter_find)
 	{
 		switch (id)
 		{

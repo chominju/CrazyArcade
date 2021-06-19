@@ -72,20 +72,20 @@
     <ClInclude Include="Multi_Texture.h">
       <Filter>04.Texture\01.Multi_Texture</Filter>
     </ClInclude>
-    <ClInclude Include="MFC_Texture_Manager.h">
-      <Filter>04.Texture\02.Manager</Filter>
-    </ClInclude>
     <ClInclude Include="Graphic_Device.h">
       <Filter>03.Graphic_Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>05.Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture_Manager.h">
+      <Filter>04.Texture\02.Manager</Filter>
     </ClInclude>
     <ClInclude Include="Form.h">
       <Filter>01.View\Form</Filter>
     </ClInclude>
     <ClInclude Include="MapTool.h">
       <Filter>01.View\Form\MapTool</Filter>
-    </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>05.Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,17 +116,17 @@
     <ClCompile Include="Graphic_Device.cpp">
       <Filter>03.Graphic_Device</Filter>
     </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>05.Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture_Manager.cpp">
+      <Filter>04.Texture\02.Manager</Filter>
+    </ClCompile>
     <ClCompile Include="Form.cpp">
       <Filter>01.View\Form</Filter>
     </ClCompile>
     <ClCompile Include="MapTool.cpp">
       <Filter>01.View\Form\MapTool</Filter>
-    </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>05.Terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="MFC_Texture_Manager.cpp">
-      <Filter>04.Texture\02.Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

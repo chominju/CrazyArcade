@@ -19,6 +19,7 @@
 
 
 // CMFCToolView
+HWND g_hwnd;
 
 IMPLEMENT_DYNCREATE(CMFCToolView, CView)
 
@@ -31,7 +32,7 @@ END_MESSAGE_MAP()
 
 // CMFCToolView 생성/소멸
 
-CMFCToolView::CMFCToolView() noexcept
+CMFCToolView::CMFCToolView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 

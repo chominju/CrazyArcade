@@ -12,7 +12,7 @@ CSingle_Texture::~CSingle_Texture()
 	Release_Texture();
 }
 
-HRESULT CSingle_Texture::Insert_Texture(const wstring & filePath, const wstring & stateKey = L"", const DWORD & count = 0)
+HRESULT CSingle_Texture::Insert_Texture(const wstring & filePath, const wstring & stateKey, const DWORD & count)
 {
 	if (FAILED(D3DXGetImageInfoFromFile(filePath.c_str(), &m_textureInfo.imageInfo)))
 		goto ERR;
@@ -41,7 +41,7 @@ ERR:
 	return E_FAIL;
 }
 
-const Texture_Info* CSingle_Texture::Get_TextureInfo(const wstring & stateKey = L"", const DWORD & index = 0)
+const Texture_Info* CSingle_Texture::Get_TextureInfo(const wstring & stateKey, const DWORD & index)
 {
 	return &m_textureInfo;
 }

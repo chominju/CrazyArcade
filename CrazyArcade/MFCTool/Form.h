@@ -1,16 +1,15 @@
-#pragma once
+ï»¿#pragma once
 
 
 
-// CForm Æû ºäÀÔ´Ï´Ù.
-#include "MapTool.h"
+// CForm í¼ ë³´ê¸°
 
 class CForm : public CFormView
 {
 	DECLARE_DYNCREATE(CForm)
 
 protected:
-	CForm();           // µ¿Àû ¸¸µé±â¿¡ »ç¿ëµÇ´Â protected »ı¼ºÀÚÀÔ´Ï´Ù.
+	CForm();           // ë™ì  ë§Œë“¤ê¸°ì— ì‚¬ìš©ë˜ëŠ” protected ìƒì„±ìì…ë‹ˆë‹¤.
 	virtual ~CForm();
 
 public:
@@ -25,7 +24,7 @@ public:
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Áö¿øÀÔ´Ï´Ù.
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ì§€ì›ì…ë‹ˆë‹¤.
 
 	DECLARE_MESSAGE_MAP()
 };

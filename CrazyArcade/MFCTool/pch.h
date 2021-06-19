@@ -10,7 +10,9 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 #include "Headers.h"
+#include <afxext.h>
+#include <afxwin.h>
 
-#include "MFC_Texture_Manager.h"
+//#include "Texture_Manager.h"
 
 #endif //PCH_H

@@ -11,6 +11,8 @@ typedef struct
 {
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 size;
+	int index;
+	int parentIndex;
 	BYTE drawID;
 	BYTE option;
 }Tile_Info;

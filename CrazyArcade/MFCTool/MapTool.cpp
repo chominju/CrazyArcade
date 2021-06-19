@@ -1,18 +1,17 @@
-// MapTool.cpp : ±¸Çö ÆÄÀÏÀÔ´Ï´Ù.
+ï»¿// MapTool.cpp: êµ¬í˜„ íŒŒì¼
 //
 
 #include "pch.h"
-#include "framework.h"
 #include "MFCTool.h"
 #include "MapTool.h"
 #include "afxdialogex.h"
 
 
-// CMapTool ´ëÈ­ »óÀÚÀÔ´Ï´Ù.
+// CMapTool ëŒ€í™” ìƒì
 
 IMPLEMENT_DYNAMIC(CMapTool, CDialog)
 
-CMapTool::CMapTool(CWnd* pParent /*=NULL*/)
+CMapTool::CMapTool(CWnd* pParent /*=nullptr*/)
 	: CDialog(IDD_MAPTOOL, pParent)
 {
 
@@ -32,4 +31,4 @@ BEGIN_MESSAGE_MAP(CMapTool, CDialog)
 END_MESSAGE_MAP()
 
 
-// CMapTool ¸Ş½ÃÁö Ã³¸®±âÀÔ´Ï´Ù.
+// CMapTool ë©”ì‹œì§€ ì²˜ë¦¬ê¸°

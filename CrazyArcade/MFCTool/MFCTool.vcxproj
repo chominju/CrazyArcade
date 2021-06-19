@@ -36,7 +36,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -206,7 +206,7 @@
     <ClInclude Include="MFCTool.h" />
     <ClInclude Include="MFCToolDoc.h" />
     <ClInclude Include="MFCToolView.h" />
-    <ClInclude Include="MFC_Texture_Manager.h" />
+    <ClInclude Include="Texture_Manager.h" />
     <ClInclude Include="Multi_Texture.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -223,7 +223,7 @@
     <ClCompile Include="MFCTool.cpp" />
     <ClCompile Include="MFCToolDoc.cpp" />
     <ClCompile Include="MFCToolView.cpp" />
-    <ClCompile Include="MFC_Texture_Manager.cpp" />
+    <ClCompile Include="Texture_Manager.cpp" />
     <ClCompile Include="Multi_Texture.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
