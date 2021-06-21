@@ -68,9 +68,9 @@ HRESULT CGraphic_Device::Ready_Graphic_Device()
 
 	D3DXFONT_DESCW tFontInfo;
 	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
-	tFontInfo.Height = 20; // 높이
-	tFontInfo.Width = 10; // 너비
-	tFontInfo.Weight = FW_HEAVY;//두께 그럼 홍두께? ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+	tFontInfo.Height = 15; // 높이
+	tFontInfo.Width = 5; // 너비
+	tFontInfo.Weight = FW_LIGHT;//두께 그럼 홍두께? ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
 	tFontInfo.CharSet = HANGUL_CHARSET;
 	lstrcpy(tFontInfo.FaceName, L"배달의민족 주아");
 	if (FAILED(D3DXCreateFontIndirectW(m_device, &tFontInfo, &m_font)))

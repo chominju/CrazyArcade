@@ -15,32 +15,61 @@ CTerrain::~CTerrain()
 
 HRESULT CTerrain::Ready_Terrain()
 {
-	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
-		L"../Texture/Stage/Terrain/Tile/Tile%d.png", L"Terrain", L"Tile", 36)))
-		return E_FAIL;
-
-
 	m_vecTile.reserve(TILECX * TILECY);
 	Tile_Info* tile = nullptr;
 	float x = 0.f;
 	float y = 0.f;
 
+	//x = float(2*TILECX);
+	//y = float(2*TILECY);
+	///*	x = float((j*TILECX) + ((i % 2)*(TILECX >> 1)));
+	//	y = float(i*(TILECY >> 1));*/
+	//tile = new Tile_Info;
+	//tile->pos = { x,y,0.f };
+	//tile->size = { 2.f, 2.f, 0.f };
+	//tile->index = 0; // j + (i*TILEX);
+	//tile->parentIndex = 0;
+	//tile->drawID = 2;
+	//tile->option = 0;
+	//m_vecTile.emplace_back(tile);
+
 	for (int i = 0; i < TILEX; ++i)
 	{
-		for (int j = 0; j < TILEX; j++)
+		for (int j = 0; j < TILEY; j++)
 		{
-			x = float((j*TILECX) + ((i % 2)*(TILECX >> 1)));
-			y = float(i*(TILECY >> 1));
+			x = float(j*TILECX * 1.5);
+			y = float(i*TILECY * 1.5);
+			/*	x = float((j*TILECX) + ((i % 2)*(TILECX >> 1)));
+				y = float(i*(TILECY >> 1));*/
 			tile = new Tile_Info;
-			tile->pos = { x,y,0.f };
-			tile->size = { 1.f, 1.f, 0.f };
+			tile->pos = { x + TILECX * 0.75f, y + TILECY * 0.75f,0.f };
+			tile->size = { 1.5f, 1.5f, 0.f };
 			tile->index = j + (i*TILEX);
 			tile->parentIndex = 0;
-			tile->drawID = 0;
+			tile->drawID = 2;
 			tile->option = 0;
 			m_vecTile.emplace_back(tile);
 		}
 	}
+
+	//for (int i = 0; i < TILEX; ++i)
+	//{
+	//	for (int j = 0; j < TILEX; j++)
+	//	{
+	//		x = float(j*TILECX);
+	//		y = float(i*TILECY);
+	//	/*	x = float((j*TILECX) + ((i % 2)*(TILECX >> 1)));
+	//		y = float(i*(TILECY >> 1));*/
+	//		tile = new Tile_Info;
+	//		tile->pos = { x,y,0.f };
+	//		tile->size = { 1.f, 1.f, 0.f };
+	//		tile->index = j + (i*TILEX);
+	//		tile->parentIndex = 0;
+	//		tile->drawID = 2;
+	//		tile->option = 0;
+	//		m_vecTile.emplace_back(tile);
+	//	}
+	//}
 
 	return S_OK;
 }
@@ -54,10 +83,10 @@ void CTerrain::Render_Terrain()
 	D3DXMATRIX matScale, matTrans, matWorld;
 	DWORD size = m_vecTile.size();
 	TCHAR szBuf[32]{};
-	m_vecTile[31]->drawID = 0;
+	//m_vecTile[31]->drawID = 0;
 	for (size_t i = 0; i < size; ++i)
 	{
-		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Terrain", L"tirle", m_vecTile[i]->drawID);
+		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Terrain", L"Tile", m_vecTile[i]->drawID);
 		if (nullptr == textureInfo)
 			return;
 		float centerX = float(textureInfo->imageInfo.Width >> 1);

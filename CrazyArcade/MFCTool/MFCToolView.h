@@ -15,7 +15,8 @@ protected: // serialization에서만 만들어집니다.
 	// 특성입니다.
 public:
 	CMFCToolDoc* GetDocument() const;
-
+	CGraphic_Device* m_graphic_Device;
+	CTerrain* m_terrain;
 	// 작업입니다.
 public:
 
@@ -41,6 +42,9 @@ protected:
 	// 생성된 메시지 맵 함수
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual void OnInitialUpdate();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // MFCToolView.cpp의 디버그 버전

@@ -22,7 +22,7 @@ HRESULT CMulti_Texture::Insert_Texture(const wstring & filePath, const wstring &
 		for (int i = 0; i < count; i++)
 		{
 			swprintf_s(szFilePath, filePath.c_str(), i);
-
+			textureInfo = new Texture_Info;
 			if (FAILED(D3DXGetImageInfoFromFile(szFilePath, &textureInfo->imageInfo)))
 				goto ERR;
 			if (FAILED(D3DXCreateTextureFromFileEx(CGraphic_Device::Get_Instance()->Get_Device(),
