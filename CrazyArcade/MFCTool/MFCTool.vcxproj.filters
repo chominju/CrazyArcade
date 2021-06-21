@@ -37,6 +37,9 @@
     <Filter Include="01.View\Form\MapTool">
       <UniqueIdentifier>{258badc0-9d13-480b-a333-2340dc4b2679}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.FileInfo">
+      <UniqueIdentifier>{c18fba88-c0b7-46a5-a43f-aa3128ccdd5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -87,6 +90,9 @@
     <ClInclude Include="MapTool.h">
       <Filter>01.View\Form\MapTool</Filter>
     </ClInclude>
+    <ClInclude Include="FileInfo.h">
+      <Filter>06.FileInfo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCTool.cpp">
@@ -127,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="MapTool.cpp">
       <Filter>01.View\Form\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInfo.cpp">
+      <Filter>06.FileInfo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

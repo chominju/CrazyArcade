@@ -198,6 +198,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FileInfo.h" />
     <ClInclude Include="Form.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Graphic_Device.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FileInfo.cpp" />
     <ClCompile Include="Form.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
     <ClCompile Include="MainFrm.cpp" />

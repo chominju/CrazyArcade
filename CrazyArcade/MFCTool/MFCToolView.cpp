@@ -146,7 +146,7 @@ void CMFCToolView::OnInitialUpdate()
 
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
 		L"../Resource/Object/Obj%d.png",
-		L"Object", L"Object", 22)))
+		L"Box", L"Obj", 22)))
 		return;
 
 	m_terrain = new CTerrain;
