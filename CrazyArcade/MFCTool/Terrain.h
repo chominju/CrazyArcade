@@ -19,12 +19,14 @@ public:
 
 	void Release_Terrain();
 public:
-	void Tile_Change_Terrain(const D3DXVECTOR3& pos, const BYTE& drawID, const BYTE& option = 0);
+	void Tile_Change_Terrain(const D3DXVECTOR3& pos,const wstring objectKey , const wstring stateKey ,const BYTE& drawID, const D3DXVECTOR3 & size, const BYTE& option = 0);
 private:
 	int Get_TileIndex(const D3DXVECTOR3& pos);
 	bool IsPicking(const D3DXVECTOR3& pos, const int index);
 private:
 	vector<Tile_Info*> m_vecTile;
+	vector<Tile_Info*> m_vecObj;
+
 	CMFCToolView* m_view;
 };
 

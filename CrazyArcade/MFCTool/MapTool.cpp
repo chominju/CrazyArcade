@@ -19,6 +19,8 @@ IMPLEMENT_DYNAMIC(CMapTool, CDialog)
 CMapTool::CMapTool(CWnd* pParent /*=nullptr*/)
 	: CDialog(IDD_MAPTOOL, pParent)
 	, m_drawID(0)
+	, m_objectKey(L"Terrain")
+	,m_stateKey(L"Tile")
 {
 
 }
@@ -103,16 +105,20 @@ void CMapTool::OnLbnSelchangeTile()
 	m_drawID = _ttoi(fileName.GetString());
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
+	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Terrain", L"Tile", m_drawID);
+	if (nullptr == textureInfo)
+		return;
+
 	D3DXMATRIX matScale, matTrans, matWorld;
-	float ratioX = float(WINCX) / TILECX;
-	float ratioY = float(WINCY) / TILECY;
+	float ratioX = float(WINCX) / textureInfo->imageInfo.Width;
+	float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
 	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
 	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
 	matWorld = matScale * matTrans;
 
-	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Terrain", L"Tile", m_drawID);
-	if (nullptr == textureInfo)
-		return;
+	m_size.x = 1.5f;
+	m_size.y = 1.5f;
+
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;
 
@@ -219,15 +225,18 @@ void CMapTool::OnLbnSelchangeBox()
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
 	D3DXMATRIX matScale, matTrans, matWorld;
-	float ratioX = float(WINCX) / BOXCX;
-	float ratioY = float(WINCY) / BOXCY;
+
+	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Box", L"BoxObj", m_drawID);
+	if (nullptr == textureInfo)
+		return;
+
+	float ratioX = float(WINCX) / textureInfo->imageInfo.Width;
+	float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
+
 	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
 	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
 	matWorld = matScale * matTrans;
 
-	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Box", L"Obj", m_drawID);
-	if (nullptr == textureInfo)
-		return;
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;
 
@@ -273,6 +282,8 @@ int CMapTool::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CMapTool::OnBnClickedButtonTile()
 {
+	m_objectKey = L"Terrain";
+	m_stateKey = L"Tile";
 	m_listBox.ShowWindow(SW_SHOW);
 	m_listBox2.ShowWindow(SW_HIDE);
 	m_listBox3.ShowWindow(SW_HIDE);
@@ -284,6 +295,8 @@ void CMapTool::OnBnClickedButtonTile()
 
 void CMapTool::OnBnClickedButtonBox()
 {
+	m_objectKey = L"Box";
+	m_stateKey = L"BoxObj";
 	m_listBox.ShowWindow(SW_HIDE);
 	m_listBox2.ShowWindow(SW_SHOW);
 	m_listBox3.ShowWindow(SW_HIDE);
@@ -293,6 +306,8 @@ void CMapTool::OnBnClickedButtonBox()
 
 void CMapTool::OnBnClickedButtonWall()
 {
+	m_objectKey = L"Wall";
+	m_stateKey = L"WallObj";
 	m_listBox.ShowWindow(SW_HIDE);
 	m_listBox2.ShowWindow(SW_HIDE);
 	m_listBox3.ShowWindow(SW_SHOW);
@@ -302,5 +317,42 @@ void CMapTool::OnBnClickedButtonWall()
 
 void CMapTool::OnLbnSelchangeWall()
 {
+	UpdateData(TRUE);
+	int index = m_listBox3.GetCurSel();
+	CString fileName;
+	m_listBox3.GetText(index, fileName);
+	int i = 0;
+	for (; i < fileName.GetLength(); ++i)
+	{
+		if (isdigit(fileName[i]))
+			break;
+	}
+	fileName.Delete(0, i);
+	m_drawID = _ttoi(fileName.GetString());
+
+	CGraphic_Device::Get_Instance()->Render_Begin();
+
+	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Wall", L"WallObj", m_drawID);
+	if (nullptr == textureInfo)
+		return;
+
+	D3DXMATRIX matScale, matTrans, matWorld;
+	float ratioX = float(WINCX) / textureInfo->imageInfo.Width;
+	float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
+	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
+	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
+	matWorld = matScale * matTrans;
+
+	m_size.x = float(TILECX) / textureInfo->imageInfo.Width * 1.5f;
+	m_size.y = float(TILECY) / textureInfo->imageInfo.Height * 1.5f;
+
+	float centerX = textureInfo->imageInfo.Width >> 1;
+	float centerY = textureInfo->imageInfo.Height >> 1;
+
+	CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
+	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(centerX, centerY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	CGraphic_Device::Get_Instance()->Render_End(m_picture.m_hWnd);
+	UpdateData(FALSE);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

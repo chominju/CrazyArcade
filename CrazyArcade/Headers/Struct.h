@@ -13,6 +13,8 @@ typedef struct
 	D3DXVECTOR3 size;
 	int index;
 	int parentIndex;
+	wstring ObjectKey;
+	wstring StateKey;
 	BYTE drawID;
 	BYTE option;
 }Tile_Info;
