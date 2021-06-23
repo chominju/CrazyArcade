@@ -1,49 +1,79 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="99.Default">
+      <UniqueIdentifier>{7cc06101-c57b-4a18-8fb3-466f1b154aac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="00.MainApp">
+      <UniqueIdentifier>{eb684adb-212f-42e1-863a-af976515267d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="01.GameObject">
+      <UniqueIdentifier>{955eb865-d25b-4bda-a8a9-2794372cb425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene">
+      <UniqueIdentifier>{b623d5be-076b-487b-8888-ec3fee9f61fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Texture">
+      <UniqueIdentifier>{501f4111-e58e-46cc-8832-3b90089ab836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Graphic_Device">
+      <UniqueIdentifier>{250b805d-b882-42d4-a727-5a89dcecae54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Time_Manager">
+      <UniqueIdentifier>{fa2e9740-01ae-4b88-9636-1d4722f90d90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Frame_Manager">
+      <UniqueIdentifier>{ccf5059d-5af7-4c94-8fb5-132443cb46d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="CrazyArcade.h">
+      <Filter>99.Default</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="framework.h">
+      <Filter>99.Default</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>99.Default</Filter>
     </ClInclude>
-    <ClInclude Include="CrazyArcade.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="targetver.h">
+      <Filter>99.Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame_Manager.h">
+      <Filter>06.Frame_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Time_Manager.h">
+      <Filter>05.Time_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic_Device.h">
+      <Filter>04.Graphic_Device</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CrazyArcade.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
+    <Image Include="CrazyArcade.ico">
+      <Filter>99.Default</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>99.Default</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CrazyArcade.rc">
-      <Filter>리소스 파일</Filter>
+      <Filter>99.Default</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="CrazyArcade.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
+    <ClCompile Include="CrazyArcade.cpp">
+      <Filter>99.Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame_Manager.cpp">
+      <Filter>06.Frame_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Time_Manager.cpp">
+      <Filter>05.Time_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic_Device.cpp">
+      <Filter>04.Graphic_Device</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

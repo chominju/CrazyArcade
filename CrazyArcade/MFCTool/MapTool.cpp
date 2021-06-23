@@ -104,6 +104,12 @@ void CMapTool::OnLbnSelchangeTile()
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
 
+	if (m_drawID >= 23)
+	{
+		m_objectKey = L"Wall";
+		m_stateKey = L"WallObj";
+	}
+
 	CGraphic_Device::Get_Instance()->Render_Begin();
 	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Terrain", L"Tile", m_drawID);
 	if (nullptr == textureInfo)
@@ -116,8 +122,8 @@ void CMapTool::OnLbnSelchangeTile()
 	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
 	matWorld = matScale * matTrans;
 
-	m_size.x = 1.5f;
-	m_size.y = 1.5f;
+	m_size.x = 1.f;//1.5f;
+	m_size.y = 1.f;//1.5f;
 
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;
@@ -236,7 +242,8 @@ void CMapTool::OnLbnSelchangeBox()
 	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
 	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
 	matWorld = matScale * matTrans;
-
+	m_size.x = 1.f;//1.5f;
+	m_size.y = 1.f;//1.5f;
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;
 
@@ -343,8 +350,8 @@ void CMapTool::OnLbnSelchangeWall()
 	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
 	matWorld = matScale * matTrans;
 
-	m_size.x = float(TILECX) / textureInfo->imageInfo.Width * 1.5f;
-	m_size.y = float(TILECY) / textureInfo->imageInfo.Height * 1.5f;
+	m_size.x = 1.f;// float(TILECX) / textureInfo->imageInfo.Width * 1.5f;
+	m_size.y = 1.f;// float(TILECY) / textureInfo->imageInfo.Height * 1.5f;
 
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;

@@ -39,13 +39,17 @@ HRESULT CTerrain::Ready_Terrain()
 	{
 		for (int j = 0; j < TILEY; j++)
 		{
-			x = float(j*TILECX * 1.5);
-			y = float(i*TILECY * 1.5);
+			x = float(j*TILECX);
+			y = float(i*TILECY);
+		/*	x = float(j*TILECX * 1.5);
+			y = float(i*TILECY * 1.5);*/
 			/*	x = float((j*TILECX) + ((i % 2)*(TILECX >> 1)));
 				y = float(i*(TILECY >> 1));*/
 			tile = new Tile_Info;
-			tile->pos = { x + TILECX * 0.75f, y + TILECY * 0.75f,0.f };
-			tile->size = { 1.5f, 1.5f, 0.f };
+			tile->pos = { x + TILECX/2 , y + TILECY/2,0.f };
+			tile->size = { 1.f,1.f,1.f };
+		/*	tile->pos = { x + TILECX * 0.75f, y + TILECY * 0.75f,0.f };
+			tile->size = { 1.5f, 1.5f, 0.f };*/
 
 			tile->index = j + (i*TILEX);
 			tile->parentIndex = 0;
@@ -56,8 +60,10 @@ HRESULT CTerrain::Ready_Terrain()
 			m_vecTile.emplace_back(tile);
 
 			obj = new Tile_Info;
-			obj->pos = { x + TILECX * 0.75f, y + TILECY * 0.75f,0.f };
-			obj->size = { 1.5f, 1.5f, 0.f };
+			obj->pos = { x + TILECX/2 , y + TILECY/2,0.f };
+			obj->size = { 1.f,1.f,1.f };
+			/*obj->pos = { x + TILECX * 0.75f, y + TILECY * 0.75f,0.f };
+			obj->size = { 1.5f, 1.5f, 0.f };*/
 
 			obj->index = j + (i*TILEX);
 			obj->parentIndex = 0;

@@ -10,5 +10,5 @@ const DWORD BOXCX = 120;
 const DWORD BOXCY = 160;
 const DWORD WALLCX = 40;
 const DWORD WALLCY = 40;
-const DWORD TILEX = 12;
-const DWORD TILEY = 12;
+const DWORD TILEX = 15;
+const DWORD TILEY = 15;

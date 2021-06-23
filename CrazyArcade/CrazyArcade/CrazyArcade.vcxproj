@@ -161,11 +161,17 @@
   <ItemGroup>
     <ClInclude Include="CrazyArcade.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Frame_Manager.h" />
+    <ClInclude Include="Graphic_Device.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Time_Manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrazyArcade.cpp" />
+    <ClCompile Include="Frame_Manager.cpp" />
+    <ClCompile Include="Graphic_Device.cpp" />
+    <ClCompile Include="Time_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CrazyArcade.rc" />

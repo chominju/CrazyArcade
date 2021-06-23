@@ -146,7 +146,7 @@ void CMFCToolView::OnInitialUpdate()
 
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
 		L"../Resource/Wall/Obj%d.png",
-		L"Wall", L"WallObj", 17)))
+		L"Wall", L"WallObj", 48)))
 		return;
 
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
