@@ -7,8 +7,10 @@ public:
 	~CTerrain();
 public:
 	const vector<Tile_Info*>& Get_VecTile() { return m_vecTile; }
+	const vector<Tile_Info*>& Get_VecObj() { return m_vecObj; }
 public:
 	void Set_Tile(Tile_Info* tile) { m_vecTile.emplace_back(tile); }
+	void Set_Obj(Tile_Info* obj) { m_vecObj.emplace_back(obj); }
 public:
 	void Set_View(CMFCToolView* view) { m_view = view; }
 public:

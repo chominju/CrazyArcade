@@ -41,15 +41,9 @@ HRESULT CTerrain::Ready_Terrain()
 		{
 			x = float(j*TILECX);
 			y = float(i*TILECY);
-		/*	x = float(j*TILECX * 1.5);
-			y = float(i*TILECY * 1.5);*/
-			/*	x = float((j*TILECX) + ((i % 2)*(TILECX >> 1)));
-				y = float(i*(TILECY >> 1));*/
 			tile = new Tile_Info;
-			tile->pos = { x + TILECX/2 , y + TILECY/2,0.f };
+			tile->pos = { x/* + TILECX/2 */, y/* + TILECY/2*/,0.f };
 			tile->size = { 1.f,1.f,1.f };
-		/*	tile->pos = { x + TILECX * 0.75f, y + TILECY * 0.75f,0.f };
-			tile->size = { 1.5f, 1.5f, 0.f };*/
 
 			tile->index = j + (i*TILEX);
 			tile->parentIndex = 0;
@@ -60,10 +54,8 @@ HRESULT CTerrain::Ready_Terrain()
 			m_vecTile.emplace_back(tile);
 
 			obj = new Tile_Info;
-			obj->pos = { x + TILECX/2 , y + TILECY/2,0.f };
+			obj->pos = { x /*+ TILECX/2 */, y/* + TILECY/2*/,0.f };
 			obj->size = { 1.f,1.f,1.f };
-			/*obj->pos = { x + TILECX * 0.75f, y + TILECY * 0.75f,0.f };
-			obj->size = { 1.5f, 1.5f, 0.f };*/
 
 			obj->index = j + (i*TILEX);
 			obj->parentIndex = 0;
@@ -117,7 +109,7 @@ void CTerrain::Render_Terrain()
 		matWorld = matScale * matTrans;
 
 		CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
-		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(centerX, centerY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0,0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 		swprintf_s(szBuf, L"%d", i);
 		CGraphic_Device::Get_Instance()->Get_Font()->DrawTextW(CGraphic_Device::Get_Instance()->Get_Sprite(), szBuf, lstrlen(szBuf), nullptr, 0, D3DCOLOR_ARGB(255, 0, 0, 0));
@@ -133,14 +125,14 @@ void CTerrain::Render_Terrain()
 		if (nullptr == textureInfo)
 			continue;
 		float centerX = float(textureInfo->imageInfo.Width >> 1);
-		float centerY = float(textureInfo->imageInfo.Height >> 1);
+		float centerY = float(textureInfo->imageInfo.Height) - float(TILECY);
 
 		D3DXMatrixScaling(&matScale, m_vecObj[i]->size.x, m_vecObj[i]->size.y, 0.f);
 		D3DXMatrixTranslation(&matTrans, m_vecObj[i]->pos.x - m_view->GetScrollPos(SB_HORZ), m_vecObj[i]->pos.y - m_view->GetScrollPos(SB_VERT), 0.f);
 		matWorld = matScale * matTrans;
 
 		CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
-		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(centerX, centerY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0, centerY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 
 }
@@ -156,6 +148,12 @@ void CTerrain::Release_Terrain()
 
 	m_vecTile.clear();
 	m_vecTile.shrink_to_fit();
+
+	for (auto & obj : m_vecObj)
+		Safe_Delete(obj);
+	m_vecObj.clear();
+	m_vecTile.shrink_to_fit();
+
 }
 
 void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring objectKey, const wstring stateKey, const BYTE & drawID, const D3DXVECTOR3 & size, const BYTE & option)
@@ -200,9 +198,13 @@ bool CTerrain::IsPicking(const D3DXVECTOR3 & pos, const int index)
 	if (nullptr == textureInfo)
 		return false;
 
-	if (m_vecTile[index]->pos.x - textureInfo->imageInfo.Width / 2*m_vecTile[index]->size.x <= pos.x && pos.x < m_vecTile[index]->pos.x + textureInfo->imageInfo.Width / 2 * m_vecTile[index]->size.x)
-		if (m_vecTile[index]->pos.y - textureInfo->imageInfo.Height / 2 * m_vecTile[index]->size.y <= pos.y && pos.y < m_vecTile[index]->pos.y + textureInfo->imageInfo.Height / 2 * m_vecTile[index]->size.y)
+	if (m_vecTile[index]->pos.x <= pos.x && pos.x < m_vecTile[index]->pos.x + TILECX)
+		if (m_vecTile[index]->pos.y  <= pos.y && pos.y < m_vecTile[index]->pos.y +TILECY)
 			return true;
+
+	//if (m_vecTile[index]->pos.x - textureInfo->imageInfo.Width / 2*m_vecTile[index]->size.x <= pos.x && pos.x < m_vecTile[index]->pos.x + textureInfo->imageInfo.Width / 2 * m_vecTile[index]->size.x)
+	//	if (m_vecTile[index]->pos.y - textureInfo->imageInfo.Height / 2 * m_vecTile[index]->size.y <= pos.y && pos.y < m_vecTile[index]->pos.y + textureInfo->imageInfo.Height / 2 * m_vecTile[index]->size.y)
+	//		return true;
 	
 
 	//D3DXVECTOR3 vertex[4] =

@@ -76,11 +76,17 @@ void CMapTool::OnBnClickedSave()
 		if (INVALID_HANDLE_VALUE == file)
 			return;
 		CMainFrame* main = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-		CMFCToolView* view = dynamic_cast<CMFCToolView*>(main->m_mainSplitter.GetPane(0, 0));
+		CMFCToolView* view = dynamic_cast<CMFCToolView*>(main->m_mainSplitter.GetPane(0, 1));
 		const vector<Tile_Info*>& vecTile = view->m_terrain->Get_VecTile();
+		const vector<Tile_Info*>& vecObj = view->m_terrain->Get_VecObj();
+
 		DWORD byte = 0;
 		for (auto& pTile : vecTile)
 			WriteFile(file, pTile, sizeof(Tile_Info), &byte, nullptr);
+
+		byte = 0;
+		for (auto& pObj : vecObj)
+			WriteFile(file, pObj, sizeof(Tile_Info), &byte, nullptr);
 
 		CloseHandle(file);
 	}
@@ -103,12 +109,12 @@ void CMapTool::OnLbnSelchangeTile()
 	}
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
-
-	if (m_drawID >= 23)
-	{
-		m_objectKey = L"Wall";
-		m_stateKey = L"WallObj";
-	}
+	m_option = 0;
+	//if (m_drawID >= 23)
+	//{
+	//	m_objectKey = L"Wall";
+	//	m_stateKey = L"WallObj";
+	//}
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
 	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Terrain", L"Tile", m_drawID);
@@ -158,7 +164,7 @@ void CMapTool::OnBnClickedLoad()
 		if (INVALID_HANDLE_VALUE == hFile)
 			return;
 		CMainFrame* main = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
-		CMFCToolView* view = dynamic_cast<CMFCToolView*>(main->m_mainSplitter.GetPane(0, 0));
+		CMFCToolView* view = dynamic_cast<CMFCToolView*>(main->m_mainSplitter.GetPane(0, 1));
 		view->m_terrain->Release_Terrain();
 		DWORD byte = 0;
 		Tile_Info* tile = nullptr;
@@ -172,7 +178,10 @@ void CMapTool::OnBnClickedLoad()
 				Safe_Delete(tile);
 				break;
 			}
-			view->m_terrain->Set_Tile(tile);
+			if (tile->ObjectKey == L"Terrain")
+				view->m_terrain->Set_Tile(tile);
+			else if (tile->ObjectKey == L"Wall" || tile->ObjectKey == L"Box")
+				view->m_terrain->Set_Obj(tile);
 		}
 		view->Invalidate(FALSE);
 		CloseHandle(hFile);
@@ -228,14 +237,15 @@ void CMapTool::OnLbnSelchangeBox()
 	}
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
+	m_option = 2;
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
-	D3DXMATRIX matScale, matTrans, matWorld;
 
 	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Box", L"BoxObj", m_drawID);
 	if (nullptr == textureInfo)
 		return;
 
+	D3DXMATRIX matScale, matTrans, matWorld;
 	float ratioX = float(WINCX) / textureInfo->imageInfo.Width;
 	float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
 
@@ -336,6 +346,14 @@ void CMapTool::OnLbnSelchangeWall()
 	}
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
+	if (m_drawID==17 || m_drawID == 18 || m_drawID == 25 || m_drawID == 26 || m_drawID == 33 || m_drawID == 45 || m_drawID == 46 || m_drawID == 47 || (m_drawID >=48 && m_drawID%2==0 ))
+	{
+		m_option = 1;
+	}
+	else
+	{
+		m_option = 0;
+	}
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
 

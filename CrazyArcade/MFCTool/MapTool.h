@@ -11,6 +11,7 @@ public:
 	CMapTool(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~CMapTool();
 	BYTE m_drawID;
+	BYTE m_option;
 	wstring m_objectKey;
 	wstring m_stateKey;
 	D3DXVECTOR3 m_size;
