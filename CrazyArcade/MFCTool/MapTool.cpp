@@ -20,7 +20,8 @@ CMapTool::CMapTool(CWnd* pParent /*=nullptr*/)
 	: CDialog(IDD_MAPTOOL, pParent)
 	, m_drawID(0)
 	, m_objectKey(L"Terrain")
-	,m_stateKey(L"Tile")
+	, m_stateKey(L"Tile")
+	, m_size(1.5f,1.5f,1.f)
 {
 
 }
@@ -128,8 +129,8 @@ void CMapTool::OnLbnSelchangeTile()
 	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
 	matWorld = matScale * matTrans;
 
-	m_size.x = 1.f;//1.5f;
-	m_size.y = 1.f;//1.5f;
+	//m_size.x = 1.f;//1.5f;
+	//m_size.y = 1.f;//1.5f;
 
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;
@@ -252,8 +253,8 @@ void CMapTool::OnLbnSelchangeBox()
 	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
 	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
 	matWorld = matScale * matTrans;
-	m_size.x = 1.f;//1.5f;
-	m_size.y = 1.f;//1.5f;
+	//m_size.x = 1.f;//1.5f;
+	//m_size.y = 1.f;//1.5f;
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;
 
@@ -365,11 +366,11 @@ void CMapTool::OnLbnSelchangeWall()
 	float ratioX = float(WINCX) / textureInfo->imageInfo.Width;
 	float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
 	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
-	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
+	D3DXMatrixTranslation(&matTrans, 500.f, 500.f, 0.f);
 	matWorld = matScale * matTrans;
 
-	m_size.x = 1.f;// float(TILECX) / textureInfo->imageInfo.Width * 1.5f;
-	m_size.y = 1.f;// float(TILECY) / textureInfo->imageInfo.Height * 1.5f;
+	//m_size.x = 1.f;// float(TILECX) / textureInfo->imageInfo.Width * 1.5f;
+	//m_size.y = 1.f;// float(TILECY) / textureInfo->imageInfo.Height * 1.5f;
 
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;

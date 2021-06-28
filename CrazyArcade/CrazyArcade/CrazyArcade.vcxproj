@@ -96,6 +96,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,6 +131,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -162,15 +164,35 @@
     <ClInclude Include="CrazyArcade.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Frame_Manager.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphic_Device.h" />
+    <ClInclude Include="Loading.h" />
+    <ClInclude Include="MainApp.h" />
+    <ClInclude Include="Multi_Texture.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scene_Manager.h" />
+    <ClInclude Include="Single_Texture.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Texture_Manager.h" />
     <ClInclude Include="Time_Manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CrazyArcade.cpp" />
     <ClCompile Include="Frame_Manager.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
+    <ClCompile Include="Loading.cpp" />
+    <ClCompile Include="MainApp.cpp" />
+    <ClCompile Include="Multi_Texture.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scene_Manager.cpp" />
+    <ClCompile Include="Single_Texture.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Texture_Manager.cpp" />
     <ClCompile Include="Time_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>

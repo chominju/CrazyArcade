@@ -3,7 +3,6 @@ class CGraphic_Device
 {
 	DECLARE_SINGLETON(CGraphic_Device)
 public:
-	enum MODE { MODE_FULL, MODE_WIN };
 private:
 	CGraphic_Device();
 	~CGraphic_Device();
@@ -13,7 +12,7 @@ public:
 	LPD3DXFONT Get_Font() { return m_font; }
 	LPD3DXLINE Get_Line() { return m_line; }
 public:
-	HRESULT Ready_Graphic_Device(MODE eMode);
+	HRESULT Ready_Graphic_Device(WINDOW_MODE mode);
 	void Release_Graphic_Device();
 public:
 	void Render_Begin();

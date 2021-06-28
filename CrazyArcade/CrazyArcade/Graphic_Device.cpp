@@ -21,12 +21,14 @@ CGraphic_Device::~CGraphic_Device()
 vp |= D3DCREATE_HARDWARE_VERTEXPROCESSING | ;
 D3DCREATE_MULTITHREADED - 멀티 쓰레드 쓰겟다는 말! 안 넣어주면 문제 생김!!!
 */
-HRESULT CGraphic_Device::Ready_Graphic_Device(MODE eMode)
+HRESULT CGraphic_Device::Ready_Graphic_Device(WINDOW_MODE mode)
 {
 	D3DCAPS9 d3dCaps{};
 	//ZeroMemory(&d3dCaps, sizeof(D3DCAPS9)); 
 
 	m_sdk = Direct3DCreate9(D3D_SDK_VERSION);
+	DWORD vp = 0;
+
 	// 어뎁터 - 현재 진단도구에 나열된 그래픽 카드를 조사하겠다라는 뜻. 
 	// 디바이스 타입 - 애는 장치의 정보를 어디서 얻어올 것이냐. 
 	// HAL 이라는 곳에서 정보를 얻어오겠다. 
@@ -39,7 +41,6 @@ HRESULT CGraphic_Device::Ready_Graphic_Device(MODE eMode)
 	D3DCREATE_MULTITHREADED - 멀티 쓰레드 쓰겟다는 말! 안 넣어주면 문제 생김!!!
 	*/
 	// 버텍스 프로세싱 - 정점 연산과 조명연산 합친거 
-	DWORD vp = 0;
 
 	/*
 	vp |= D3DCREATE_HARDWARE_VERTEXPROCESSING | ;
@@ -68,7 +69,7 @@ HRESULT CGraphic_Device::Ready_Graphic_Device(MODE eMode)
 	//D3DSWAPEFFECT_DISCARD - 스왑체인 방식을 사용하겠다 라는 뜻. 
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.hDeviceWindow = g_hwnd;
-	d3dpp.Windowed = eMode;// TRUE 일 경우 창모드, FALSE일 경우 전체화면 모드 
+	d3dpp.Windowed = mode;// TRUE 일 경우 창모드, FALSE일 경우 전체화면 모드 
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 

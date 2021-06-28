@@ -39,11 +39,11 @@ HRESULT CTerrain::Ready_Terrain()
 	{
 		for (int j = 0; j < TILEY; j++)
 		{
-			x = float(j*TILECX);
-			y = float(i*TILECY);
+			x = float(j*TILECX*1.5);
+			y = float(i*TILECY*1.5);
 			tile = new Tile_Info;
 			tile->pos = { x/* + TILECX/2 */, y/* + TILECY/2*/,0.f };
-			tile->size = { 1.f,1.f,1.f };
+			tile->size = { 1.5f,1.5f,1.5f };
 
 			tile->index = j + (i*TILEX);
 			tile->parentIndex = 0;
@@ -55,7 +55,7 @@ HRESULT CTerrain::Ready_Terrain()
 
 			obj = new Tile_Info;
 			obj->pos = { x /*+ TILECX/2 */, y/* + TILECY/2*/,0.f };
-			obj->size = { 1.f,1.f,1.f };
+			obj->size = { 1.5f,1.5f,1.5f };
 
 			obj->index = j + (i*TILEX);
 			obj->parentIndex = 0;

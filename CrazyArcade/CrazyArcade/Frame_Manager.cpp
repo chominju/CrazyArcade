@@ -23,7 +23,7 @@ void CFrame_Manager::Ready_Frame_Manager(float fps)
 	QueryPerformanceCounter(&m_endTime);
 	QueryPerformanceFrequency(&m_cpuTick);
 }
-
+ 
 void CFrame_Manager::Render_Frame_Manager()
 {
 	m_fpsTime += CTime_Manager::Get_Instance()->Get_DeltaTime();

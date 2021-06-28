@@ -13,6 +13,8 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
-#include "Headers.h"
-#include "framework.h"
+#include <process.h>
 
+#include "Headers.h"
+#include "Frame_Manager.h"
+#include "Time_Manager.h"

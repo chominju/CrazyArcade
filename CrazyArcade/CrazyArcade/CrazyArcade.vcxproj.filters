@@ -10,13 +10,28 @@
     <Filter Include="01.GameObject">
       <UniqueIdentifier>{955eb865-d25b-4bda-a8a9-2794372cb425}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.GameObject\00.Player">
+      <UniqueIdentifier>{e224be96-0469-4b46-b92a-21c4fc7523b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\01.Monster">
+      <UniqueIdentifier>{31254468-5ea0-4a9d-a0c7-5bb02137a109}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.Scene">
       <UniqueIdentifier>{b623d5be-076b-487b-8888-ec3fee9f61fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Texture">
+    <Filter Include="04.Texture">
       <UniqueIdentifier>{501f4111-e58e-46cc-8832-3b90089ab836}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Graphic_Device">
+    <Filter Include="04.Texture\00.Manager">
+      <UniqueIdentifier>{bbabe866-69ad-44ec-9341-f569e84448d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Texture\01.Single_Texture">
+      <UniqueIdentifier>{3d119730-7ec7-45cb-b97e-b3526322e2b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Texture\02.Multi_Texture">
+      <UniqueIdentifier>{d3313c5b-8b0b-40c7-9909-38919bd42f06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Graphic_Device">
       <UniqueIdentifier>{250b805d-b882-42d4-a727-5a89dcecae54}</UniqueIdentifier>
     </Filter>
     <Filter Include="05.Time_Manager">
@@ -24,6 +39,18 @@
     </Filter>
     <Filter Include="06.Frame_Manager">
       <UniqueIdentifier>{ccf5059d-5af7-4c94-8fb5-132443cb46d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Terrain">
+      <UniqueIdentifier>{d85b749a-a1c4-4002-9d18-56fb0c7c20cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\00.Manager">
+      <UniqueIdentifier>{ec1b4a0b-c942-4c10-aae9-cdf4732c3f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\01.Loading">
+      <UniqueIdentifier>{2c5e7a8f-9086-451d-8895-c330cb6551bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Scene\02.Main">
+      <UniqueIdentifier>{f76c3703-1586-4155-a16b-2ede23fb45b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,7 +73,37 @@
       <Filter>05.Time_Manager</Filter>
     </ClInclude>
     <ClInclude Include="Graphic_Device.h">
-      <Filter>04.Graphic_Device</Filter>
+      <Filter>03.Graphic_Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>04.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Multi_Texture.h">
+      <Filter>04.Texture\02.Multi_Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Single_Texture.h">
+      <Filter>04.Texture\01.Single_Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture_Manager.h">
+      <Filter>04.Texture\00.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>01.GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>01.GameObject\02.Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="MainApp.h">
+      <Filter>00.MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>02.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_Manager.h">
+      <Filter>02.Scene\00.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Loading.h">
+      <Filter>02.Scene\01.Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +130,37 @@
       <Filter>05.Time_Manager</Filter>
     </ClCompile>
     <ClCompile Include="Graphic_Device.cpp">
-      <Filter>04.Graphic_Device</Filter>
+      <Filter>03.Graphic_Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>04.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Multi_Texture.cpp">
+      <Filter>04.Texture\02.Multi_Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Single_Texture.cpp">
+      <Filter>04.Texture\01.Single_Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture_Manager.cpp">
+      <Filter>04.Texture\00.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>01.GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>01.GameObject\02.Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="MainApp.cpp">
+      <Filter>00.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>02.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene_Manager.cpp">
+      <Filter>02.Scene\00.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Loading.cpp">
+      <Filter>02.Scene\01.Loading</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

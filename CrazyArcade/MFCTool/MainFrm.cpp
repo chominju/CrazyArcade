@@ -112,8 +112,9 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
 	//m_subSplitter.CreateView(0, 0, RUNTIME_CLASS(CMiniView), CSize(300, 300), pContext);
 	//m_subSplitter.CreateView(0, 0, RUNTIME_CLASS(CForm), CSize(300, 300), pContext);
-	m_mainSplitter.CreateView(0, 0, RUNTIME_CLASS(CForm), CSize(400, 600), pContext);
-	m_mainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMFCToolView), CSize(600, 600), pContext);
+	m_mainSplitter.CreateView(0, 0, RUNTIME_CLASS(CForm), CSize(200, 1000), pContext);
+	m_mainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMFCToolView), CSize(1000, 1000), pContext);
+	m_mainSplitter.SetColumnInfo(1, 1000, 1000);
 
 	return TRUE;
 }
