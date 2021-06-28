@@ -21,6 +21,14 @@ typedef struct
 
 typedef struct
 {
+	D3DXVECTOR3 pos;
+	D3DXVECTOR3 dir;
+	D3DXVECTOR3 size;
+
+}Object_Info;
+
+typedef struct
+{
 #ifdef _AFX
 	CString name;
 #else
@@ -33,3 +41,9 @@ typedef struct
 	BYTE item;
 
 };
+
+typedef struct
+{
+	float frameStart;
+	float frameEnd;
+}Frame;

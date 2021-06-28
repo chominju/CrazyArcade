@@ -24,13 +24,11 @@ HRESULT CMainApp::Ready_MainApp()
 	if (FAILED(m_graphic_Device->Ready_Graphic_Device(WINDOW_MODE::MODE_WINDOW)))
 		return E_FAIL;
 
-	CLoading load;
-	load.Ready_Scene();
+	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_SINGLE,
+		L"../Texture/DayounNim.jpg", L"Loading")))
+		return E_FAIL;
 
-
-	temp = new CTerrain;
-	temp->Ready_GameObject();
-
+	m_scene_Manager->Change_Scene_Manager(SCENE_ID::LOADING);
 	return S_OK;
 }
 
