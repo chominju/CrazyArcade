@@ -3,6 +3,8 @@
 #define SWORD	0x01
 #define BOW		0x02
 #define POLE	0x04
+#define OBJ_DEAD	1 
+#define OBJ_NOEVENT 0
 
 #define DECLARE_SINGLETON(ClassName)				\
 public:												\

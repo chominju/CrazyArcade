@@ -72,7 +72,7 @@ void CLoading::Update_Scene()
 
 		DeleteCriticalSection(&m_criticalSection);
 		CloseHandle(m_thread);
-		//CScene_Manager::Get_Instance()->Change_Scene_Manager(CScene_Manager::M);
+		CScene_Manager::Get_Instance()->Change_Scene_Manager(SCENE_ID::STAGE);
 	}
 }
 
