@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "Loading.h"
 #include "Scene_Manager.h"
-
+#include "Load_Manager.h"
 #include "GameObject.h"
 #include "Terrain.h"
 
@@ -18,6 +18,9 @@ unsigned  CLoading::ImageLoading(LPVOID pVoid)
 	CLoading* pLoading = (CLoading*)pVoid;
 	EnterCriticalSection(&pLoading->m_criticalSection);
 	//TileTexture
+	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_SINGLE,
+		L"../Texture/DayounNim.jpg", L"Loading")))
+		return E_FAIL;
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
 		L"../Resource/Tile/Tile%d.png",
 		L"Terrain", L"Tile", 23)))
@@ -33,6 +36,7 @@ unsigned  CLoading::ImageLoading(LPVOID pVoid)
 		L"Box", L"BoxObj", 12)))
 		return E_FAIL;
 
+	CLoad_Manager::LoadTerrainData(L"../Data/TerrainData.dat");
 	////Player-Attack Texture 
 	//if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::TEX_MULTI,
 	//	L"../Texture/Stage/Player/Attack/AKIHA_AKI01_00%d.png", L"Player", L"Attack", 6)))
@@ -47,8 +51,10 @@ unsigned  CLoading::ImageLoading(LPVOID pVoid)
 	//if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::TEX_MULTI,
 	//	L"../Texture/Stage/Player/Stand/AKIHA_AKI00_00%d.png", L"Player", L"Stand", 12)))
 	//	return E_FAIL;
-	CTexture_Manager::Get_Instance()->Set_LoadingList(L"로딩 완료!!");
 	LeaveCriticalSection(&pLoading->m_criticalSection);
+
+
+	CTexture_Manager::Get_Instance()->Set_LoadingList(L"로딩 완료!!");
 	return 0;
 }
 
@@ -59,8 +65,6 @@ HRESULT CLoading::Ready_Scene()
 	if (nullptr == m_thread)
 		return E_FAIL;
 
-	pObject = new CTerrain;
-	pObject->Ready_GameObject();
 	return S_OK;
 }
 
@@ -78,8 +82,7 @@ void CLoading::Update_Scene()
 
 void CLoading::Render_Scene()
 {
-	pObject->Render_GameObject();
-	/*D3DXMATRIX matTrans;
+	D3DXMATRIX matTrans;
 	const Texture_Info* pTexInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Loading");
 
 	if (nullptr == pTexInfo)
@@ -99,7 +102,7 @@ void CLoading::Render_Scene()
 		wstrLoadingList.length(),
 		nullptr,
 		0,
-		D3DCOLOR_ARGB(255, 0, 0, 0));*/
+		D3DCOLOR_ARGB(255, 0, 0, 0));
 }
 
 void CLoading::Release_Scene()

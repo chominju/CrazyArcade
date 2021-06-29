@@ -5,6 +5,7 @@
 #include "Frame_Manager.h"
 #include "Terrain.h"
 #include "Loading.h"
+#include "GameObject_Manager.h"
 
 CMainApp::CMainApp()
 	: m_graphic_Device(CGraphic_Device::Get_Instance())
@@ -50,7 +51,7 @@ void CMainApp::Release_MainApp()
 {
 	CTime_Manager::Destroy_Instance();
 	CTexture_Manager::Destroy_Instance();
-	//CGameObject_Manager::Destroy_Instance();
+	CGameObject_Manager::Destroy_Instance();
 	m_scene_Manager->Destroy_Instance();
 	m_graphic_Device->Destroy_Instance();
 }

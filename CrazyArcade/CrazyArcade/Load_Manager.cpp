@@ -3,6 +3,8 @@
 #include "Tile.h"
 #include "Box.h"
 #include "Wall.h"
+#include "Terrain.h"
+#include "GameObject_Manager.h"
 
 
 CLoad_Manager::CLoad_Manager()
@@ -16,36 +18,40 @@ CLoad_Manager::~CLoad_Manager()
 // 	LoadTileData_Terrain(L"../Data/TerrainData.dat");
 HRESULT CLoad_Manager::LoadTerrainData(const wstring & filePath)
 {
+
 	HANDLE file = CreateFile(filePath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (INVALID_HANDLE_VALUE == file)
 		return E_FAIL;
 
-	DWORD byte = 0;
-	Tile_Info * tile = nullptr;
-
 	while (true)
 	{
-		tile = new Tile_Info;
-		ReadFile(file, tile, sizeof(Tile_Info), &byte, nullptr);
+		DWORD byte = 0;
+
+		Tile_Info tile;
+		//tile = new Tile_Info;
+		ReadFile(file, &tile, sizeof(Tile_Info), &byte, nullptr);
 		if (0 == byte)
-		{
-			Safe_Delete(tile);
 			break;
-		}
 
 		CGameObject* object;
-		switch (tile->objectKey)
+		switch (tile.objectKey)
 		{
 		case SCENE_OBJECT_ID::TILE:
 			object = new CTile;
+			dynamic_cast<CTerrain*>(object)->Set_Terrain_Info(tile);
+			CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::SCENE_TILE, object);
 			break;
 
 		case SCENE_OBJECT_ID::BOX:
-			//object = new CBox;
+			object = new CBox;
+			dynamic_cast<CTerrain*>(object)->Set_Terrain_Info(tile);
+			CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::OBEJCT, object);
 			break;
 
 		case SCENE_OBJECT_ID::WALL:
-			//object = new CWall;
+			object = new CWall;
+			dynamic_cast<CTerrain*>(object)->Set_Terrain_Info(tile);
+			CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::OBEJCT, object);
 			break;
 		default:
 			break;

@@ -16,15 +16,15 @@ CStage::~CStage()
 
 HRESULT CStage::Ready_Scene()
 {
-	CGameObject* object = new CTerrain;
+	/*CGameObject* object = new CTerrain;
 	if (FAILED(object->Ready_GameObject()))
 		return E_FAIL;
 	
-	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::TERRAIN, object);
+	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::SCENE_TILE, object);
 	object = new CPlayer;
 	if(FAILED(object->Ready_GameObject()))
 		return E_FAIL;
-	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::PLAYER, object);
+	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::PLAYER, object);*/
 	return S_OK;
 }
 

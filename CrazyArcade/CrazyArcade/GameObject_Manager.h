@@ -8,7 +8,7 @@ private:
 	~CGameObject_Manager();
 
 public:
-	CGameObject* Get_Terrain() { return m_listGameObject[OBJECT_ID::TERRAIN].front(); }
+	CGameObject* Get_Tile() { return m_listGameObject[OBJECT_ID::SCENE_TILE].front(); }
 	CGameObject* Get_Object() { return m_listGameObject[OBJECT_ID::OBEJCT].front(); }
 
 public:

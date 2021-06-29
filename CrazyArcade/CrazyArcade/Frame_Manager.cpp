@@ -17,7 +17,7 @@ CFrame_Manager::~CFrame_Manager()
 
 void CFrame_Manager::Ready_Frame_Manager(float fps)
 {
-	m_spf = 1.f;
+	m_spf = 1.f / fps;
 	m_deltaTime = 0.f;
 	QueryPerformanceCounter(&m_beginTime);
 	QueryPerformanceCounter(&m_endTime);

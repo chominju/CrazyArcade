@@ -19,6 +19,5 @@ public:
 private:
 	HANDLE m_thread;
 	CRITICAL_SECTION m_criticalSection;
-	CGameObject* pObject;
 };
 
