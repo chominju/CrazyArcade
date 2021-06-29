@@ -47,8 +47,10 @@ HRESULT CTerrain::Ready_Terrain()
 
 			tile->index = j + (i*TILEX);
 			tile->parentIndex = 0;
-			tile->ObjectKey = L"Terrain";
-			tile->StateKey = L"Tile";
+			tile->objectKey = 1;
+			tile->stateKey = 1;
+			//tile->ObjectKey = L"Terrain";
+			//tile->StateKey = L"Tile";
 			tile->drawID = 2;
 			tile->option = 0;
 			m_vecTile.emplace_back(tile);
@@ -98,7 +100,17 @@ void CTerrain::Render_Terrain()
 	//m_vecTile[31]->drawID = 0;
 	for (size_t i = 0; i < size; ++i)
 	{
-		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(m_vecTile[i]->ObjectKey, m_vecTile[i]->StateKey, m_vecTile[i]->drawID);
+		//wstring objectKey(&m_vecTile[i]->ObjectKey[0], &m_vecTile[i]->ObjectKey[sizeof(m_vecTile[i]->ObjectKey)]);
+		//wstring stateKey(&m_vecTile[i]->StateKey[0], &m_vecTile[i]->StateKey[sizeof(m_vecTile[i]->StateKey)]);
+		wstring objectKey;
+		wstring stateKey;
+		if (m_vecTile[i]->objectKey == 1)
+			objectKey = L"Terrain";
+		if (m_vecTile[i]->stateKey == 1)
+			stateKey = L"Tile";
+
+
+		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_vecTile[i]->drawID);
 		if (nullptr == textureInfo)
 			continue;
 		float centerX = float(textureInfo->imageInfo.Width >> 1);
@@ -121,7 +133,23 @@ void CTerrain::Render_Terrain()
 	{
 		if (m_vecObj[i] == NULL)
 			continue;
-		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(m_vecObj[i]->ObjectKey, m_vecObj[i]->StateKey, m_vecObj[i]->drawID);
+
+		//wstring objectKey(&m_vecObj[i]->ObjectKey[0], &m_vecObj[i]->ObjectKey[sizeof(m_vecObj[i]->ObjectKey)]);
+		//wstring stateKey(&m_vecObj[i]->StateKey[0], &m_vecObj[i]->StateKey[sizeof(m_vecObj[i]->StateKey)]);
+
+		wstring objectKey;
+		wstring stateKey;
+		if (m_vecObj[i]->objectKey == 2)
+			objectKey = L"Box";
+		if (m_vecObj[i]->stateKey == 2)
+			stateKey = L"BoxObj";
+
+		if (m_vecObj[i]->objectKey == 3)
+			objectKey = L"Wall";
+		if (m_vecObj[i]->stateKey == 3)
+			stateKey = L"WallObj";
+
+		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_vecObj[i]->drawID);
 		if (nullptr == textureInfo)
 			continue;
 		float centerX = float(textureInfo->imageInfo.Width >> 1);
@@ -163,19 +191,37 @@ void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring object
 	if (-1 == index)
 		return;
 
+	int strSize1 = WideCharToMultiByte(CP_ACP, 0, objectKey.c_str(), -1, NULL, 0, NULL, NULL);
+	int strSize2 = WideCharToMultiByte(CP_ACP, 0, stateKey.c_str(), -1, NULL, 0, NULL, NULL);
+
 	if (objectKey == L"Terrain")
 	{
 		m_vecTile[index]->drawID = drawID;
 		m_vecTile[index]->option = option;
-		m_vecTile[index]->ObjectKey = objectKey;
-		m_vecTile[index]->StateKey = stateKey;
+		m_vecTile[index]->objectKey = 1;
+		m_vecTile[index]->stateKey = 1;
+		//strcpy_s(m_vecTile[index]->ObjectKey,sizeof(m_vecTile[index]->ObjectKey), objectKey.c_str());
+		//WideCharToMultiByte(CP_ACP, 0, objectKey.c_str(), -1, m_vecTile[index]->ObjectKey, strSize1, 0, 0);
+		//WideCharToMultiByte(CP_ACP, 0, stateKey.c_str(), -1, m_vecTile[index]->StateKey, strSize2, 0, 0);
 	}
 	else
 	{
+		if (objectKey == L"Box")
+		{
+		m_vecObj[index]->objectKey = 2;
+		m_vecObj[index]->stateKey = 2;
+		}
+		else
+		{
+			m_vecObj[index]->objectKey = 3;
+			m_vecObj[index]->stateKey = 3;
+		}
 		m_vecObj[index]->drawID = drawID;
 		m_vecObj[index]->option = option;
-		m_vecObj[index]->ObjectKey = objectKey;
-		m_vecObj[index]->StateKey = stateKey;
+	/*	m_vecObj[index]->ObjectKey = objectKey;
+		m_vecObj[index]->StateKey = stateKey;*/
+		//WideCharToMultiByte(CP_ACP, 0, objectKey.c_str(), -1, m_vecObj[index]->ObjectKey, strSize1, 0, 0);
+		//WideCharToMultiByte(CP_ACP, 0, stateKey.c_str(), -1, m_vecObj[index]->StateKey, strSize2, 0, 0);
 		m_vecObj[index]->size.x= size.x;
 		m_vecObj[index]->size.y = size.y;
 	}
@@ -194,7 +240,17 @@ int CTerrain::Get_TileIndex(const D3DXVECTOR3 & pos)
 
 bool CTerrain::IsPicking(const D3DXVECTOR3 & pos, const int index)
 {
-	const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(m_vecTile[index]->ObjectKey, m_vecTile[index]->StateKey, m_vecTile[index]->drawID);
+	//wstring objectKey(&m_vecTile[index]->ObjectKey[0], &m_vecTile[index]->ObjectKey[sizeof(m_vecTile[index]->ObjectKey)]);
+	//wstring stateKey(&m_vecTile[index]->StateKey[0], &m_vecTile[index]->StateKey[sizeof(m_vecTile[index]->StateKey)]);
+
+	wstring objectKey;
+	wstring stateKey;
+	if (m_vecTile[index]->objectKey == 1)
+		objectKey = L"Terrain";
+	if (m_vecTile[index]->stateKey == 1)
+		stateKey = L"Tile";
+
+	const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_vecTile[index]->drawID);
 	if (nullptr == textureInfo)
 		return false;
 

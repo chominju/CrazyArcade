@@ -30,9 +30,9 @@ HRESULT CTerrain::LoadTileData_Terrain(const wstring& filePath)
 			break;
 		}
 
-		if (tile->ObjectKey == L"Terrain")
+		if (tile->objectKey ==1)
 			m_vecTile.emplace_back(tile);
-		else if (tile->ObjectKey == L"Wall" || tile->ObjectKey == L"Box")
+		else if (tile->objectKey == 2 || tile->objectKey == 3)
 			m_vecObj.emplace_back(tile);
 	}
 	CloseHandle(file);
@@ -62,7 +62,17 @@ void CTerrain::Render_GameObject()
 	//m_vecTile[31]->drawID = 0;
 	for (size_t i = 0; i < size; ++i)
 	{
-		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(m_vecTile[i]->ObjectKey, m_vecTile[i]->StateKey, m_vecTile[i]->drawID);
+		if (m_vecTile[i] == NULL)
+			continue;
+
+		wstring objectKey;
+		wstring stateKey;
+		if (m_vecTile[i]->objectKey == 1)
+			objectKey = L"Terrain";
+		if (m_vecTile[i]->stateKey == 1)
+			stateKey = L"Tile";
+
+		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_vecTile[i]->drawID);
 		if (nullptr == textureInfo)
 			continue;
 		float centerX = float(textureInfo->imageInfo.Width >> 1);
@@ -85,7 +95,20 @@ void CTerrain::Render_GameObject()
 	{
 		if (m_vecObj[i] == NULL)
 			continue;
-		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(m_vecObj[i]->ObjectKey, m_vecObj[i]->StateKey, m_vecObj[i]->drawID);
+
+		wstring objectKey;
+		wstring stateKey;
+		if (m_vecObj[i]->objectKey == 2)
+			objectKey = L"Box";
+		if (m_vecObj[i]->stateKey == 2)
+			stateKey = L"BoxObj";
+
+		if (m_vecObj[i]->objectKey == 3)
+			objectKey = L"Wall";
+		if (m_vecObj[i]->stateKey == 3)
+			stateKey = L"WallObj";
+
+		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_vecObj[i]->drawID);
 		if (nullptr == textureInfo)
 			continue;
 		float centerX = float(textureInfo->imageInfo.Width >> 1);

@@ -2,6 +2,8 @@
 #include "Loading.h"
 #include "Scene_Manager.h"
 
+#include "GameObject.h"
+#include "Terrain.h"
 
 CLoading::CLoading()
 {
@@ -56,6 +58,9 @@ HRESULT CLoading::Ready_Scene()
 	m_thread = (HANDLE)_beginthreadex(nullptr, 0, ImageLoading, this, 0, nullptr);
 	if (nullptr == m_thread)
 		return E_FAIL;
+
+	pObject = new CTerrain;
+
 	return S_OK;
 }
 
@@ -73,7 +78,8 @@ void CLoading::Update_Scene()
 
 void CLoading::Render_Scene()
 {
-	D3DXMATRIX matTrans;
+	pObject->Render_GameObject();
+	/*D3DXMATRIX matTrans;
 	const Texture_Info* pTexInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Loading");
 
 	if (nullptr == pTexInfo)
@@ -93,7 +99,7 @@ void CLoading::Render_Scene()
 		wstrLoadingList.length(),
 		nullptr,
 		0,
-		D3DCOLOR_ARGB(255, 0, 0, 0));
+		D3DCOLOR_ARGB(255, 0, 0, 0));*/
 }
 
 void CLoading::Release_Scene()

@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 
+class CGameObject;
 class CLoading final : public CScene
 {
 public:
@@ -18,5 +19,6 @@ public:
 private:
 	HANDLE m_thread;
 	CRITICAL_SECTION m_criticalSection;
+	CGameObject* pObject;
 };
 

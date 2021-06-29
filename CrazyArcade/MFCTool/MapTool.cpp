@@ -179,9 +179,9 @@ void CMapTool::OnBnClickedLoad()
 				Safe_Delete(tile);
 				break;
 			}
-			if (tile->ObjectKey == L"Terrain")
+			if (tile->objectKey == 1)
 				view->m_terrain->Set_Tile(tile);
-			else if (tile->ObjectKey == L"Wall" || tile->ObjectKey == L"Box")
+			else if (tile->objectKey == 2 || tile->objectKey == 3)
 				view->m_terrain->Set_Obj(tile);
 		}
 		view->Invalidate(FALSE);

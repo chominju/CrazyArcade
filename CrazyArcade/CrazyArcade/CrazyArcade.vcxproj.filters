@@ -10,12 +10,6 @@
     <Filter Include="01.GameObject">
       <UniqueIdentifier>{955eb865-d25b-4bda-a8a9-2794372cb425}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\00.Player">
-      <UniqueIdentifier>{e224be96-0469-4b46-b92a-21c4fc7523b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.GameObject\01.Monster">
-      <UniqueIdentifier>{31254468-5ea0-4a9d-a0c7-5bb02137a109}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Scene">
       <UniqueIdentifier>{b623d5be-076b-487b-8888-ec3fee9f61fb}</UniqueIdentifier>
     </Filter>
@@ -40,9 +34,6 @@
     <Filter Include="06.Frame_Manager">
       <UniqueIdentifier>{ccf5059d-5af7-4c94-8fb5-132443cb46d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\02.Terrain">
-      <UniqueIdentifier>{d85b749a-a1c4-4002-9d18-56fb0c7c20cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Scene\00.Manager">
       <UniqueIdentifier>{ec1b4a0b-c942-4c10-aae9-cdf4732c3f94}</UniqueIdentifier>
     </Filter>
@@ -51,6 +42,18 @@
     </Filter>
     <Filter Include="02.Scene\02.Main">
       <UniqueIdentifier>{f76c3703-1586-4155-a16b-2ede23fb45b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\00.Manager">
+      <UniqueIdentifier>{d1dfebb0-34d1-4cbb-a599-335973145c2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\01.Player">
+      <UniqueIdentifier>{e224be96-0469-4b46-b92a-21c4fc7523b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Monster">
+      <UniqueIdentifier>{31254468-5ea0-4a9d-a0c7-5bb02137a109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\03.Terrain">
+      <UniqueIdentifier>{d85b749a-a1c4-4002-9d18-56fb0c7c20cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,7 +94,7 @@
       <Filter>01.GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Terrain.h">
-      <Filter>01.GameObject\02.Terrain</Filter>
+      <Filter>01.GameObject\03.Terrain</Filter>
     </ClInclude>
     <ClInclude Include="MainApp.h">
       <Filter>00.MainApp</Filter>
@@ -148,7 +151,7 @@
       <Filter>01.GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
-      <Filter>01.GameObject\02.Terrain</Filter>
+      <Filter>01.GameObject\03.Terrain</Filter>
     </ClCompile>
     <ClCompile Include="MainApp.cpp">
       <Filter>00.MainApp</Filter>
