@@ -1,0 +1,12 @@
+../Resource/Tile/Tile%d.png
+Terrain
+Tile
+23
+../Resource/Wall/Obj%d.png
+Wall
+WallObj
+17
+../Resource/Box/Box%d.png
+Box
+BoxObj
+12

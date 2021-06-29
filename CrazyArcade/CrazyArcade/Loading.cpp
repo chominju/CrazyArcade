@@ -60,7 +60,7 @@ HRESULT CLoading::Ready_Scene()
 		return E_FAIL;
 
 	pObject = new CTerrain;
-
+	pObject->Ready_GameObject();
 	return S_OK;
 }
 

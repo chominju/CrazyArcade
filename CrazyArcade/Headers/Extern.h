@@ -2,8 +2,8 @@
 
 extern HWND g_hwnd;
 
-const DWORD WINCX = 1000;
-const DWORD WINCY = 1000;
+const DWORD WINCX = 1200;
+const DWORD WINCY = 1024;
 const DWORD TILECX = 40;
 const DWORD TILECY = 40;
 const DWORD BOXCX = 120;
