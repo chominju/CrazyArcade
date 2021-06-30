@@ -7,7 +7,6 @@ CPlayer::CPlayer()
 	, m_startIndex(0.f)
 	, m_objectKey(L"Cappi")
 	, m_stateKey(L"Stand")
-	, m_info({})
 	, m_preState(CHARACTER_STATE::STAND)
 	, m_curState(CHARACTER_STATE::STAND)
 {
@@ -93,7 +92,7 @@ HRESULT CPlayer::Ready_GameObject()
 	m_info.dir = { 1.f,1.f,0.f };
 	m_info.size = { 1.5f,1.5f,0.f };
 	m_frame = { 0.f,4.f };
-	m_speed = 4.f;
+	m_speed = 1.f;
 	return S_OK;
 }
 

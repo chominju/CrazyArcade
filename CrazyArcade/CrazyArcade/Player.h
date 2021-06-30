@@ -17,7 +17,6 @@ public:
 	virtual void	Render_GameObject()	override;
 	virtual void	Release_GameObject()		override;
 private:
-	Object_Info m_info;
 	CHARACTER_STATE m_curState;
 	CHARACTER_STATE m_preState;
 	wstring m_objectKey;

@@ -10,7 +10,11 @@ public:
 	const vector<Tile_Info*>& Get_VecObj() { return m_vecObj; }
 public:
 	void Set_Tile(Tile_Info* tile) { m_vecTile[tile->index] = tile; }
-	void Set_Obj(Tile_Info* obj) { m_vecObj[obj->index] = obj;}
+	void Set_Obj(Tile_Info* obj)
+	{ 
+		m_vecObj[obj->index] = obj;
+		m_vecObj[obj->index]->pos = m_vecTile[obj->index]->pos;
+	}
 public:
 	void Set_View(CMFCToolView* view) { m_view = view; }
 public:

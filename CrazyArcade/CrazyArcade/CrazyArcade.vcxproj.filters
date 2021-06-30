@@ -67,6 +67,9 @@
     <ClCompile Include="Key_Manager.cpp">
       <Filter>01.Manager\06.Key_Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Collision_Manager.cpp">
+      <Filter>01.Manager\01.Collision_Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrazyArcade.h">
@@ -143,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="Key_Manager.h">
       <Filter>01.Manager\06.Key_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision_Manager.h">
+      <Filter>01.Manager\01.Collision_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

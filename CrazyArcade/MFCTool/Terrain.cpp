@@ -231,8 +231,10 @@ void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring object
 		m_vecObj[index]->size.x= size.x;
 		m_vecObj[index]->size.y = size.y;
 		m_vecObj[index]->index = index;
-
-
+		m_vecObj[index]->pos.x = m_vecTile[index]->pos.x;
+		m_vecObj[index]->pos.y = m_vecTile[index]->pos.y;
+		m_vecObj[index]->pos.z = m_vecTile[index]->pos.z;
+	
 	}
 }
 

@@ -33,12 +33,16 @@ void CWall::Render_GameObject()
 	//float centerX = float(textureInfo->imageInfo.Width >> 1);
 	//float centerY = float(textureInfo->imageInfo.Height >> 1);
 
+	float centerY = float(textureInfo->imageInfo.Height) - float(TILECY);
+
 	D3DXMatrixScaling(&matScale, m_info.size.x, m_info.size.y, 0.f);
 	D3DXMatrixTranslation(&matTrans, m_info.pos.x, m_info.pos.y, 0.f);
 	matWorld = matScale * matTrans;
 
+	matWorld = matScale * matTrans;
+
 	CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
-	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0, 0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0, centerY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 }
 

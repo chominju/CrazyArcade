@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 CGameObject::CGameObject()
+	: m_info({})
 {
 }
 

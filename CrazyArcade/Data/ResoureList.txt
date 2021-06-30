@@ -5,7 +5,7 @@ Tile
 ../Resource/Wall/Obj%d.png
 Wall
 WallObj
-17
+20
 ../Resource/Box/Box%d.png
 Box
 BoxObj
