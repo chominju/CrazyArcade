@@ -9,8 +9,8 @@ public:
 	const vector<Tile_Info*>& Get_VecTile() { return m_vecTile; }
 	const vector<Tile_Info*>& Get_VecObj() { return m_vecObj; }
 public:
-	void Set_Tile(Tile_Info* tile) { m_vecTile.emplace_back(tile); }
-	void Set_Obj(Tile_Info* obj) { m_vecObj.emplace_back(obj); }
+	void Set_Tile(Tile_Info* tile) { m_vecTile[tile->index] = tile; }
+	void Set_Obj(Tile_Info* obj) { m_vecObj[obj->index] = obj;}
 public:
 	void Set_View(CMFCToolView* view) { m_view = view; }
 public:
@@ -25,7 +25,8 @@ public:
 private:
 	int Get_TileIndex(const D3DXVECTOR3& pos);
 	bool IsPicking(const D3DXVECTOR3& pos, const int index);
-private:
+
+public:
 	vector<Tile_Info*> m_vecTile;
 	vector<Tile_Info*> m_vecObj;
 

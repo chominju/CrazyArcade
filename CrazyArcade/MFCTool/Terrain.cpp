@@ -196,16 +196,22 @@ void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring object
 
 	if (objectKey == L"Terrain")
 	{
+		if (m_vecTile[index] == NULL)
+			m_vecTile[index] = new Tile_Info;
 		m_vecTile[index]->drawID = drawID;
 		m_vecTile[index]->option = option;
 		m_vecTile[index]->objectKey = 1;
 		m_vecTile[index]->stateKey = 1;
+		m_vecTile[index]->index = index;
 		//strcpy_s(m_vecTile[index]->ObjectKey,sizeof(m_vecTile[index]->ObjectKey), objectKey.c_str());
 		//WideCharToMultiByte(CP_ACP, 0, objectKey.c_str(), -1, m_vecTile[index]->ObjectKey, strSize1, 0, 0);
 		//WideCharToMultiByte(CP_ACP, 0, stateKey.c_str(), -1, m_vecTile[index]->StateKey, strSize2, 0, 0);
 	}
 	else
 	{
+		if (m_vecObj[index] == NULL)
+			m_vecObj[index] = new Tile_Info;
+
 		if (objectKey == L"Box")
 		{
 		m_vecObj[index]->objectKey = 2;
@@ -224,6 +230,9 @@ void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring object
 		//WideCharToMultiByte(CP_ACP, 0, stateKey.c_str(), -1, m_vecObj[index]->StateKey, strSize2, 0, 0);
 		m_vecObj[index]->size.x= size.x;
 		m_vecObj[index]->size.y = size.y;
+		m_vecObj[index]->index = index;
+
+
 	}
 }
 

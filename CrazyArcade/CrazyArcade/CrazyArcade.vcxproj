@@ -168,6 +168,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObject_Manager.h" />
     <ClInclude Include="Graphic_Device.h" />
+    <ClInclude Include="Key_Manager.h" />
     <ClInclude Include="Loading.h" />
     <ClInclude Include="Load_Manager.h" />
     <ClInclude Include="MainApp.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObject_Manager.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
+    <ClCompile Include="Key_Manager.cpp" />
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="Load_Manager.cpp" />
     <ClCompile Include="MainApp.cpp" />

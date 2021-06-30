@@ -6,6 +6,7 @@
 #include "Terrain.h"
 #include "Loading.h"
 #include "GameObject_Manager.h"
+#include "Key_Manager.h"
 
 CMainApp::CMainApp()
 	: m_graphic_Device(CGraphic_Device::Get_Instance())
@@ -36,6 +37,7 @@ HRESULT CMainApp::Ready_MainApp()
 void CMainApp::Update_MainApp()
 {
 	CTime_Manager::Get_Instance()->Update_Time_Manager();
+	CKey_Manager::Get_Instance()->Update_Key_Manager();
 	m_scene_Manager->Update_Scene_Manager();
 }
 

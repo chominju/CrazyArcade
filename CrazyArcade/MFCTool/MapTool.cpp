@@ -167,6 +167,8 @@ void CMapTool::OnBnClickedLoad()
 		CMainFrame* main = dynamic_cast<CMainFrame*>(::AfxGetApp()->GetMainWnd());
 		CMFCToolView* view = dynamic_cast<CMFCToolView*>(main->m_mainSplitter.GetPane(0, 1));
 		view->m_terrain->Release_Terrain();
+		view->m_terrain->m_vecTile.resize(TILEX * TILEY);
+		view->m_terrain->m_vecObj.resize(TILEX * TILEY);
 		DWORD byte = 0;
 		Tile_Info* tile = nullptr;
 		while (true)
@@ -238,7 +240,7 @@ void CMapTool::OnLbnSelchangeBox()
 	}
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
-	m_option = 2;
+	m_option = 1;
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
 
@@ -347,14 +349,8 @@ void CMapTool::OnLbnSelchangeWall()
 	}
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
-	if (m_drawID==17 || m_drawID == 18 || m_drawID == 25 || m_drawID == 26 || m_drawID == 33 || m_drawID == 45 || m_drawID == 46 || m_drawID == 47 || (m_drawID >=48 && m_drawID%2==0 ))
-	{
-		m_option = 1;
-	}
-	else
-	{
-		m_option = 0;
-	}
+
+	m_option = 2;
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
 

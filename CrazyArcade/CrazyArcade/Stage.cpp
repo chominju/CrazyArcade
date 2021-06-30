@@ -16,6 +16,10 @@ CStage::~CStage()
 
 HRESULT CStage::Ready_Scene()
 {
+	CGameObject * object = new CPlayer;
+	if (FAILED(object->Ready_GameObject()))
+		return E_FAIL;
+	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::PLAYER, object);
 	/*CGameObject* object = new CTerrain;
 	if (FAILED(object->Ready_GameObject()))
 		return E_FAIL;

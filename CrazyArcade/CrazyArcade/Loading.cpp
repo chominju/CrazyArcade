@@ -18,7 +18,7 @@ unsigned  CLoading::ImageLoading(LPVOID pVoid)
 	CLoading* pLoading = (CLoading*)pVoid;
 	EnterCriticalSection(&pLoading->m_criticalSection);
 	//TileTexture
-	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_SINGLE,
+	/*if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_SINGLE,
 		L"../Texture/DayounNim.jpg", L"Loading")))
 		return E_FAIL;
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
@@ -34,8 +34,9 @@ unsigned  CLoading::ImageLoading(LPVOID pVoid)
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
 		L"../Resource/Box/Box%d.png",
 		L"Box", L"BoxObj", 12)))
-		return E_FAIL;
+		return E_FAIL;*/
 
+	CLoad_Manager::LoadTextureData("../Data/ResoureList.txt");
 	CLoad_Manager::LoadTerrainData(L"../Data/TerrainData.dat");
 	////Player-Attack Texture 
 	//if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::TEX_MULTI,

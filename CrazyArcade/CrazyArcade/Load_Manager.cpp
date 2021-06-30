@@ -5,7 +5,7 @@
 #include "Wall.h"
 #include "Terrain.h"
 #include "GameObject_Manager.h"
-
+#include <fstream>
 
 CLoad_Manager::CLoad_Manager()
 {
@@ -61,21 +61,47 @@ HRESULT CLoad_Manager::LoadTerrainData(const wstring & filePath)
 	return S_OK;
 }
 
-HRESULT CLoad_Manager::LoadTextureData(const wstring & filePath)
+HRESULT CLoad_Manager::LoadTextureData(const string & filePath)
 {
-	while (true)
+	ifstream readFile;
+	readFile.open(filePath);
+
+	if (readFile.is_open())
 	{
-		wstring filePath;
-		wstring objectKey;
-		wstring stateKey;
+		while (!readFile.eof())
+		{
 
+			string tempFilePath;
+			string tempObjectKey;
+			string tempStateKey;
+			string indexString;
 
-	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
-		L"../Resource/Tile/Tile%d.png",
-		L"Terrain", L"Tile", 23)))
-		return E_FAIL;
+			getline(readFile, tempFilePath);
+			getline(readFile, tempObjectKey);
+			getline(readFile, tempStateKey);
+			getline(readFile, indexString);
+
+			wstring filePath;
+			wstring objectKey;
+			wstring stateKey;
+			int index;
+
+			filePath.assign(tempFilePath.begin(), tempFilePath.end());
+			objectKey.assign(tempObjectKey.begin(), tempObjectKey.end());
+			stateKey.assign(tempStateKey.begin(), tempStateKey.end());
+			index = stoi(indexString);
+
+			if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
+				filePath,
+				objectKey, stateKey, index)))
+				return E_FAIL;
+		}
 	}
+	else
+		return false;
 
+	readFile.close();
 
 	return S_OK;
+
 }

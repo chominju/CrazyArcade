@@ -7,7 +7,7 @@ private:
 public:
 
 	static HRESULT LoadTerrainData(const wstring& filePath);
-	static HRESULT LoadTextureData(const wstring& filePath);
+	static HRESULT LoadTextureData(const string& filePath);
 
 };
 
