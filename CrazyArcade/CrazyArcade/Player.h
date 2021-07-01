@@ -9,6 +9,7 @@ public:
 public:
 	void FrameMove(float speed = 1.f);
 	void PlayerActrion();
+	float* Get_PlayerSize() { return m_playerSize; }
 public:
 	// CGameObject을(를) 통해 상속됨
 	virtual HRESULT Ready_GameObject()			override;
@@ -24,5 +25,7 @@ private:
 	float m_startIndex;
 	Frame m_frame;
 	float m_speed;
+
+	float m_playerSize[2];
 };
 

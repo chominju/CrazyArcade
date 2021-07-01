@@ -9,7 +9,7 @@ private:
 
 public:
 	CGameObject* Get_Tile() { return m_listGameObject[OBJECT_ID::SCENE_TILE].front(); }
-	CGameObject* Get_Object() { return m_listGameObject[OBJECT_ID::OBEJCT].front(); }
+	list<CGameObject*>& Get_Object(OBJECT_ID id) { return m_listGameObject[id]; }
 
 public:
 	HRESULT Add_GameObject_Manager(OBJECT_ID id, CGameObject* object);

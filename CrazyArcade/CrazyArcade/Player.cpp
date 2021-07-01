@@ -1,5 +1,7 @@
 #include "framework.h"
 #include "Player.h"
+#include "Collision_Manager.h"
+#include "GameObject_Manager.h"
 
 CPlayer::CPlayer()
 	: m_frame({})
@@ -29,26 +31,42 @@ void CPlayer::PlayerActrion()
 	// »óÇÏÁÂ¿ì
 	if (m_curState == CHARACTER_STATE::WALK_LEFT)
 	{
-		if (m_info.pos.x  >= -10)
+		int result = CCollision_Manager::Collision_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+		
+		if(result == OBJ_NONE)
 			m_info.pos.x -= m_speed;
+		/*if (m_info.pos.x  >= 0)
+			m_info.pos.x -= m_speed;*/
 		m_stateKey = L"WalkLeft";
 	}
 	if (m_curState == CHARACTER_STATE::WALK_RIGHT)
 	{
-		if (m_info.pos.x <= TILECX * 1.5f * TILEX  - 75)
+		int result = CCollision_Manager::Collision_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+
+		if (result == OBJ_NONE)
 			m_info.pos.x += m_speed;
+		/*if (m_info.pos.x <= TILECX * 1.5f * TILEX  - 75)
+			m_info.pos.x += m_speed;*/
 		m_stateKey = L"WalkRight";
 	}
 	if (m_curState == CHARACTER_STATE::WALK_UP)
 	{
-		if (m_info.pos.y >=  m_speed)
+		int result = CCollision_Manager::Collision_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+
+		if (result == OBJ_NONE)
 			m_info.pos.y -= m_speed;
+	/*	if (m_info.pos.y >=  m_speed)
+			m_info.pos.y -= m_speed;*/
 		m_stateKey = L"WalkUp";
 	}
 	if (m_curState == CHARACTER_STATE::WALK_DOWN)
 	{
-		if (m_info.pos.y <= TILECY * 1.5f * TILEY - 85)
+		int result = CCollision_Manager::Collision_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+
+		if (result == OBJ_NONE)
 			m_info.pos.y += m_speed;
+		/*if (m_info.pos.y <= TILECY * 1.5f * TILEY - 85)
+			m_info.pos.y += m_speed;*/
 		m_stateKey = L"WalkDown";
 	}
 
@@ -88,11 +106,13 @@ void CPlayer::PlayerActrion()
 
 HRESULT CPlayer::Ready_GameObject()
 {
-	m_info.pos = { 0.f,0.f,0.f };
+	m_info.pos = { 100.f,100.f,0.f };
 	m_info.dir = { 1.f,1.f,0.f };
 	m_info.size = { 1.5f,1.5f,0.f };
 	m_frame = { 0.f,4.f };
-	m_speed = 1.f;
+	m_speed = 4.f;
+	m_playerSize[0] = 56 * 1.5;
+	m_playerSize[1] = 60 * 1.5;
 	return S_OK;
 }
 

@@ -5,6 +5,7 @@ class CTerrain :
 {
 
 public:
+	Tile_Info& Get_Terrain_Info() { return m_info; }
 	void Set_Terrain_Info(Tile_Info& tile) { m_info = tile; }
 public:
 	// CGameObject을(를) 통해 상속됨

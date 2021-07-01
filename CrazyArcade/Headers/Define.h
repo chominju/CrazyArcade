@@ -6,6 +6,10 @@
 #define OBJ_DEAD	1 
 #define OBJ_NOEVENT 0
 
+#define OBJ_WALL	0
+#define OBJ_NONE	1
+#define OBJ_BOX		2
+
 #define DECLARE_SINGLETON(ClassName)				\
 public:												\
 	static ClassName* Get_Instance()				\
