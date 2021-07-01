@@ -12,6 +12,7 @@
 #include "Headers.h"
 #include <afxext.h>
 #include <afxwin.h>
+#include <afxwin.h>
 
 //#include "Texture_Manager.h"
 

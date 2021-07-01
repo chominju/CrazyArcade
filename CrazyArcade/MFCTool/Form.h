@@ -4,6 +4,7 @@
 
 // CForm 폼 보기
 #include "MapTool.h"
+#include "ObjectTool.h"
 
 class CForm : public CFormView
 {
@@ -11,7 +12,7 @@ class CForm : public CFormView
 
 public:
 	CMapTool m_mapTool;
-
+	CObjectTool m_objectTool;
 protected:
 	CForm();           // 동적 만들기에 사용되는 protected 생성자입니다.
 	virtual ~CForm();
@@ -34,6 +35,7 @@ protected:
 public:
 	afx_msg void OnBnClickedMapTool();
 	virtual void OnInitialUpdate();
+	afx_msg void OnBnClickedObjectTool();
 };
 
 

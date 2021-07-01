@@ -34,11 +34,17 @@
     <Filter Include="01.View\Form">
       <UniqueIdentifier>{7dd0519a-7a4d-457c-a882-fac3a3f7b962}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.View\Form\MapTool">
-      <UniqueIdentifier>{258badc0-9d13-480b-a333-2340dc4b2679}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.FileInfo">
       <UniqueIdentifier>{c18fba88-c0b7-46a5-a43f-aa3128ccdd5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\Form\00.Form">
+      <UniqueIdentifier>{cef8422b-bb34-4839-984a-a4f56f18e27d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\Form\01.MapTool">
+      <UniqueIdentifier>{258badc0-9d13-480b-a333-2340dc4b2679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.View\Form\02.ObjectTool">
+      <UniqueIdentifier>{fa9632dc-b087-4ce9-a3fe-bb3b0232717a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,14 +90,17 @@
     <ClInclude Include="Texture_Manager.h">
       <Filter>04.Texture\02.Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Form.h">
-      <Filter>01.View\Form</Filter>
-    </ClInclude>
     <ClInclude Include="MapTool.h">
-      <Filter>01.View\Form\MapTool</Filter>
+      <Filter>01.View\Form\01.MapTool</Filter>
     </ClInclude>
     <ClInclude Include="FileInfo.h">
       <Filter>06.FileInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Form.h">
+      <Filter>01.View\Form\00.Form</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTool.h">
+      <Filter>01.View\Form\02.ObjectTool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,14 +137,17 @@
     <ClCompile Include="Texture_Manager.cpp">
       <Filter>04.Texture\02.Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Form.cpp">
-      <Filter>01.View\Form</Filter>
-    </ClCompile>
     <ClCompile Include="MapTool.cpp">
-      <Filter>01.View\Form\MapTool</Filter>
+      <Filter>01.View\Form\01.MapTool</Filter>
     </ClCompile>
     <ClCompile Include="FileInfo.cpp">
       <Filter>06.FileInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="Form.cpp">
+      <Filter>01.View\Form\00.Form</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTool.cpp">
+      <Filter>01.View\Form\02.ObjectTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

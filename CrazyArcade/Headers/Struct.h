@@ -12,14 +12,23 @@ typedef struct
 	D3DXVECTOR3 pos;
 	D3DXVECTOR3 size;
 	int index;
-	float centerX;
-	float centerY;
-	wstring objectKey;
-	wstring stateKey;
-	BYTE drawID;
 	int parentIndex;
-	bool isCollision;
-	bool isPush;
+	int objectKey;
+	int stateKey;
+	BYTE drawID;
+	BYTE option;
+	//D3DXVECTOR3 pos;
+	//D3DXVECTOR3 size;
+	//int index;
+	//float centerX;
+	//float centerY;
+	//int objectKey;
+	//int stateKey;
+	//int option;
+	//BYTE drawID;
+	//int parentIndex;
+	//bool isCollision;
+	//bool isPush;
 }Tile_Info;
 
 typedef struct
@@ -31,6 +40,7 @@ typedef struct
 	wstring objectKey;
 	wstring stateKey;
 	BYTE drawID;
+	int parentIndex;
 	bool isCollision;
 	
 	float speedUp;
@@ -38,6 +48,7 @@ typedef struct
 	int waterLengthUp;
 	bool isKick;
 	bool isRide;
+	bool isShield;
 	bool isRevival;
 
 

@@ -207,6 +207,7 @@
     <ClInclude Include="MFCTool.h" />
     <ClInclude Include="MFCToolDoc.h" />
     <ClInclude Include="MFCToolView.h" />
+    <ClInclude Include="ObjectTool.h" />
     <ClInclude Include="Texture_Manager.h" />
     <ClInclude Include="Multi_Texture.h" />
     <ClInclude Include="pch.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="MFCTool.cpp" />
     <ClCompile Include="MFCToolDoc.cpp" />
     <ClCompile Include="MFCToolView.cpp" />
+    <ClCompile Include="ObjectTool.cpp" />
     <ClCompile Include="Texture_Manager.cpp" />
     <ClCompile Include="Multi_Texture.cpp" />
     <ClCompile Include="pch.cpp">

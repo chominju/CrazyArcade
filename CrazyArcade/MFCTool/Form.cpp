@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "MFCTool.h"
+
 #include "Form.h"
 
 
@@ -27,6 +28,7 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_BN_CLICKED(IDC_BUTTON1, &CForm::OnBnClickedMapTool)
+	ON_BN_CLICKED(IDC_BUTTON2, &CForm::OnBnClickedObjectTool)
 END_MESSAGE_MAP()
 
 
@@ -64,6 +66,17 @@ void CForm::OnInitialUpdate()
 	if (nullptr == m_mapTool.GetSafeHwnd())
 		m_mapTool.Create(IDD_MAPTOOL);
 
+	if (nullptr == m_objectTool.GetSafeHwnd())
+		m_objectTool.Create(IDD_ObjectTool);
+
+
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 }
 
+
+
+void CForm::OnBnClickedObjectTool()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_objectTool.ShowWindow(SW_SHOW);
+}
