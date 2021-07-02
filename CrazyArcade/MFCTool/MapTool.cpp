@@ -21,7 +21,6 @@ CMapTool::CMapTool(CWnd* pParent /*=nullptr*/)
 	, m_drawID(0)
 	, m_objectKey(L"Terrain")
 	, m_stateKey(L"Tile")
-	, m_size(1.5f,1.5f,1.f)
 {
 
 }
@@ -80,6 +79,7 @@ void CMapTool::OnBnClickedSave()
 		CMFCToolView* view = dynamic_cast<CMFCToolView*>(main->m_mainSplitter.GetPane(0, 1));
 		const vector<Tile_Info*>& vecTile = view->m_terrain->Get_VecTile();
 		const vector<Tile_Info*>& vecObj = view->m_terrain->Get_VecObj();
+		const vector<Tile_Info*>& vecRespawn = view->m_terrain->Get_VecRespawnTile();
 
 		DWORD byte = 0;
 		for (auto& pTile : vecTile)
@@ -88,6 +88,10 @@ void CMapTool::OnBnClickedSave()
 		byte = 0;
 		for (auto& pObj : vecObj)
 			WriteFile(file, pObj, sizeof(Tile_Info), &byte, nullptr);
+
+		byte = 0;
+		for (auto& pRespawn : vecRespawn)
+			WriteFile(file, pRespawn, sizeof(Tile_Info), &byte, nullptr);
 
 		CloseHandle(file);
 	}
@@ -110,12 +114,6 @@ void CMapTool::OnLbnSelchangeTile()
 	}
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
-	m_option = 0;
-	//if (m_drawID >= 23)
-	//{
-	//	m_objectKey = L"Wall";
-	//	m_stateKey = L"WallObj";
-	//}
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
 	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Terrain", L"Tile", m_drawID);
@@ -126,11 +124,9 @@ void CMapTool::OnLbnSelchangeTile()
 	float ratioX = float(WINCX) / textureInfo->imageInfo.Width;
 	float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
 	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
-	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
+	D3DXMatrixTranslation(&matTrans, WINCX / 2, WINCY / 2, 0.f);
 	matWorld = matScale * matTrans;
 
-	//m_size.x = 1.f;//1.5f;
-	//m_size.y = 1.f;//1.5f;
 
 	float centerX = textureInfo->imageInfo.Width >> 1;
 	float centerY = textureInfo->imageInfo.Height >> 1;
@@ -168,7 +164,8 @@ void CMapTool::OnBnClickedLoad()
 		CMFCToolView* view = dynamic_cast<CMFCToolView*>(main->m_mainSplitter.GetPane(0, 1));
 		view->m_terrain->Release_Terrain();
 		view->m_terrain->m_vecTile.resize(TILEX * TILEY);
-		view->m_terrain->m_vecObj.resize(TILEX * TILEY);
+		view->m_terrain->m_vecObj.reserve(TILEX * TILEY);
+		view->m_terrain->m_vecRespawnTile.reserve(TILEX);
 		DWORD byte = 0;
 		Tile_Info* tile = nullptr;
 		while (true)
@@ -181,8 +178,14 @@ void CMapTool::OnBnClickedLoad()
 				Safe_Delete(tile);
 				break;
 			}
+
 			if (tile->objectKey == 1)
-				view->m_terrain->Set_Tile(tile);
+			{
+				if (tile->drawID == 1)
+					view->m_terrain->Set_Respawn(tile);
+				else
+					view->m_terrain->Set_Tile(tile);
+			}
 			else if (tile->objectKey == 2 || tile->objectKey == 3)
 				view->m_terrain->Set_Obj(tile);
 		}
@@ -240,7 +243,6 @@ void CMapTool::OnLbnSelchangeBox()
 	}
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
-	m_option = 1;
 
 	CGraphic_Device::Get_Instance()->Render_Begin();
 
@@ -253,7 +255,7 @@ void CMapTool::OnLbnSelchangeBox()
 	float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
 
 	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
-	D3DXMatrixTranslation(&matTrans, 500.f, 400.f, 0.f);
+	D3DXMatrixTranslation(&matTrans, WINCX / 2, WINCY / 2, 0.f);
 	matWorld = matScale * matTrans;
 	//m_size.x = 1.f;//1.5f;
 	//m_size.y = 1.f;//1.5f;
@@ -350,8 +352,6 @@ void CMapTool::OnLbnSelchangeWall()
 	fileName.Delete(0, i);
 	m_drawID = _ttoi(fileName.GetString());
 
-	m_option = 2;
-
 	CGraphic_Device::Get_Instance()->Render_Begin();
 
 	const Texture_Info * textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Wall", L"WallObj", m_drawID);
@@ -362,7 +362,7 @@ void CMapTool::OnLbnSelchangeWall()
 	float ratioX = float(WINCX) / textureInfo->imageInfo.Width;
 	float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
 	D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
-	D3DXMatrixTranslation(&matTrans, 500.f, 500.f, 0.f);
+	D3DXMatrixTranslation(&matTrans,WINCX / 2, WINCY / 2, 0.f);
 	matWorld = matScale * matTrans;
 
 	//m_size.x = 1.f;// float(TILECX) / textureInfo->imageInfo.Width * 1.5f;

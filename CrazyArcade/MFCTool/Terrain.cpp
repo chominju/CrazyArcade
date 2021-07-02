@@ -13,6 +13,21 @@ CTerrain::~CTerrain()
 	Release_Terrain();
 }
 
+void CTerrain::Set_Tile(Tile_Info * tile)
+{
+	m_vecTile[tile->index] = tile;
+}
+
+void CTerrain::Set_Obj(Tile_Info * obj)
+{
+	m_vecObj.push_back(obj);
+}
+
+void CTerrain::Set_Respawn(Tile_Info * obj)
+{
+	m_vecRespawnTile.push_back(obj);
+}
+
 HRESULT CTerrain::Ready_Terrain()
 {
 	m_vecTile.reserve(TILEX * TILECY);
@@ -22,47 +37,44 @@ HRESULT CTerrain::Ready_Terrain()
 	float x = 0.f;
 	float y = 0.f;
 
-	//x = float(2*TILECX);
-	//y = float(2*TILECY);
-	///*	x = float((j*TILECX) + ((i % 2)*(TILECX >> 1)));
-	//	y = float(i*(TILECY >> 1));*/
-	//tile = new Tile_Info;
-	//tile->pos = { x,y,0.f };
-	//tile->size = { 2.f, 2.f, 0.f };
-	//tile->index = 0; // j + (i*TILEX);
-	//tile->parentIndex = 0;
-	//tile->drawID = 2;
-	//tile->option = 0;
-	//m_vecTile.emplace_back(tile);
+	int tileChange=2;
 
-	for (int i = 0; i < TILEX; ++i)
+	for (int i = 1; i <= TILEY; ++i)
 	{
-		for (int j = 0; j < TILEY; j++)
+		for (int j = 0; j < TILEX; j++)
 		{
-			x = float(j*TILECX*1.5);
-			y = float(i*TILECY*1.5);
+			x = float(j * TILECX * expansionSize + 30);
+			y = float(i * TILECY *expansionSize);
 			tile = new Tile_Info;
-			tile->pos = { x/* + TILECX/2 */, y/* + TILECY/2*/,0.f };
-			tile->size = { 1.5f,1.5f,1.5f };
+			tile->pos = { x , y ,0.f };
+			tile->size = { expansionSize,expansionSize,expansionSize };
 
-			tile->index = j + (i*TILEX);
-			tile->parentIndex = 0;
+			tile->index = j + ((i - 1) * TILEX);
+			tile->centerX = x + (TILECX * expansionSize / 2);
+			tile->centerY = y + (TILECY * expansionSize / 2);
 			tile->objectKey = 1;
 			tile->stateKey = 1;
-			//tile->ObjectKey = L"Terrain";
-			//tile->StateKey = L"Tile";
-			tile->drawID = 2;
-			tile->option = 0;
+			tile->drawID = tileChange;
+			tile->parentIndex = 0;
+			tile->isCollision = false;
+			tile->isPush = false;
+			tile->isDestroy = false;
 			m_vecTile.emplace_back(tile);
 
-			obj = new Tile_Info;
-			obj->pos = { x /*+ TILECX/2 */, y/* + TILECY/2*/,0.f };
-			obj->size = { 1.5f,1.5f,1.5f };
+			tileChange *= 2;
+			if (tileChange > 4)
+				tileChange = 2;
 
-			obj->index = j + (i*TILEX);
-			obj->parentIndex = 0;
-			obj->option = 0;
-			m_vecObj.emplace_back(obj);
+			//obj = new Tile_Info;
+			//obj->pos = { x  , y ,0.f };
+			//obj->size = { expansionSize,expansionSize,expansionSize };
+
+			//obj->index = j + ((i - 1) * TILEX);
+			//obj->centerX = x + (TILEX * expansionSize / 2);
+			//obj->centerY = y + (TILEY * expansionSize / 2);
+
+			//obj->parentIndex = 0;
+			//m_vecObj.emplace_back(obj);
 		}
 	}
 
@@ -98,6 +110,20 @@ void CTerrain::Render_Terrain()
 	DWORD size = m_vecTile.size();
 	TCHAR szBuf[32]{};
 	//m_vecTile[31]->drawID = 0;
+
+	const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Ui");
+	if (nullptr == textureInfo)
+		return;
+
+	D3DXMatrixScaling(&matScale, 1.5,1.5, 0.f);
+	D3DXMatrixTranslation(&matTrans, 0, 0, 0.f);
+	matWorld = matScale * matTrans;
+
+	CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
+	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0, 0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+
+
 	for (size_t i = 0; i < size; ++i)
 	{
 		//wstring objectKey(&m_vecTile[i]->ObjectKey[0], &m_vecTile[i]->ObjectKey[sizeof(m_vecTile[i]->ObjectKey)]);
@@ -163,6 +189,42 @@ void CTerrain::Render_Terrain()
 		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0, centerY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 	}
 
+
+	D3DXMatrixScaling(&matScale, 1.5, 1.5, 0.f);
+	D3DXMatrixTranslation(&matTrans, 0, 0, 0.f);
+	matWorld = matScale * matTrans;
+
+	CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
+	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0, 0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+
+	size = m_vecRespawnTile.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		//wstring objectKey(&m_vecTile[i]->ObjectKey[0], &m_vecTile[i]->ObjectKey[sizeof(m_vecTile[i]->ObjectKey)]);
+		//wstring stateKey(&m_vecTile[i]->StateKey[0], &m_vecTile[i]->StateKey[sizeof(m_vecTile[i]->StateKey)]);
+		wstring objectKey;
+		wstring stateKey;
+		if (m_vecRespawnTile[i]->objectKey == 1)
+			objectKey = L"Terrain";
+		if (m_vecRespawnTile[i]->stateKey == 1)
+			stateKey = L"Tile";
+
+
+		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_vecRespawnTile[i]->drawID);
+		if (nullptr == textureInfo)
+			continue;
+		float centerX = float(textureInfo->imageInfo.Width >> 1);
+		float centerY = float(textureInfo->imageInfo.Height >> 1);
+
+		D3DXMatrixScaling(&matScale, m_vecRespawnTile[i]->size.x, m_vecRespawnTile[i]->size.y, 0.f);
+		D3DXMatrixTranslation(&matTrans, m_vecRespawnTile[i]->pos.x - m_view->GetScrollPos(SB_HORZ), m_vecRespawnTile[i]->pos.y - m_view->GetScrollPos(SB_VERT), 0.f);
+		matWorld = matScale * matTrans;
+
+		CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
+		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0, 0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
+
 }
 
 void CTerrain::MiniRender_Terrain()
@@ -182,9 +244,13 @@ void CTerrain::Release_Terrain()
 	m_vecObj.clear();
 	m_vecTile.shrink_to_fit();
 
+	for (auto & respawn : m_vecRespawnTile)
+		Safe_Delete(respawn);
+	m_vecRespawnTile.clear();
+	m_vecRespawnTile.shrink_to_fit();
 }
 
-void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring objectKey, const wstring stateKey, const BYTE & drawID, const D3DXVECTOR3 & size, const BYTE & option)
+void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring objectKey, const wstring stateKey, const BYTE & drawID)
 {
 	int index = Get_TileIndex(pos);
 
@@ -196,45 +262,116 @@ void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring object
 
 	if (objectKey == L"Terrain")
 	{
-		if (m_vecTile[index] == NULL)
-			m_vecTile[index] = new Tile_Info;
-		m_vecTile[index]->drawID = drawID;
-		m_vecTile[index]->option = option;
-		m_vecTile[index]->objectKey = 1;
-		m_vecTile[index]->stateKey = 1;
-		m_vecTile[index]->index = index;
-		//strcpy_s(m_vecTile[index]->ObjectKey,sizeof(m_vecTile[index]->ObjectKey), objectKey.c_str());
-		//WideCharToMultiByte(CP_ACP, 0, objectKey.c_str(), -1, m_vecTile[index]->ObjectKey, strSize1, 0, 0);
-		//WideCharToMultiByte(CP_ACP, 0, stateKey.c_str(), -1, m_vecTile[index]->StateKey, strSize2, 0, 0);
-	}
-	else
-	{
-		if (m_vecObj[index] == NULL)
-			m_vecObj[index] = new Tile_Info;
-
-		if (objectKey == L"Box")
+		if (drawID == 1)
 		{
-		m_vecObj[index]->objectKey = 2;
-		m_vecObj[index]->stateKey = 2;
+			Tile_Info * newRespawnTile = new Tile_Info;
+			
+			newRespawnTile->pos.x = m_vecTile[index]->pos.x;
+			newRespawnTile->pos.y = m_vecTile[index]->pos.y;
+			newRespawnTile->pos.z = m_vecTile[index]->pos.z;
+
+			newRespawnTile->size.x = m_vecTile[index]->size.x;
+			newRespawnTile->size.y = m_vecTile[index]->size.y;
+			newRespawnTile->size.z = m_vecTile[index]->size.z;
+
+			newRespawnTile->index = index;
+
+			newRespawnTile->centerX= m_vecTile[index]->centerX;
+			newRespawnTile->centerY= m_vecTile[index]->centerY;
+			newRespawnTile->objectKey = 1;
+			newRespawnTile->stateKey = 1;
+			newRespawnTile->drawID = drawID;
+			newRespawnTile->parentIndex = 0;
+			newRespawnTile->isCollision = false;
+			newRespawnTile->isPush = false;
+			newRespawnTile->isDestroy = false;
+
+			m_vecRespawnTile.emplace_back(newRespawnTile);
 		}
 		else
 		{
-			m_vecObj[index]->objectKey = 3;
-			m_vecObj[index]->stateKey = 3;
+			if (m_vecTile[index] == NULL)
+				m_vecTile[index] = new Tile_Info;
+
+
+			m_vecTile[index]->drawID = drawID;
+			m_vecTile[index]->objectKey = 1;
+			m_vecTile[index]->stateKey = 1;
+			m_vecTile[index]->index = index;
+			//strcpy_s(m_vecTile[index]->ObjectKey,sizeof(m_vecTile[index]->ObjectKey), objectKey.c_str());
+			//WideCharToMultiByte(CP_ACP, 0, objectKey.c_str(), -1, m_vecTile[index]->ObjectKey, strSize1, 0, 0);
+			//WideCharToMultiByte(CP_ACP, 0, stateKey.c_str(), -1, m_vecTile[index]->StateKey, strSize2, 0, 0);
 		}
-		m_vecObj[index]->drawID = drawID;
-		m_vecObj[index]->option = option;
-	/*	m_vecObj[index]->ObjectKey = objectKey;
-		m_vecObj[index]->StateKey = stateKey;*/
-		//WideCharToMultiByte(CP_ACP, 0, objectKey.c_str(), -1, m_vecObj[index]->ObjectKey, strSize1, 0, 0);
-		//WideCharToMultiByte(CP_ACP, 0, stateKey.c_str(), -1, m_vecObj[index]->StateKey, strSize2, 0, 0);
-		m_vecObj[index]->size.x= size.x;
-		m_vecObj[index]->size.y = size.y;
-		m_vecObj[index]->index = index;
-		m_vecObj[index]->pos.x = m_vecTile[index]->pos.x;
-		m_vecObj[index]->pos.y = m_vecTile[index]->pos.y;
-		m_vecObj[index]->pos.z = m_vecTile[index]->pos.z;
-	
+	}
+	else
+	{
+		for (auto & obj : m_vecObj)
+		{
+			if (obj->index == index)
+			{
+				if (objectKey == L"Box")
+				{
+					obj->objectKey = 2;
+					obj->stateKey = 2;
+					obj->isCollision = true;
+					obj->isDestroy = true;
+					obj->isPush = true;
+				}
+				else
+				{
+					obj->objectKey = 3;
+					obj->stateKey = 3;
+					obj->isCollision = true;
+					obj->isDestroy = false;
+					obj->isPush = false;
+				}
+				obj->drawID = drawID;
+				obj->size.x = expansionSize;
+				obj->size.y = expansionSize;
+				obj->size.z = expansionSize;
+				obj->index = index;
+				obj->pos.x = m_vecTile[index]->pos.x;
+				obj->pos.y = m_vecTile[index]->pos.y;
+				obj->pos.z = m_vecTile[index]->pos.z;
+				return;
+			}
+		}
+
+		Tile_Info* newObj = new Tile_Info;
+		if (objectKey == L"Box")
+		{
+			newObj->objectKey = 2;
+			newObj->stateKey = 2;
+			newObj->isCollision = true;
+			newObj->isDestroy = true;
+			newObj->isPush = true;
+		}
+		else
+		{
+			newObj->objectKey = 3;
+			newObj->stateKey = 3;
+			newObj->isCollision = true;
+			newObj->isDestroy = false;
+			newObj->isPush = false;
+		}
+		newObj->pos.x = m_vecTile[index]->pos.x;
+		newObj->pos.y = m_vecTile[index]->pos.y;
+		newObj->pos.z = m_vecTile[index]->pos.z;
+		newObj->size.x = expansionSize;
+		newObj->size.y = expansionSize;
+		newObj->size.z = expansionSize;
+		newObj->centerX = newObj->pos.x + (TILECX * expansionSize / 2);
+		newObj->centerY = newObj->pos.y + (TILECY * expansionSize / 2);
+		newObj->index = index;
+		newObj->drawID = drawID;
+		newObj->parentIndex = 1;
+		m_vecObj.emplace_back(newObj);
+
+		sort(m_vecObj.begin(), m_vecObj.end(), [&](Tile_Info* a, Tile_Info* b) {
+			return a->index < b->index;
+		});
+
+
 	}
 }
 

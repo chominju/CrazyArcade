@@ -154,6 +154,16 @@ void CMFCToolView::OnInitialUpdate()
 		L"Box", L"BoxObj", 12)))
 		return;
 
+	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_MULTI,
+		L"../Resource/Box/Box%d.png",
+		L"Box", L"BoxObj", 12)))
+		return;
+
+	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_SINGLE,
+		L"../Resource/Ui/UIFrm.png",
+		L"Ui")))
+		return;
+
 	m_terrain = new CTerrain;
 	if (FAILED(m_terrain->Ready_Terrain()))
 		return;
@@ -171,11 +181,9 @@ void CMFCToolView::OnLButtonDown(UINT nFlags, CPoint point)
 	CMainFrame* main = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
 	CForm* form = dynamic_cast<CForm*>(main->m_mainSplitter.GetPane(0, 0));
 	BYTE drawID = form->m_mapTool.m_drawID;
-	BYTE option = form->m_mapTool.m_option;
 	wstring drawObjectKey = form->m_mapTool.m_objectKey;
 	wstring drawStateKey = form->m_mapTool.m_stateKey;
-	D3DXVECTOR3 drawSize = form->m_mapTool.m_size;
-	m_terrain->Tile_Change_Terrain(mouse, drawObjectKey, drawStateKey ,  drawID, drawSize , option);
+	m_terrain->Tile_Change_Terrain(mouse, drawObjectKey, drawStateKey ,  drawID);
 	Invalidate(FALSE);
 
 	CView::OnLButtonDown(nFlags, point);
