@@ -13,4 +13,7 @@ const DWORD WALLCY = 40;
 const DWORD TILEX = 15;
 const DWORD TILEY = 13;
 
+const DWORD STARTX = 30;
+const DWORD STARTY = 60;
+
 const float expansionSize = 1.5;

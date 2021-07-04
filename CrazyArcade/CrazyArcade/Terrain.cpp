@@ -1,6 +1,17 @@
 #include "framework.h"
 #include "Terrain.h"
 
+CTerrain::CTerrain()
+	:m_isPushed(false)
+	,m_finishIndex(-1)
+{
+}
+
+CTerrain::~CTerrain()
+{
+
+}
+
 HRESULT CTerrain::Ready_GameObject()
 {
 	return E_NOTIMPL;

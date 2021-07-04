@@ -23,18 +23,17 @@ int CCollision_Manager::Collision_Object(list<CGameObject*>* player, list<CGameO
 		float player_centerX = tempInfo.pos.x + playerSize[0] / 2; 
 		float player_centerY = tempInfo.pos.y + playerSize[1] / 2 + 15; 
 
-		int indexX = player_centerX / (TILECX * 1.5);
-		int indexY = player_centerY / (TILECY * 1.5);
+		int indexX = (player_centerX - STARTX) / (TILECX * 1.5);
+		int indexY = (player_centerY - STARTY) / (TILECY * 1.5);
 
 		float obj_CenterX = ((indexX-1) * TILECX * 1.5) + (TILECX * 1.5);
 		float obj_CenterY = ((indexY-1) * TILECY * 1.5) + (TILECY * 1.5);
 
 		RECT backRc{};
-		backRc.left = TILECX * 1.5 * 0 + (TILECX * 1.5 / 2);
-		backRc.right = TILECX * 1.5 * (TILEX - 1) + (TILECX * 1.5 / 2);
-		backRc.top = TILECY * 1.5 * 0 + (TILECY * 1.5 / 2);
-		backRc.bottom = TILECY * 1.5 * (TILEY - 1) + (TILECY * 1.5 / 2);
-
+		backRc.left = STARTX + (TILECX * expansionSize / 2);
+		backRc.top = STARTY + (TILECY * expansionSize / 2);;
+		backRc.right = ((TILEX) * TILECX * expansionSize + STARTX) - (TILECX * expansionSize / 2);
+		backRc.bottom = ((TILEY) * TILECY * expansionSize + STARTY) - (TILECY * expansionSize / 2);
 
 		RECT rc{};
 		rc.left = obj_CenterX - (TILECX * 1.5) / 2;
@@ -73,7 +72,122 @@ int CCollision_Manager::Collision_Object(list<CGameObject*>* player, list<CGameO
 		if (state == CHARACTER_STATE::WALK_DOWN)
 			nextIndex = playerIndex + TILEX;
 
-		bool isObj = false;
+		for (auto & objectBW : *object)
+		{
+			auto castObject = dynamic_cast<CTerrain*>(objectBW);
+			Tile_Info tileInfo = castObject->Get_Terrain_Info();
+			int finishIndex = castObject->Get_finishIndex();
+			if (nextIndex == tileInfo.index || nextIndex == finishIndex)
+			{
+			if (tileInfo.isPush)
+			{
+				switch (state)
+				{
+				case WALK_LEFT:
+					if (player_centerX <= (tileInfo.pos.x + TILECX * expansionSize)+TILECX * expansionSize/2)
+					{
+						bool isEmpty = true;
+						for (auto & nextBW : *object)
+						{
+							auto obj = dynamic_cast<CTerrain*>(nextBW);
+							if (nextIndex - 1 == obj->Get_Terrain_Info().index)
+							{
+								obj->Set_Pushed(false);
+								isEmpty = false;
+							}
+						}
+						if (isEmpty && !castObject->Get_Pushed())
+						{
+							objectBW->Set_State(state);
+							dynamic_cast<CTerrain*>(objectBW)->Set_Pushed(true);
+							dynamic_cast<CTerrain*>(objectBW)->Set_finish((tileInfo.centerX - TILECX * expansionSize) - TILECX * expansionSize / 2, tileInfo.pos.y, nextIndex - 1);
+						}
+						return OBJ_WALL;
+					}
+					else
+						return OBJ_NONE;
+				case WALK_RIGHT:
+					if (player_centerX >= tileInfo.pos.x - TILECX * expansionSize / 2)
+					{
+						bool isEmpty = true;
+						for (auto & nextBW : *object)
+						{
+							auto obj = dynamic_cast<CTerrain*>(nextBW);
+							if (nextIndex + 1 == obj->Get_Terrain_Info().index)
+							{
+								obj->Set_Pushed(false);
+								isEmpty = false;
+							}
+						}
+						if (isEmpty && !castObject->Get_Pushed())
+						{
+							objectBW->Set_State(state);
+							dynamic_cast<CTerrain*>(objectBW)->Set_Pushed(true);
+							dynamic_cast<CTerrain*>(objectBW)->Set_finish((tileInfo.centerX + TILECX * expansionSize / 2)/* + TILECX * expansionSize / 2*/, tileInfo.pos.y, nextIndex + 1);
+						}
+						return OBJ_WALL;
+					}
+					else
+						return OBJ_NONE;
+				case WALK_UP:
+					if (player_centerY <= (tileInfo.pos.y + TILECY * expansionSize) + TILECY * expansionSize/2)
+					{
+						bool isEmpty = true;
+						for (auto & nextBW : *object)
+						{
+							auto obj = dynamic_cast<CTerrain*>(nextBW);
+							if (nextIndex - TILEX == obj->Get_Terrain_Info().index)
+							{
+								obj->Set_Pushed(false);
+								isEmpty = false;
+							}
+						}
+						if (isEmpty && !castObject->Get_Pushed())
+						{
+							objectBW->Set_State(state);
+							dynamic_cast<CTerrain*>(objectBW)->Set_Pushed(true);
+							dynamic_cast<CTerrain*>(objectBW)->Set_finish(tileInfo.pos.x, (tileInfo.centerY - TILECY) - TILECY * expansionSize / 2, nextIndex - TILEX);
+						}
+						return OBJ_WALL;
+					}
+					else
+						return OBJ_NONE;
+				case WALK_DOWN:
+					//if (player_centerY >= tileInfo.centerY - TILECY * expansionSize)
+					if (player_centerY >= tileInfo.pos.y - TILECY * expansionSize / 2)
+					{
+						bool isEmpty = true;
+						for (auto & nextBW : *object)
+						{
+							auto obj = dynamic_cast<CTerrain*>(nextBW);
+							if (nextIndex + TILEX == obj->Get_Terrain_Info().index)
+							{
+								obj->Set_Pushed(false);
+								isEmpty = false;
+							}
+						}
+						if (isEmpty && !castObject->Get_Pushed())
+						{
+							objectBW->Set_State(state);
+							dynamic_cast<CTerrain*>(objectBW)->Set_Pushed(true);
+							dynamic_cast<CTerrain*>(objectBW)->Set_finish(tileInfo.pos.x, tileInfo.centerY + TILECY * expansionSize / 2, nextIndex + TILEX);
+						}
+						return OBJ_WALL;
+					}
+					else
+						return OBJ_NONE;
+				}
+			}
+			else
+				return OBJ_WALL;
+			}
+		}
+		return OBJ_NONE;
+
+
+
+
+	/*	bool isObj = false;
 		for (auto & objectBW : *object)
 		{
 			Tile_Info tileInfo = dynamic_cast<CTerrain*>(objectBW)->Get_Terrain_Info();
@@ -85,7 +199,7 @@ int CCollision_Manager::Collision_Object(list<CGameObject*>* player, list<CGameO
 						return OBJ_NONE;
 					else
 					{
-						if (tileInfo.option == 2)
+						if (tileInfo.isCollision)
 						{
 							isObj = true;
 							return OBJ_WALL;
@@ -97,7 +211,7 @@ int CCollision_Manager::Collision_Object(list<CGameObject*>* player, list<CGameO
 			}
 		}
 		if (!isObj)
-			return OBJ_NONE;
+			return OBJ_NONE;*/
 
 
 		//// ¿ÞÂÊ

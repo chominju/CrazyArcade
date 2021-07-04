@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "GameObject_Manager.h"
 #include "GameObject.h"
-
+#include "Terrain.h"
 
 IMPLEMENT_SINGLETON(CGameObject_Manager)
 CGameObject_Manager::CGameObject_Manager()
@@ -49,6 +49,12 @@ void CGameObject_Manager::Render_GameObject_Manager()
 {
 	for (int i = 0; i < OBJECT_ID::OBJECT_END; ++i)
 	{
+		if (i == OBJECT_ID::OBEJCT)
+		{
+			m_listGameObject[OBJECT_ID::OBEJCT].sort([](CGameObject* a, CGameObject* b) {
+				return dynamic_cast<CTerrain*>(a)->Get_Terrain_Info().index < dynamic_cast<CTerrain*>(b)->Get_Terrain_Info().index;
+			});
+		}
 		for (auto& gameObject : m_listGameObject[i])
 			gameObject->Render_GameObject();
 	}

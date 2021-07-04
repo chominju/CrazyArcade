@@ -38,3 +38,7 @@ WalkRight
 Cappi
 WalkUp
 4
+../Resource/WaterBall/WaterBall/Idle%d.png
+WaterBall
+Idle
+3

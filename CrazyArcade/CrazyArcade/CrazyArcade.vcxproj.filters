@@ -50,25 +50,28 @@
       <Filter>05.Texture\Multi_Texture</Filter>
     </ClCompile>
     <ClCompile Include="Box.cpp">
-      <Filter>02.GameObject\02.Object\00.Scene\02.Box</Filter>
+      <Filter>02.GameObject\02.SceneObject\00.Scene\02.Box</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
-      <Filter>02.GameObject\02.Object\00.Scene\01.Tile</Filter>
+      <Filter>02.GameObject\02.SceneObject\00.Scene\01.Tile</Filter>
     </ClCompile>
     <ClCompile Include="Wall.cpp">
-      <Filter>02.GameObject\02.Object\00.Scene\03.Wall</Filter>
+      <Filter>02.GameObject\02.SceneObject\00.Scene\03.Wall</Filter>
     </ClCompile>
     <ClCompile Include="Load_Manager.cpp">
       <Filter>01.Manager\07.Load_Manager</Filter>
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
-      <Filter>02.GameObject\02.Object\00.Scene\00.Terrain</Filter>
+      <Filter>02.GameObject\02.SceneObject\00.Scene\00.Terrain</Filter>
     </ClCompile>
     <ClCompile Include="Key_Manager.cpp">
       <Filter>01.Manager\06.Key_Manager</Filter>
     </ClCompile>
     <ClCompile Include="Collision_Manager.cpp">
       <Filter>01.Manager\01.Collision_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterBall.cpp">
+      <Filter>02.GameObject\03.Water</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,25 +133,28 @@
       <Filter>05.Texture\Multi_Texture</Filter>
     </ClInclude>
     <ClInclude Include="Box.h">
-      <Filter>02.GameObject\02.Object\00.Scene\02.Box</Filter>
+      <Filter>02.GameObject\02.SceneObject\00.Scene\02.Box</Filter>
     </ClInclude>
     <ClInclude Include="Tile.h">
-      <Filter>02.GameObject\02.Object\00.Scene\01.Tile</Filter>
+      <Filter>02.GameObject\02.SceneObject\00.Scene\01.Tile</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">
-      <Filter>02.GameObject\02.Object\00.Scene\03.Wall</Filter>
+      <Filter>02.GameObject\02.SceneObject\00.Scene\03.Wall</Filter>
     </ClInclude>
     <ClInclude Include="Load_Manager.h">
       <Filter>01.Manager\07.Load_Manager</Filter>
     </ClInclude>
     <ClInclude Include="Terrain.h">
-      <Filter>02.GameObject\02.Object\00.Scene\00.Terrain</Filter>
+      <Filter>02.GameObject\02.SceneObject\00.Scene\00.Terrain</Filter>
     </ClInclude>
     <ClInclude Include="Key_Manager.h">
       <Filter>01.Manager\06.Key_Manager</Filter>
     </ClInclude>
     <ClInclude Include="Collision_Manager.h">
       <Filter>01.Manager\01.Collision_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterBall.h">
+      <Filter>02.GameObject\03.Water</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,32 +241,32 @@
     <Filter Include="01.Manager\05.Time_Manager">
       <UniqueIdentifier>{520072dd-f905-468e-9ac5-f08d8c975669}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\02.Object">
-      <UniqueIdentifier>{9fd98096-3c8a-4a6e-8d50-e9b14ea15b16}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\02.Object\00.Scene">
-      <UniqueIdentifier>{7da05567-767b-4e38-a7e4-f4041040f548}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\02.Object\00.Scene\00.Terrain">
-      <UniqueIdentifier>{d8b7a670-5e6d-4e4d-86ff-ab8ec596bda5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\02.Object\00.Scene\01.Tile">
-      <UniqueIdentifier>{18577105-efb5-4ebd-b6a7-ff3bd3d4180b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\02.Object\00.Scene\02.Box">
-      <UniqueIdentifier>{146211f2-2a92-4526-b0ce-4e51afabe175}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\02.Object\00.Scene\03.Wall">
-      <UniqueIdentifier>{b40b38cb-c6c5-484d-bd9a-4cb624a6f304}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\02.Object\01.Item">
-      <UniqueIdentifier>{49185b6f-4421-47f2-9f9e-4f14cba65feb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Manager\06.Key_Manager">
       <UniqueIdentifier>{212d9adb-f844-42fa-b7f1-ca8eae0cdadc}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Manager\07.Load_Manager">
       <UniqueIdentifier>{722f9303-531f-4ac4-8f52-51e73ca74bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.SceneObject">
+      <UniqueIdentifier>{9fd98096-3c8a-4a6e-8d50-e9b14ea15b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.SceneObject\00.Scene">
+      <UniqueIdentifier>{7da05567-767b-4e38-a7e4-f4041040f548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.SceneObject\00.Scene\00.Terrain">
+      <UniqueIdentifier>{d8b7a670-5e6d-4e4d-86ff-ab8ec596bda5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.SceneObject\00.Scene\01.Tile">
+      <UniqueIdentifier>{18577105-efb5-4ebd-b6a7-ff3bd3d4180b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.SceneObject\00.Scene\02.Box">
+      <UniqueIdentifier>{146211f2-2a92-4526-b0ce-4e51afabe175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.SceneObject\00.Scene\03.Wall">
+      <UniqueIdentifier>{b40b38cb-c6c5-484d-bd9a-4cb624a6f304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03.Water">
+      <UniqueIdentifier>{49185b6f-4421-47f2-9f9e-4f14cba65feb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

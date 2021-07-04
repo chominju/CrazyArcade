@@ -2,15 +2,13 @@
 #include "Player.h"
 #include "Collision_Manager.h"
 #include "GameObject_Manager.h"
+#include "WaterBall.h"
 
 CPlayer::CPlayer()
-	: m_frame({})
-	, m_speed(0.f)
+	: m_speed(0.f)
 	, m_startIndex(0.f)
 	, m_objectKey(L"Cappi")
 	, m_stateKey(L"Stand")
-	, m_preState(CHARACTER_STATE::STAND)
-	, m_curState(CHARACTER_STATE::STAND)
 {
 }
 
@@ -104,9 +102,21 @@ void CPlayer::PlayerActrion()
 	}
 }
 
+
+void CPlayer::Set_PlayerIndex()
+{
+	float player_centerX = m_info.pos.x + m_playerSize[0] / 2;
+	float player_centerY = m_info.pos.y + m_playerSize[1] / 2 + 15;
+
+	int indexX = (player_centerX - STARTX) / (TILECX * 1.5);
+	int indexY = (player_centerY - STARTY) / (TILECY * 1.5);
+
+	m_LoationIndex = indexX + indexY * TILEX;
+}
+
 HRESULT CPlayer::Ready_GameObject()
 {
-	m_info.pos = { 100.f,100.f,0.f };
+	m_info.pos = { 400.f,30.f,0.f };
 	m_info.dir = { 1.f,1.f,0.f };
 	m_info.size = { 1.5f,1.5f,0.f };
 	m_frame = { 0.f,4.f };
@@ -128,6 +138,12 @@ int CPlayer::Update_GameObject()
 	if (CKey_Manager::Get_Instance()->Key_Pressing(KEY_DOWN))
 		m_curState = CHARACTER_STATE::WALK_DOWN;
 
+	if (CKey_Manager::Get_Instance()->Key_Pressing(KEY_SPACE))
+	{
+		CWaterBall * water = new CWaterBall(m_LoationIndex);
+		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATERBALL, water);
+	}
+
 	if (!CKey_Manager::Get_Instance()->Key_Pressing(KEY_LEFT) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_RIGHT) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_UP) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_DOWN))
 	{
 		m_preState = m_curState;
@@ -140,6 +156,7 @@ int CPlayer::Update_GameObject()
 void CPlayer::Late_Update_GameObject()
 {
 	PlayerActrion();
+	Set_PlayerIndex();
 	FrameMove(0.7f * m_speed);
 }
 

@@ -187,6 +187,7 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Time_Manager.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="WaterBall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Time_Manager.cpp" />
     <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WaterBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CrazyArcade.rc" />

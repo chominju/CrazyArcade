@@ -20,6 +20,11 @@ HRESULT CStage::Ready_Scene()
 	if (FAILED(object->Ready_GameObject()))
 		return E_FAIL;
 	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::PLAYER, object);
+
+	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_SINGLE,
+		L"../Resource/Ui/UIFrm.png", L"MainUI")))
+		return E_FAIL;
+
 	/*CGameObject* object = new CTerrain;
 	if (FAILED(object->Ready_GameObject()))
 		return E_FAIL;
@@ -34,11 +39,24 @@ HRESULT CStage::Ready_Scene()
 
 void CStage::Update_Scene()
 {
+	CKey_Manager::Get_Instance()->Update_Key_Manager();
 	m_gameObject_Manager->Update_GameObject_Manager();
 }
 
 void CStage::Render_Scene()
 {
+	D3DXMATRIX matTrans , matScale , matWorld;
+	const Texture_Info* pTexInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"MainUI");
+
+	if (nullptr == pTexInfo)
+		return;
+	D3DXMatrixTranslation(&matTrans, 0.f, 0.f, 0.f);
+	D3DXMatrixScaling(&matScale, expansionSize, expansionSize, expansionSize);
+
+	matWorld = matScale * matTrans;
+
+	CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
+	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(pTexInfo->texture, nullptr, &D3DXVECTOR3(0, 0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 	m_gameObject_Manager->Render_GameObject_Manager();
 }
 

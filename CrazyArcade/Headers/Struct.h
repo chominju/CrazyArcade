@@ -47,7 +47,7 @@ typedef struct
 	bool isCollision;
 	
 	float speedUp;
-	bool isWaterBallon;
+	bool isWaterBall;
 	bool isWaterLengthUp;
 	bool isKick;
 	bool isRide;
@@ -56,6 +56,17 @@ typedef struct
 
 
 }Item_Info;
+
+typedef struct
+{
+	bool isKick;
+	bool isRide;
+	bool isShield;
+	bool isRevival;
+	float WaterBallNum;
+	float speed;
+	float isWaterLength;
+}Player_Info;
 
 typedef struct
 {
