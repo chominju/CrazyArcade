@@ -10,6 +10,7 @@ CGameObject::CGameObject()
 	, m_player_centerX(0)
 	, m_player_centerY(0)
 	, m_moveLock(false)
+	, m_dead(false)
 {
 }
 

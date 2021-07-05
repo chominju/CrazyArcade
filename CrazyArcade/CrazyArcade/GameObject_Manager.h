@@ -12,6 +12,8 @@ public:
 	list<CGameObject*>& Get_Object(OBJECT_ID id) { return m_listGameObject[id]; }
 	CGameObject* Get_Player() { return m_listGameObject[OBJECT_ID::PLAYER].front(); }
 
+	bool IsExistObject(int index);
+
 public:
 	HRESULT Add_GameObject_Manager(OBJECT_ID id, CGameObject* object);
 	void Update_GameObject_Manager();

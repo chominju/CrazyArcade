@@ -3,6 +3,10 @@
 class CWater :
 	public CGameObject
 {
+public:
+	CWater(int index);
+	~CWater();
+
 	// CGameObject을(를) 통해 상속됨
 	virtual HRESULT Ready_GameObject() override;
 	virtual int Update_GameObject() override;

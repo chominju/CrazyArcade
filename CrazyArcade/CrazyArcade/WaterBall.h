@@ -16,5 +16,7 @@ public:
 private:
 	int m_animIndex;
 	float m_time;
+	int indexX;
+	int indexY;
 };
 

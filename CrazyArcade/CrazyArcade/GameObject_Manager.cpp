@@ -14,6 +14,23 @@ CGameObject_Manager::~CGameObject_Manager()
 	Release_GameObject_Manager();
 }
 
+bool CGameObject_Manager::IsExistObject(int index)
+{
+	for (auto object : m_listGameObject[OBJECT_ID::OBEJCT])
+	{
+		auto castObject = dynamic_cast<CTerrain*>(object);
+		if (index == castObject->Get_Terrain_Info().index)
+		{
+			if (castObject->Get_Terrain_Info().isDestroy)
+			{
+				castObject->Set_Dead(true);
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
 HRESULT CGameObject_Manager::Add_GameObject_Manager(OBJECT_ID id, CGameObject * object)
 {
 	if (id >= OBJECT_ID::OBJECT_END || nullptr == object)

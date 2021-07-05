@@ -17,6 +17,9 @@ CBox::~CBox()
 
 int CBox::Update_GameObject()
 {
+	if (m_dead)
+		return OBJ_DEAD;
+
 	if (m_isPushed && m_tileInfo.drawID==9)
 	{
 		switch (m_curState)

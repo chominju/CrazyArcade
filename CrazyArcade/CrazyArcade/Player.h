@@ -32,7 +32,8 @@ private:
 	wstring m_stateKey;
 	float m_startIndex;
 	float m_speed;
-
+	int indexX;
+	int indexY;
 	float m_playerSize[2];
 
 };

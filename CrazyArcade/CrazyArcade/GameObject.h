@@ -12,16 +12,18 @@ public:
 	float Get_PlayerCenterX() { return m_player_centerX; }
 	float Get_PlayerCenterY() { return m_player_centerY; }
 
-	void Increase_Water() { m_playerableInfo.WaterBallCurrentMax+=1.f; }
-	void Increase_WaterLength() { m_playerableInfo.WaterLength +=1.f; }
+	void Increase_Water() { m_playerableInfo.WaterBallCurrentMax+=1; }
+	void Increase_WaterLength() { m_playerableInfo.WaterLength +=1; }
 	void Increase_Speed() { m_playerableInfo.speed +=0.5f; }
 
-	void Decrese_WaterBall() { m_playerableInfo.WaterBallCurrent -= 1.f; }
+	void Decrese_WaterBall() { m_playerableInfo.WaterBallCurrent -= 1; }
 
 	void Set_Kick(bool kick) { m_playerableInfo.isKick = kick; }
 	void Set_Ride(bool ride) { m_playerableInfo.isRide = ride; }
 	void Set_Shield(bool shield) { m_playerableInfo.isShield = shield; }
 	void Set_Revival(bool revival) { m_playerableInfo.isRevival = revival; }
+
+	int Get_WaterLength() { return m_playerableInfo.WaterLength; }
 
 	void Set_LocationIndex(float index) { m_LocationIndex = index; }
 	float Get_LocationIndex() { return m_LocationIndex; }
@@ -31,6 +33,9 @@ public:
 
 	void Set_MoveLock(bool lock) { m_moveLock = lock; }
 	bool Get_MoveLock() { return m_moveLock; }
+
+	bool Get_IsDead() { return m_dead; }
+	void Set_Dead(bool dead) { m_dead = dead; }
 
 	virtual int Get_PlayerIndex();
 	virtual void Set_PlayerIndex();
@@ -55,6 +60,8 @@ protected:
 	float m_player_centerY;
 
 	bool m_moveLock;
+
+	bool m_dead;
 };
 
 

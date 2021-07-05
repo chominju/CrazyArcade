@@ -1,6 +1,14 @@
 #include "framework.h"
 #include "Water.h"
 
+CWater::CWater(int index)
+{
+}
+
+CWater::~CWater()
+{
+}
+
 HRESULT CWater::Ready_GameObject()
 {
 	return E_NOTIMPL;

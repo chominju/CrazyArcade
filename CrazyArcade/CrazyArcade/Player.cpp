@@ -119,8 +119,8 @@ void CPlayer::Use_WaterBall()
 	if (!isWaterBallExist &&(m_playerableInfo.WaterBallCurrent < m_playerableInfo.WaterBallCurrentMax))
 	{
 		m_playerableInfo.WaterBallCurrent++;
-		CWaterBall * water = new CWaterBall(m_LocationIndex);
-		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATERBALL, water);
+		CWaterBall * waterBall = new CWaterBall(m_LocationIndex);
+		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATERBALL, waterBall);
 	}
 }
 
@@ -141,8 +141,8 @@ void CPlayer::Set_Rect()
 	m_player_centerX = m_info.pos.x + m_playerSize[0] / 2;
 	m_player_centerY = m_info.pos.y + m_playerSize[1] / 2;
 
-	int indexX = (m_player_centerX - STARTX) / (TILECX * 1.5);
-	int indexY = (m_player_centerY - STARTY) / (TILECY * 1.5);
+	indexX = (m_player_centerX - STARTX) / (TILECX * 1.5);
+	indexY = (m_player_centerY - STARTY) / (TILECY * 1.5);
 
 	m_LocationIndex = indexX + indexY * TILEX;
 
@@ -171,9 +171,7 @@ HRESULT CPlayer::Ready_GameObject()
 	m_playerableInfo.WaterBallCurrentMax = 2;
 	m_playerableInfo.WaterBallMax = 8;
 	m_playerableInfo.WaterLength = 1;
-	m_playerableInfo.WaterLengthMax = 7;
-
-
+	m_playerableInfo.WaterLengthMax = 4;
 
 	return S_OK;
 }
