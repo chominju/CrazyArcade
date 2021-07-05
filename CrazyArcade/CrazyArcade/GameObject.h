@@ -27,9 +27,10 @@ public:
 	float Get_LocationIndex() { return m_LocationIndex; }
 
 
-	void Set_Pos(int x, int y) { m_info.pos.x += x; m_info.pos.y += y; }
+	void Set_Pos(float x, float y) { m_info.pos.x += x; m_info.pos.y += y; }
 
-
+	void Set_MoveLock(bool lock) { m_moveLock = lock; }
+	bool Get_MoveLock() { return m_moveLock; }
 
 	virtual int Get_PlayerIndex();
 	virtual void Set_PlayerIndex();
@@ -52,6 +53,8 @@ protected:
 
 	float m_player_centerX;
 	float m_player_centerY;
+
+	bool m_moveLock;
 };
 
 

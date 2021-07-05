@@ -21,19 +21,19 @@ void CTile::Render_GameObject()
 	TCHAR szBuf[32]{};
 	wstring objectKey;
 	wstring stateKey;
-	if (m_info.objectKey == 1)
+	if (m_tileInfo.objectKey == 1)
 		objectKey = L"Terrain";
-	if (m_info.stateKey == 1)
+	if (m_tileInfo.stateKey == 1)
 		stateKey = L"Tile";
 
-	const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_info.drawID);
+	const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_tileInfo.drawID);
 	if (nullptr == textureInfo)
 		return;
 	//float centerX = float(textureInfo->imageInfo.Width >> 1);
 	//float centerY = float(textureInfo->imageInfo.Height >> 1);
 
-	D3DXMatrixScaling(&matScale, m_info.size.x, m_info.size.y, 0.f);
-	D3DXMatrixTranslation(&matTrans, m_info.pos.x, m_info.pos.y, 0.f);
+	D3DXMatrixScaling(&matScale, m_tileInfo.size.x, m_tileInfo.size.y, 0.f);
+	D3DXMatrixTranslation(&matTrans, m_tileInfo.pos.x, m_tileInfo.pos.y, 0.f);
 	matWorld = matScale * matTrans;
 
 	CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);

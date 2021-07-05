@@ -33,6 +33,7 @@ int CWaterBall::Update_GameObject()
 	if (m_time <= 0)
 	{
 		CGameObject_Manager::Get_Instance()->Get_Player()->Decrese_WaterBall();
+		//CGameObject* water
 		return OBJ_DEAD;
 	}
 	

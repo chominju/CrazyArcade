@@ -16,4 +16,6 @@ const DWORD TILEY = 13;
 const DWORD STARTX = 30;
 const DWORD STARTY = 60;
 
+const float overLapSpeed = 1.f;
+
 const float expansionSize = 1.5;

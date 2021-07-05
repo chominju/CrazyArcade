@@ -30,8 +30,9 @@ void CPlayer::PlayerActrion()
 	// »óÇÏÁÂ¿ì
 	if (m_curState == CHARACTER_STATE::WALK_LEFT)
 	{
-		int result = CCollision_Manager::Collision_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+		int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 		
+		if (!m_moveLock)
 		if(result == OBJ_NONE)
 			m_info.pos.x -= m_speed;
 		/*if (m_info.pos.x  >= 0)
@@ -40,8 +41,9 @@ void CPlayer::PlayerActrion()
 	}
 	if (m_curState == CHARACTER_STATE::WALK_RIGHT)
 	{
-		int result = CCollision_Manager::Collision_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+		int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
+		if (!m_moveLock)
 		if (result == OBJ_NONE)
 			m_info.pos.x += m_speed;
 		/*if (m_info.pos.x <= TILECX * 1.5f * TILEX  - 75)
@@ -50,8 +52,9 @@ void CPlayer::PlayerActrion()
 	}
 	if (m_curState == CHARACTER_STATE::WALK_UP)
 	{
-		int result = CCollision_Manager::Collision_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+		int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
+		if (!m_moveLock)
 		if (result == OBJ_NONE)
 			m_info.pos.y -= m_speed;
 	/*	if (m_info.pos.y >=  m_speed)
@@ -60,8 +63,9 @@ void CPlayer::PlayerActrion()
 	}
 	if (m_curState == CHARACTER_STATE::WALK_DOWN)
 	{
-		int result = CCollision_Manager::Collision_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+		int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
+		if (!m_moveLock)
 		if (result == OBJ_NONE)
 			m_info.pos.y += m_speed;
 		/*if (m_info.pos.y <= TILECY * 1.5f * TILEY - 85)
@@ -142,19 +146,19 @@ void CPlayer::Set_Rect()
 
 	m_LocationIndex = indexX + indexY * TILEX;
 
-	m_rect.left = m_player_centerX - TILECX * expansionSize / 2 +5;
-	m_rect.top = (m_info.pos.y + TILECY * expansionSize) - (TILECY * expansionSize/2) +5;
-	m_rect.right = m_player_centerX + TILECX * expansionSize / 2 -5;
-	m_rect.bottom = m_info.pos.y + m_playerSize[1] -5;
+	m_rect.left = m_player_centerX - TILECX * expansionSize / 2 ;
+	m_rect.top = (m_info.pos.y + TILECY * expansionSize) - (TILECY * expansionSize/2) ;
+	m_rect.right = m_player_centerX + TILECX * expansionSize / 2 ;
+	m_rect.bottom = m_info.pos.y + m_playerSize[1] ;
 }
 
 HRESULT CPlayer::Ready_GameObject()
 {
-	m_info.pos = { 300.f,30.f,0.f };
+	m_info.pos = { 350.f,30.f,0.f };
 	m_info.dir = { 1.f,1.f,0.f };
 	m_info.size = { 1.5f,1.5f,0.f };
 	m_frame = { 0.f,4.f };
-	m_speed = 4.f;
+	m_speed = 2.f;
 	m_playerSize[0] = 56 * 1.5;
 	m_playerSize[1] = 60 * 1.5;
 

@@ -316,7 +316,11 @@ void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring object
 					obj->stateKey = 2;
 					obj->isCollision = true;
 					obj->isDestroy = true;
-					obj->isPush = true;
+					if (drawID == 9)
+						obj->isPush = true;
+					else
+						obj->isPush = false;
+
 				}
 				else
 				{
@@ -345,7 +349,10 @@ void CTerrain::Tile_Change_Terrain(const D3DXVECTOR3 & pos, const wstring object
 			newObj->stateKey = 2;
 			newObj->isCollision = true;
 			newObj->isDestroy = true;
-			newObj->isPush = true;
+			if (drawID == 9)
+				newObj->isPush = true;
+			else
+				newObj->isPush = false;
 		}
 		else
 		{

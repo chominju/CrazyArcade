@@ -37,6 +37,7 @@ unsigned  CLoading::ImageLoading(LPVOID pVoid)
 		return E_FAIL;*/
 
 	CLoad_Manager::LoadTextureData("../Data/ResoureList.txt");
+//	CLoad_Manager::LoadTerrainData(L"../Data/testMap2.dat");
 	CLoad_Manager::LoadTerrainData(L"../Data/TerrainData.dat");
 	////Player-Attack Texture 
 	//if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::TEX_MULTI,

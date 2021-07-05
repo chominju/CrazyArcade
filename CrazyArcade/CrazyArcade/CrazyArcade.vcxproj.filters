@@ -71,7 +71,10 @@
       <Filter>01.Manager\01.Collision_Manager</Filter>
     </ClCompile>
     <ClCompile Include="WaterBall.cpp">
-      <Filter>02.GameObject\03.Water</Filter>
+      <Filter>02.GameObject\03.Water\00.WaterBall</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>02.GameObject\03.Water\01.Water</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +157,10 @@
       <Filter>01.Manager\01.Collision_Manager</Filter>
     </ClInclude>
     <ClInclude Include="WaterBall.h">
-      <Filter>02.GameObject\03.Water</Filter>
+      <Filter>02.GameObject\03.Water\00.WaterBall</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>02.GameObject\03.Water\01.Water</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +273,12 @@
     </Filter>
     <Filter Include="02.GameObject\03.Water">
       <UniqueIdentifier>{49185b6f-4421-47f2-9f9e-4f14cba65feb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03.Water\00.WaterBall">
+      <UniqueIdentifier>{e1d64829-d59d-4ce1-93cf-7cd9cb3a2975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03.Water\01.Water">
+      <UniqueIdentifier>{a1310db3-4776-4dd6-960b-233aaae850f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

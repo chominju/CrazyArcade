@@ -7,8 +7,8 @@ public:
 	CTerrain();
 	~CTerrain();
 public:
-	Tile_Info& Get_Terrain_Info() { return m_info; }
-	void Set_Terrain_Info(Tile_Info& tile) { m_info = tile; }
+	Tile_Info& Get_Terrain_Info() { return m_tileInfo; }
+	void Set_Terrain_Info(Tile_Info& tile) { m_tileInfo = tile; }
 
 	void Set_Pushed(bool push) { m_isPushed = push; }
 	bool Get_Pushed() { return m_isPushed; }
@@ -23,7 +23,7 @@ public:
 	virtual void Release_GameObject() override;
 
 protected:
-	Tile_Info m_info;
+	Tile_Info m_tileInfo;
 	bool m_isPushed;
 	int m_finishX;
 	int m_finishY;

@@ -23,12 +23,12 @@ void CWall::Render_GameObject()
 	wstring objectKey;
 	wstring stateKey;
 
-	if (m_info.objectKey == 3)
+	if (m_tileInfo.objectKey == 3)
 		objectKey = L"Wall";
-	if (m_info.stateKey == 3)
+	if (m_tileInfo.stateKey == 3)
 		stateKey = L"WallObj";
 
-	const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_info.drawID);
+	const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_tileInfo.drawID);
 	if (nullptr == textureInfo)
 		return;
 	//float centerX = float(textureInfo->imageInfo.Width >> 1);
@@ -36,8 +36,8 @@ void CWall::Render_GameObject()
 
 	float centerY = float(textureInfo->imageInfo.Height) - float(TILECY);
 
-	D3DXMatrixScaling(&matScale, m_info.size.x, m_info.size.y, 0.f);
-	D3DXMatrixTranslation(&matTrans, m_info.pos.x, m_info.pos.y, 0.f);
+	D3DXMatrixScaling(&matScale, m_tileInfo.size.x, m_tileInfo.size.y, 0.f);
+	D3DXMatrixTranslation(&matTrans, m_tileInfo.pos.x, m_tileInfo.pos.y, 0.f);
 	matWorld = matScale * matTrans;
 
 	matWorld = matScale * matTrans;
@@ -50,4 +50,13 @@ void CWall::Render_GameObject()
 
 void CWall::Release_GameObject()
 {
+}
+
+
+void CWall::Set_Rect()
+{
+	m_rect.left = m_tileInfo.pos.x;
+	m_rect.top = m_tileInfo.pos.y;
+	m_rect.right = m_tileInfo.pos.x + TILECX * expansionSize;
+	m_rect.bottom = m_tileInfo.pos.y + TILECY * expansionSize;
 }

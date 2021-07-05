@@ -9,6 +9,7 @@ CGameObject::CGameObject()
 	, m_frame({})
 	, m_player_centerX(0)
 	, m_player_centerY(0)
+	, m_moveLock(false)
 {
 }
 
