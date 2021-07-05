@@ -15,5 +15,6 @@ public:
 
 private:
 	int m_animIndex;
+	float m_time;
 };
 

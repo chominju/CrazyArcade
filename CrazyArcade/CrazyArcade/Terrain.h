@@ -28,5 +28,9 @@ protected:
 	int m_finishX;
 	int m_finishY;
 	int m_finishIndex;
+
+	float m_textureSizeX;
+	float m_textureSizeY;
+
 };
 

@@ -63,9 +63,12 @@ typedef struct
 	bool isRide;
 	bool isShield;
 	bool isRevival;
-	float WaterBallNum;
+	float WaterBallMax;
+	float WaterBallCurrentMax;
+	float WaterBallCurrent;
 	float speed;
-	float isWaterLength;
+	float WaterLength;
+	float WaterLengthMax;
 }Player_Info;
 
 typedef struct

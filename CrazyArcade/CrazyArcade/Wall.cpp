@@ -13,6 +13,7 @@ int CWall::Update_GameObject()
 
 void CWall::Late_Update_GameObject()
 {
+	Set_Rect();
 }
 
 void CWall::Render_GameObject()

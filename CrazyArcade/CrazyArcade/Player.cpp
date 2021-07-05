@@ -10,6 +10,7 @@ CPlayer::CPlayer()
 	, m_objectKey(L"Cappi")
 	, m_stateKey(L"Stand")
 {
+
 }
 
 CPlayer::~CPlayer()
@@ -102,27 +103,74 @@ void CPlayer::PlayerActrion()
 	}
 }
 
-
-void CPlayer::Set_PlayerIndex()
+void CPlayer::Use_WaterBall()
 {
-	float player_centerX = m_info.pos.x + m_playerSize[0] / 2;
-	float player_centerY = m_info.pos.y + m_playerSize[1] / 2 + 15;
+	auto & temp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
+	bool isWaterBallExist = false;
+	for (auto waterBall : temp)
+	{
+		if (waterBall->Get_LocationIndex() == m_LocationIndex)
+			isWaterBallExist = true;
+	}
+	if (!isWaterBallExist &&(m_playerableInfo.WaterBallCurrent < m_playerableInfo.WaterBallCurrentMax))
+	{
+		m_playerableInfo.WaterBallCurrent++;
+		CWaterBall * water = new CWaterBall(m_LocationIndex);
+		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATERBALL, water);
+	}
+}
 
-	int indexX = (player_centerX - STARTX) / (TILECX * 1.5);
-	int indexY = (player_centerY - STARTY) / (TILECY * 1.5);
+//
+//void CPlayer::Set_PlayerIndex()
+//{
+//	float player_centerX = m_info.pos.x + m_playerSize[0] / 2;
+//	float player_centerY = m_info.pos.y + m_playerSize[1] / 2 + 15;
+//
+//	int indexX = (player_centerX - STARTX) / (TILECX * 1.5);
+//	int indexY = (player_centerY - STARTY) / (TILECY * 1.5);
+//
+//	m_LocationIndex = indexX + indexY * TILEX;
+//}
 
-	m_LoationIndex = indexX + indexY * TILEX;
+void CPlayer::Set_Rect()
+{
+	m_player_centerX = m_info.pos.x + m_playerSize[0] / 2;
+	m_player_centerY = m_info.pos.y + m_playerSize[1] / 2;
+
+	int indexX = (m_player_centerX - STARTX) / (TILECX * 1.5);
+	int indexY = (m_player_centerY - STARTY) / (TILECY * 1.5);
+
+	m_LocationIndex = indexX + indexY * TILEX;
+
+	m_rect.left = m_player_centerX - TILECX * expansionSize / 2 +5;
+	m_rect.top = (m_info.pos.y + TILECY * expansionSize) - (TILECY * expansionSize/2) +5;
+	m_rect.right = m_player_centerX + TILECX * expansionSize / 2 -5;
+	m_rect.bottom = m_info.pos.y + m_playerSize[1] -5;
 }
 
 HRESULT CPlayer::Ready_GameObject()
 {
-	m_info.pos = { 400.f,30.f,0.f };
+	m_info.pos = { 300.f,30.f,0.f };
 	m_info.dir = { 1.f,1.f,0.f };
 	m_info.size = { 1.5f,1.5f,0.f };
 	m_frame = { 0.f,4.f };
 	m_speed = 4.f;
 	m_playerSize[0] = 56 * 1.5;
 	m_playerSize[1] = 60 * 1.5;
+
+	m_playerableInfo.isKick = false;
+	m_playerableInfo.isRevival = false;
+	m_playerableInfo.isRide = false;
+	m_playerableInfo.isShield = false;
+	m_playerableInfo.speed = 2;
+	m_playerableInfo.WaterBallCurrent = 0;
+	m_playerableInfo.WaterBallCurrentMax = 2;
+	m_playerableInfo.WaterBallMax = 8;
+	m_playerableInfo.WaterLength = 1;
+	m_playerableInfo.WaterLengthMax = 7;
+
+
+
 	return S_OK;
 }
 
@@ -139,10 +187,7 @@ int CPlayer::Update_GameObject()
 		m_curState = CHARACTER_STATE::WALK_DOWN;
 
 	if (CKey_Manager::Get_Instance()->Key_Pressing(KEY_SPACE))
-	{
-		CWaterBall * water = new CWaterBall(m_LoationIndex);
-		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATERBALL, water);
-	}
+		Use_WaterBall();
 
 	if (!CKey_Manager::Get_Instance()->Key_Pressing(KEY_LEFT) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_RIGHT) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_UP) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_DOWN))
 	{
@@ -155,8 +200,9 @@ int CPlayer::Update_GameObject()
 
 void CPlayer::Late_Update_GameObject()
 {
-	PlayerActrion();
 	Set_PlayerIndex();
+	PlayerActrion();
+	Set_Rect();
 	FrameMove(0.7f * m_speed);
 }
 

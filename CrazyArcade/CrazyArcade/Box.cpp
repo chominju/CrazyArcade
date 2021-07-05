@@ -7,6 +7,14 @@ HRESULT CBox::Ready_GameObject()
 	return E_NOTIMPL;
 }
 
+CBox::CBox()
+{
+}
+
+CBox::~CBox()
+{
+}
+
 int CBox::Update_GameObject()
 {
 	if (m_isPushed && m_info.drawID==9)
@@ -53,6 +61,7 @@ int CBox::Update_GameObject()
 
 void CBox::Late_Update_GameObject()
 {
+	Set_Rect();
 }
 
 void CBox::Render_GameObject()
@@ -70,6 +79,11 @@ void CBox::Render_GameObject()
 	const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(objectKey, stateKey, m_info.drawID);
 	if (nullptr == textureInfo)
 		return;
+
+	m_textureSizeX = float(textureInfo->imageInfo.Width * expansionSize);
+	m_textureSizeY = float(textureInfo->imageInfo.Height* expansionSize);
+
+
 	//float centerX = float(textureInfo->imageInfo.Width >> 1);
 	//float centerY = float(textureInfo->imageInfo.Height >> 1);
 
@@ -84,4 +98,12 @@ void CBox::Render_GameObject()
 
 void CBox::Release_GameObject()
 {
+}
+
+void CBox::Set_Rect()
+{
+	m_rect.left = m_info.pos.x;
+	m_rect.top = m_info.pos.y;
+	m_rect.right = m_info.pos.x + TILECX * expansionSize;
+	m_rect.bottom = m_info.pos.y + TILECY * expansionSize;
 }

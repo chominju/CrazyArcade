@@ -231,6 +231,7 @@ void CTerrain::MiniRender_Terrain()
 {
 }
 
+ 
 void CTerrain::Release_Terrain()
 {
 	for (auto & tile : m_vecTile)
