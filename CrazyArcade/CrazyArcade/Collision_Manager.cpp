@@ -15,6 +15,15 @@ CCollision_Manager::~CCollision_Manager()
 
 int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list<CGameObject*>* object, CHARACTER_STATE state)
 {
+	if (state == CHARACTER_STATE::STAND)
+	{
+		for (auto & objectBW : *object)
+		{
+			auto objectCast = dynamic_cast<CTerrain*>(objectBW);
+			objectCast->ResetPushTime();
+		}
+	}
+
 	for (auto * player_object : *player)
 	{
 		RECT playerRect = player_object->Get_Rect();
@@ -143,9 +152,15 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 
 									if (!objectCast->Get_Pushed())
 									{
-										objectBW->Set_State(state);
-										objectCast->Set_Pushed(true);
-										objectCast->Set_finish((tileInfo.centerX - TILECX * expansionSize) - TILECX * expansionSize / 2, tileInfo.pos.y, nextIndex[1] - 1);
+										objectCast->Set_PushTime();
+										if (objectCast->Get_PushTime() >= 0.5)
+										{
+											objectBW->Set_State(state);
+											objectCast->Set_Pushed(true);
+											objectCast->Set_finish((tileInfo.centerX - TILECX * expansionSize) - TILECX * expansionSize / 2, tileInfo.pos.y, nextIndex[1] - 1);
+											objectCast->ResetPushTime();
+										}
+					
 									}
 
 
@@ -168,9 +183,14 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 
 									if (!objectCast->Get_Pushed())
 									{
+										objectCast->Set_PushTime();
+										if (objectCast->Get_PushTime() >= 0.5)
+										{
 										objectBW->Set_State(state);
 										objectCast->Set_Pushed(true);
 										objectCast->Set_finish((tileInfo.centerX + TILECX * expansionSize / 2), tileInfo.pos.y, nextIndex[1] + 1);
+										objectCast->ResetPushTime();
+										}
 									}
 
 
@@ -193,9 +213,14 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 
 									if (!objectCast->Get_Pushed())
 									{
+										objectCast->Set_PushTime();
+										if (objectCast->Get_PushTime() >= 0.5)
+										{
 										objectBW->Set_State(state);
 										objectCast->Set_Pushed(true);
 										objectCast->Set_finish(tileInfo.pos.x, (tileInfo.centerY - TILECY * expansionSize) - TILECY * expansionSize / 2, nextIndex[1] - TILEX);
+										objectCast->ResetPushTime();
+										}
 									}
 
 
@@ -218,9 +243,14 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 
 									if (!objectCast->Get_Pushed())
 									{
-										objectBW->Set_State(state);
-										objectCast->Set_Pushed(true);
-										objectCast->Set_finish(tileInfo.pos.x, tileInfo.centerY + TILECY * expansionSize / 2, nextIndex[1] + TILEX);
+										objectCast->Set_PushTime();
+										if (objectCast->Get_PushTime() >= 0.5)
+										{
+											objectBW->Set_State(state);
+											objectCast->Set_Pushed(true);
+											objectCast->Set_finish(tileInfo.pos.x, tileInfo.centerY + TILECY * expansionSize / 2, nextIndex[1] + TILEX);
+											objectCast->ResetPushTime();
+										}
 									}
 
 
@@ -239,7 +269,12 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 							continue;
 						}
 					}
-					continue;
+					else
+					{
+						objectCast->ResetPushTime();
+						continue;
+					}
+ 
 			}
 		}
 

@@ -4,6 +4,7 @@
 CTerrain::CTerrain()
 	:m_isPushed(false)
 	,m_finishIndex(-1)
+	,m_pushTime(0)
 {
 }
 

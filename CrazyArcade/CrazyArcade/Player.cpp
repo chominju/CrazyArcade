@@ -28,9 +28,10 @@ void CPlayer::FrameMove(float speed)
 void CPlayer::PlayerActrion()
 {
 	// »óÇÏÁÂ¿ì
+	int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+	
 	if (m_curState == CHARACTER_STATE::WALK_LEFT)
 	{
-		int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 		
 		if (!m_moveLock)
 		if(result == OBJ_NONE)
@@ -41,7 +42,7 @@ void CPlayer::PlayerActrion()
 	}
 	if (m_curState == CHARACTER_STATE::WALK_RIGHT)
 	{
-		int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+		//int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
 		if (!m_moveLock)
 		if (result == OBJ_NONE)
@@ -52,7 +53,7 @@ void CPlayer::PlayerActrion()
 	}
 	if (m_curState == CHARACTER_STATE::WALK_UP)
 	{
-		int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+		//int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
 		if (!m_moveLock)
 		if (result == OBJ_NONE)
@@ -63,7 +64,7 @@ void CPlayer::PlayerActrion()
 	}
 	if (m_curState == CHARACTER_STATE::WALK_DOWN)
 	{
-		int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+		//int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
 		if (!m_moveLock)
 		if (result == OBJ_NONE)
@@ -141,22 +142,22 @@ void CPlayer::Set_Rect()
 	m_player_centerX = m_info.pos.x + m_playerSize[0] / 2;
 	m_player_centerY = m_info.pos.y + m_playerSize[1] / 2;
 
-	indexX = (m_player_centerX - STARTX) / (TILECX * 1.5);
-	indexY = (m_player_centerY - STARTY) / (TILECY * 1.5);
-
-	m_LocationIndex = indexX + indexY * TILEX;
-
 	m_rect.left = m_player_centerX - TILECX * expansionSize / 2 ;
-	m_rect.top = (m_info.pos.y + TILECY * expansionSize) - (TILECY * expansionSize/2) ;
+	m_rect.top = (m_info.pos.y + m_playerSize[1]) - (TILECY * expansionSize) ;
 	m_rect.right = m_player_centerX + TILECX * expansionSize / 2 ;
 	m_rect.bottom = m_info.pos.y + m_playerSize[1] ;
+
+	indexX = ((m_rect.left + m_rect.right - STARTX)/2) / (TILECX * expansionSize);
+	indexY = (m_rect.bottom - STARTY - 38) / (TILECY * expansionSize);
+
+	m_LocationIndex = indexX + indexY * TILEX;
 }
 
 HRESULT CPlayer::Ready_GameObject()
 {
 	m_info.pos = { 350.f,30.f,0.f };
 	m_info.dir = { 1.f,1.f,0.f };
-	m_info.size = { 1.5f,1.5f,0.f };
+	m_info.size = { expansionSize,expansionSize,0.f };
 	m_frame = { 0.f,4.f };
 	m_speed = 2.f;
 	m_playerSize[0] = 56 * 1.5;
@@ -170,7 +171,7 @@ HRESULT CPlayer::Ready_GameObject()
 	m_playerableInfo.WaterBallCurrent = 0;
 	m_playerableInfo.WaterBallCurrentMax = 2;
 	m_playerableInfo.WaterBallMax = 8;
-	m_playerableInfo.WaterLength = 1;
+	m_playerableInfo.WaterLength = 2;
 	m_playerableInfo.WaterLengthMax = 4;
 
 	return S_OK;
@@ -188,7 +189,7 @@ int CPlayer::Update_GameObject()
 	if (CKey_Manager::Get_Instance()->Key_Pressing(KEY_DOWN))
 		m_curState = CHARACTER_STATE::WALK_DOWN;
 
-	if (CKey_Manager::Get_Instance()->Key_Pressing(KEY_SPACE))
+	if (CKey_Manager::Get_Instance()->Key_Down(KEY_SPACE))
 		Use_WaterBall();
 
 	if (!CKey_Manager::Get_Instance()->Key_Pressing(KEY_LEFT) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_RIGHT) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_UP) && !CKey_Manager::Get_Instance()->Key_Pressing(KEY_DOWN))

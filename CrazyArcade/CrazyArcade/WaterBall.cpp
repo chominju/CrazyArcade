@@ -36,6 +36,10 @@ int CWaterBall::Update_GameObject()
 	{
 		CGameObject_Manager::Get_Instance()->Get_Player()->Decrese_WaterBall();
 		int waterLength = CGameObject_Manager::Get_Instance()->Get_Player()->Get_WaterLength();
+
+		bool dirBlockX[2] = { false , false };
+		bool dirBlockY[2] = { false , false };
+
 		for (int i = 1; i <= waterLength; i++)
 		{
 			int DirX[2] = { -1,-1};
@@ -48,7 +52,33 @@ int CWaterBall::Update_GameObject()
 			{
 				if (DirX[j] >= 0 && DirX[j] < TILEX)
 				{
-					CGameObject_Manager::Get_Instance()->IsExistObject(DirX[j] + indexY * TILEX);
+					if (!dirBlockX[j])
+					{
+						if (CGameObject_Manager::Get_Instance()->IsExistObject(DirX[j] + indexY * TILEX))
+							dirBlockX[j] = true;
+
+						CWater* water = new CWater(DirX[j] , indexY);
+						water->Ready_GameObject();
+						switch (j)
+						{
+						case 0:
+							if(i==waterLength)
+								water->Set_StateKey(L"FlowLeft_End");
+							else
+								water->Set_StateKey(L"FlowLeft");
+							break;
+						case 1:
+							if (i == waterLength)
+								water->Set_StateKey(L"FlowRight_End");
+							else
+								water->Set_StateKey(L"FlowRight");
+							break;
+						default:
+							break;
+						}
+						
+						CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATER, water);
+					}
 				}
 			}
 
@@ -59,12 +89,42 @@ int CWaterBall::Update_GameObject()
 			{
 				if (DirY[j] >= 0 && DirY[j] < TILEY)
 				{
-					CGameObject_Manager::Get_Instance()->IsExistObject(indexX + DirY[j] * TILEX);
+					if (!dirBlockY[j])
+					{
+						if (CGameObject_Manager::Get_Instance()->IsExistObject(indexX + DirY[j] * TILEX))
+							dirBlockY[j] = true;
+
+						CWater* water = new CWater(indexX, DirY[j]);
+						water->Ready_GameObject();
+						switch (j)
+						{
+						case 0:
+							if (i == waterLength)
+								water->Set_StateKey(L"FlowUp_End");
+							else
+								water->Set_StateKey(L"FlowUp");
+							break;
+						case 1:
+							if (i == waterLength)
+								water->Set_StateKey(L"FlowDown_End");
+							else
+								water->Set_StateKey(L"FlowDown");
+							break;
+						default:
+							break;
+						}
+
+						CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATER, water);
+
+					}
 				}
 			}
 		}
-		//CGameObject* water = new CWater();
-		//CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATER, water);
+		CWater* water = new CWater(indexX, indexY);
+		water->Ready_GameObject();
+		water->Set_StateKey(L"FlowCenter");
+		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::WATER, water);
+
 		return OBJ_DEAD;
 	}
 	

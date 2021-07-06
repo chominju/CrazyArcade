@@ -27,7 +27,7 @@ HRESULT CMainApp::Ready_MainApp()
 		return E_FAIL;
 
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_SINGLE,
-		L"../Texture/DayounNim.jpg", L"Loading")))
+		L"../Resource/Ui/Logo.png", L"Loading")))
 		return E_FAIL;
 
 	m_scene_Manager->Change_Scene_Manager(SCENE_ID::LOADING);
