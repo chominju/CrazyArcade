@@ -178,7 +178,7 @@ HRESULT CPlayer::Ready_GameObject()
 	m_playerableInfo.isShield = false;
 	m_playerableInfo.speed = 2;
 	m_playerableInfo.WaterBallCurrent = 0;
-	m_playerableInfo.WaterBallCurrentMax = 2;
+	m_playerableInfo.WaterBallCurrentMax = 5;
 	m_playerableInfo.WaterBallMax = 8;
 	m_playerableInfo.WaterLength = 2;
 	m_playerableInfo.WaterLengthMax = 4;

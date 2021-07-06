@@ -32,10 +32,12 @@ int CWaterBall::Update_GameObject()
 {
 	m_time -= CTime_Manager::Get_Instance()->Get_DeltaTime();
 
-	if (m_time <= 0)
+	if (m_time <= 0 || m_dead)
 	{
 		CGameObject_Manager::Get_Instance()->Get_Player()->Decrese_WaterBall();
 		int waterLength = CGameObject_Manager::Get_Instance()->Get_Player()->Get_WaterLength();
+
+		auto waterBallList = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
 
 		bool dirBlockX[2] = { false , false };
 		bool dirBlockY[2] = { false , false };
@@ -58,6 +60,12 @@ int CWaterBall::Update_GameObject()
 						{
 							dirBlockX[j] = true;
 							continue;
+						}
+
+						for (auto& waterBall : waterBallList)
+						{
+							if (waterBall->Get_LocationIndex() == (DirX[j] + indexY * TILEX))
+								waterBall->Set_Dead(true);
 						}
 
 						CWater* water = new CWater(DirX[j] , indexY);
@@ -98,6 +106,12 @@ int CWaterBall::Update_GameObject()
 						{
 							dirBlockY[j] = true;
 							continue;
+						}
+
+						for (auto& waterBall : waterBallList)
+						{
+							if (waterBall->Get_LocationIndex() == (indexX + DirY[j] * TILEX))
+								waterBall->Set_Dead(true);
 						}
 
 						CWater* water = new CWater(indexX, DirY[j]);
