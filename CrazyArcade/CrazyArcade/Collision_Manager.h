@@ -18,6 +18,6 @@ public:
 	static bool Collision_Rope(list<CGameObject*>* player, list<CGameObject*>* rope, const RECT** rc);
 	static void Collision_DropItem(list<CGameObject*>* player, list<CGameObject*>* dropItem);*/
 private:
-
+	static CGameObject* pushObject;
 };
 

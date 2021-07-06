@@ -39,7 +39,10 @@ HRESULT CLoad_Manager::LoadTerrainData(const wstring & filePath)
 		case SCENE_OBJECT_ID::TILE:
 			object = new CTile;
 			dynamic_cast<CTerrain*>(object)->Set_Terrain_Info(tile);
-			CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::SCENE_TILE, object);
+			if (dynamic_cast<CTerrain*>(object)->Get_Terrain_Info().drawID == 1)
+				CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::RESPAWN_TILE, object);
+			else
+				CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::SCENE_TILE, object);
 			break;
 
 		case SCENE_OBJECT_ID::BOX:

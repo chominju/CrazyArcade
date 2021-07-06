@@ -55,7 +55,10 @@ int CWaterBall::Update_GameObject()
 					if (!dirBlockX[j])
 					{
 						if (CGameObject_Manager::Get_Instance()->IsExistObject(DirX[j] + indexY * TILEX))
+						{
 							dirBlockX[j] = true;
+							continue;
+						}
 
 						CWater* water = new CWater(DirX[j] , indexY);
 						water->Ready_GameObject();
@@ -92,7 +95,10 @@ int CWaterBall::Update_GameObject()
 					if (!dirBlockY[j])
 					{
 						if (CGameObject_Manager::Get_Instance()->IsExistObject(indexX + DirY[j] * TILEX))
+						{
 							dirBlockY[j] = true;
+							continue;
+						}
 
 						CWater* water = new CWater(indexX, DirY[j]);
 						water->Ready_GameObject();

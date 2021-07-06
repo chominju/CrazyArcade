@@ -25,16 +25,16 @@ int CBox::Update_GameObject()
 		switch (m_curState)
 		{
 		case WALK_LEFT:
-			m_tileInfo.pos.x -=1;
+			m_tileInfo.pos.x -=2;
 			break;		   
 		case WALK_RIGHT:   
-			m_tileInfo.pos.x +=1;
+			m_tileInfo.pos.x +=2;
 			break;		   
 		case WALK_UP:	   
-			m_tileInfo.pos.y -=1;
+			m_tileInfo.pos.y -=2;
 			break;		   
 		case WALK_DOWN:	   
-			m_tileInfo.pos.y +=1;
+			m_tileInfo.pos.y +=2;
 			break;
 		}
 

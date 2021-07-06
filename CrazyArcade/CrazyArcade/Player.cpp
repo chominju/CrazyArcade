@@ -3,6 +3,7 @@
 #include "Collision_Manager.h"
 #include "GameObject_Manager.h"
 #include "WaterBall.h"
+#include "Terrain.h"
 
 CPlayer::CPlayer()
 	: m_speed(0.f)
@@ -155,7 +156,15 @@ void CPlayer::Set_Rect()
 
 HRESULT CPlayer::Ready_GameObject()
 {
-	m_info.pos = { 350.f,30.f,0.f };
+	auto respawnTile = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::RESPAWN_TILE);
+	int respawnSize = respawnTile.size();
+	list<CGameObject*>::iterator iter = respawnTile.begin();
+	iter++;
+	iter++;
+	iter++;
+	m_info.pos.x = dynamic_cast<CTerrain*>(*iter)->Get_Terrain_Info().pos.x - 10;
+	m_info.pos.y = dynamic_cast<CTerrain*>(*iter)->Get_Terrain_Info().pos.y - 30;
+	m_info.pos.z = 0.0f;
 	m_info.dir = { 1.f,1.f,0.f };
 	m_info.size = { expansionSize,expansionSize,0.f };
 	m_frame = { 0.f,4.f };

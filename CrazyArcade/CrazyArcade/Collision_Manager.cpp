@@ -5,7 +5,10 @@
 #include "Player.h"
 #include "GameObject_Manager.h"
 
+CGameObject* CCollision_Manager::pushObject = nullptr;
+
 CCollision_Manager::CCollision_Manager()
+	//:pushObject(nullptr)
 {
 }
 
@@ -17,11 +20,16 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 {
 	if (state == CHARACTER_STATE::STAND)
 	{
-		for (auto & objectBW : *object)
+		if (pushObject != nullptr)
+		{
+			dynamic_cast<CTerrain*>(pushObject)->ResetPushTime();
+			pushObject = nullptr;
+		}
+		/*for (auto & objectBW : *object)
 		{
 			auto objectCast = dynamic_cast<CTerrain*>(objectBW);
 			objectCast->ResetPushTime();
-		}
+		}*/
 	}
 
 	for (auto * player_object : *player)
@@ -50,18 +58,30 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 		if (playerRect.bottom >= backRc.bottom/* && indexX == 0 */&& state == CHARACTER_STATE::WALK_DOWN)
 			return OBJ_WALL;
 
-		float nextIndex[3] = {-1,-1,-1};
+		float nextIndex[5] = {-1,-1,-1,-1,-1};
 		float playerIndex = player_object->Get_LocationIndex();
 
 		if (state == CHARACTER_STATE::WALK_LEFT)
 		{
+			// 왼쪽 위
 			if (playerIndex - 1 - TILEX >= 0)
 				nextIndex[0] = playerIndex - 1 - TILEX;
 
 			nextIndex[1] = playerIndex - 1;
 
+			// 왼쪽 아래
 			if (playerIndex - 1 + TILEX < TILEX * TILEY)
 				nextIndex[2] = playerIndex - 1 + TILEX;
+
+			// 위
+			if (playerIndex - TILEX >= 0)
+				nextIndex[3] = playerIndex - TILEX;
+
+			// 아래
+			if(playerIndex + TILEX< TILEX*TILEY)
+				nextIndex[4] = playerIndex + TILEX;
+
+
 		}
 
 		if (state == CHARACTER_STATE::WALK_RIGHT)
@@ -73,6 +93,14 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 			
 			if (playerIndex + 1 + TILEX < TILEX * TILEY)
 				nextIndex[2] = playerIndex + 1 + TILEX;
+
+			// 위
+			if (playerIndex - TILEX >= 0)
+				nextIndex[3] = playerIndex - TILEX;
+
+			// 아래
+			if (playerIndex + TILEX < TILEX*TILEY)
+				nextIndex[4] = playerIndex + TILEX;
 
 		}
 
@@ -87,6 +115,11 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 			if (playerIndex - TILEX + 1 < TILEX)
 				nextIndex[2] = playerIndex + 1 - TILEX;
 
+			if ((int)playerIndex % TILEX != 0)
+				nextIndex[3] = playerIndex - 1;
+
+			if ((int)playerIndex % TILEX != TILEX - 1)
+				nextIndex[4] = playerIndex + 1;
 
 		}
 
@@ -108,12 +141,14 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 		bool overlapNum0 = false;
 		bool overlapNum1 = false;
 		bool overlapNum2 = false;
+		bool overlapNum3 = false;
+		bool overlapNum4 = false;
 
 		bool check = false;
 		for (auto & objectBW : *object)
 		{
 			RECT objectRect = objectBW->Get_Rect();
-			auto objectCast = dynamic_cast<CTerrain*>(objectBW);
+			CTerrain* objectCast = dynamic_cast<CTerrain*>(objectBW);
 			Tile_Info tileInfo = objectCast->Get_Terrain_Info();
 			int finishIndex = objectCast->Get_finishIndex();
 			RECT temp;
@@ -128,6 +163,10 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 						overlapNum1 = true;
 					if (nextIndex[2] == objectCast->Get_Terrain_Info().index)
 						overlapNum2 = true;
+					if (nextIndex[3] == objectCast->Get_Terrain_Info().index)
+						overlapNum3 = true;
+					if (nextIndex[4] == objectCast->Get_Terrain_Info().index)
+						overlapNum4 = true;
 
 					if (nextIndex[1] == tileInfo.index || nextIndex[1] == finishIndex)
 					{
@@ -153,6 +192,7 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									if (!objectCast->Get_Pushed())
 									{
 										objectCast->Set_PushTime();
+										pushObject = objectCast;
 										if (objectCast->Get_PushTime() >= 0.5)
 										{
 											objectBW->Set_State(state);
@@ -184,6 +224,7 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									if (!objectCast->Get_Pushed())
 									{
 										objectCast->Set_PushTime();
+										pushObject = objectCast;
 										if (objectCast->Get_PushTime() >= 0.5)
 										{
 										objectBW->Set_State(state);
@@ -214,6 +255,7 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									if (!objectCast->Get_Pushed())
 									{
 										objectCast->Set_PushTime();
+										pushObject = objectCast;
 										if (objectCast->Get_PushTime() >= 0.5)
 										{
 										objectBW->Set_State(state);
@@ -244,6 +286,7 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									if (!objectCast->Get_Pushed())
 									{
 										objectCast->Set_PushTime();
+										pushObject = objectCast;
 										if (objectCast->Get_PushTime() >= 0.5)
 										{
 											objectBW->Set_State(state);
@@ -292,9 +335,9 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 					player_object->Set_Pos(0, -overLapSpeed);
 				else if (overlapNum1)
 				{
-					if (nextIndex[0] != -1 && playerRect.bottom < overlapCenterY + TILECY * expansionSize / 3)
+					if (overlapNum1 && playerRect.bottom < overlapCenterY + TILECY * expansionSize / 4)
 						player_object->Set_Pos(0, -0.5);
-					else if (nextIndex[2] != -1 && playerRect.top > overlapCenterY - TILECY * expansionSize / 3)
+					else if (!overlapNum2 && playerRect.top > overlapCenterY - TILECY * expansionSize / 4)
 						player_object->Set_Pos(0, 0.5);
 					else
 						return OBJ_WALL;
@@ -310,9 +353,9 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 					player_object->Set_Pos(0, -overLapSpeed);
 				else if (overlapNum1)
 				{
-					if (nextIndex[0] != -1 && playerRect.bottom < overlapCenterY + TILECY * expansionSize / 3)
+					if (overlapNum1 && playerRect.bottom < overlapCenterY + TILECY * expansionSize / 4)
 						player_object->Set_Pos(0, -overLapSpeed);
-					else if (nextIndex[2]!=-1 && playerRect.top > overlapCenterY - TILECY*expansionSize/3)
+					else if (overlapNum2 && playerRect.top > overlapCenterY - TILECY*expansionSize/4)
 						player_object->Set_Pos(0, overLapSpeed);
 					else
 						return OBJ_WALL;
@@ -328,9 +371,9 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 					player_object->Set_Pos(-overLapSpeed, 0);
 				else if (overlapNum1)
 				{
-					if (nextIndex[0] != -1 && playerRect.right < overlapCenterX + TILECY * expansionSize / 3)
+					if (overlapNum1 && playerRect.right < overlapCenterX + TILECY * expansionSize / 4)
 						player_object->Set_Pos(-overLapSpeed, 0);
-					else if (nextIndex[0] != -1 && playerRect.left > overlapCenterX - TILECY * expansionSize / 3)
+					else if (overlapNum2 && playerRect.left > overlapCenterX - TILECY * expansionSize / 4)
 						player_object->Set_Pos(overLapSpeed, 0);
 					else
 						return OBJ_WALL;
@@ -345,7 +388,14 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 				else if (overlapNum2 && !overlapNum1)
 					player_object->Set_Pos(-overLapSpeed, 0);
 				else if (overlapNum1)
-					return OBJ_WALL;
+				{
+					if (overlapNum1 && playerRect.right < overlapCenterX + TILECY * expansionSize / 4)
+						player_object->Set_Pos(-overLapSpeed, 0);
+					else if (overlapNum2 && playerRect.left > overlapCenterX - TILECY * expansionSize / 4)
+						player_object->Set_Pos(overLapSpeed, 0);
+					else
+						return OBJ_WALL;
+				}
 				else
 					return OBJ_NONE;
 				break;
