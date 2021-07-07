@@ -52,14 +52,23 @@ int CWaterBall::Update_GameObject()
 
 			for (int j = 0; j < 2; ++j)
 			{
+				bool isBoxDestory = false;
 				if (DirX[j] >= 0 && DirX[j] < TILEX)
 				{
+					if (CGameObject_Manager::Get_Instance()->IsExistWater(DirX[j] + indexY * TILEX))
+					{
+						dirBlockX[j] = true;
+						isBoxDestory = true;
+						continue;
+					}
+
 					if (!dirBlockX[j])
 					{
 						if (CGameObject_Manager::Get_Instance()->IsExistObject(DirX[j] + indexY * TILEX))
 						{
 							dirBlockX[j] = true;
-							continue;
+							isBoxDestory = true;
+							//continue;
 						}
 
 						for (auto& waterBall : waterBallList)
@@ -70,6 +79,7 @@ int CWaterBall::Update_GameObject()
 
 						CWater* water = new CWater(DirX[j] , indexY);
 						water->Ready_GameObject();
+						water->Set_IsBoxDestroy(isBoxDestory);
 						switch (j)
 						{
 						case 0:
@@ -98,14 +108,23 @@ int CWaterBall::Update_GameObject()
 
 			for (int j = 0; j < 2; ++j)
 			{
+				bool isBoxDestory = false;
 				if (DirY[j] >= 0 && DirY[j] < TILEY)
 				{
 					if (!dirBlockY[j])
 					{
+						if (CGameObject_Manager::Get_Instance()->IsExistWater(indexX + DirY[j] * TILEX))
+						{
+							dirBlockX[j] = true;
+							isBoxDestory = true;
+							continue;
+						}
+
 						if (CGameObject_Manager::Get_Instance()->IsExistObject(indexX + DirY[j] * TILEX))
 						{
 							dirBlockY[j] = true;
-							continue;
+							isBoxDestory = true;
+							//continue;
 						}
 
 						for (auto& waterBall : waterBallList)
@@ -116,6 +135,7 @@ int CWaterBall::Update_GameObject()
 
 						CWater* water = new CWater(indexX, DirY[j]);
 						water->Ready_GameObject();
+						water->Set_IsBoxDestroy(isBoxDestory);
 						switch (j)
 						{
 						case 0:
@@ -154,6 +174,7 @@ int CWaterBall::Update_GameObject()
 void CWaterBall::Late_Update_GameObject()
 {
 	FrameMove(1);
+	Set_Rect();
 }
 
 void CWaterBall::Render_GameObject()

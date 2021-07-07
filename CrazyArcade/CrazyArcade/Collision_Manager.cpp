@@ -408,7 +408,453 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 	}
 }
 
-int CCollision_Manager::Collision_WaterBall_Object(list<CGameObject*>* waterball, list<CGameObject*>* object)
+int CCollision_Manager::Collision_Player_WaterBall(list<CGameObject*>* player, list<CGameObject*>* waterBall, CHARACTER_STATE state)
 {
-	return 0;
+	if (state == CHARACTER_STATE::STAND)
+		return OBJ_NONE;
+
+	for (auto * player_object : *player)
+	{
+		RECT playerRect = player_object->Get_Rect();
+
+		RECT backRc{};
+		backRc.left = STARTX;
+		backRc.top = STARTY;
+		backRc.right = ((TILEX)* TILECX * expansionSize + STARTX);
+		backRc.bottom = ((TILEY)* TILECY * expansionSize + STARTY);
+
+		// 왼쪽
+		if (playerRect.left <= backRc.left/* && indexX == 0*/ && state == CHARACTER_STATE::WALK_LEFT)
+			return OBJ_WALL;
+
+		// 오른쪽
+		if (playerRect.right >= backRc.right/* && indexX == TILEX - 1*/ && state == CHARACTER_STATE::WALK_RIGHT)
+			return OBJ_WALL;
+
+		// 위쪽
+		if (playerRect.top <= backRc.top/* && indexX == 0 */&& state == CHARACTER_STATE::WALK_UP)
+			return OBJ_WALL;
+
+		// 아래쪽
+		if (playerRect.bottom >= backRc.bottom/* && indexX == 0 */&& state == CHARACTER_STATE::WALK_DOWN)
+			return OBJ_WALL;
+
+		//for (auto & waterBallIndex : *waterBall)
+		//{
+		//	RECT waterBallRect = waterBallIndex->Get_Rect();
+		//	RECT temp;
+		//	if (IntersectRect(&temp, &playerRect, &waterBallRect))
+		//		if (player_object->Get_LocationIndex() != waterBallIndex->Get_LocationIndex())
+		//			return OBJ_WALL;
+		//}
+		//return OBJ_NONE;
+
+
+		float nextIndex[3];
+		float playerIndex = player_object->Get_LocationIndex();
+
+		if (state == CHARACTER_STATE::WALK_LEFT)
+		{
+			// 왼쪽 위
+			if (playerIndex - 1 - TILEX >= 0)
+				nextIndex[0] = playerIndex - 1 - TILEX;
+
+			nextIndex[1] = playerIndex - 1;
+
+			// 왼쪽 아래
+			if (playerIndex - 1 + TILEX < TILEX * TILEY)
+				nextIndex[2] = playerIndex - 1 + TILEX;
+		}
+
+		if (state == CHARACTER_STATE::WALK_RIGHT)
+		{
+			if (playerIndex + 1 - TILEX >= 0)
+				nextIndex[0] = playerIndex + 1 - TILEX;
+
+			nextIndex[1] = playerIndex + 1;
+
+			if (playerIndex + 1 + TILEX < TILEX * TILEY)
+				nextIndex[2] = playerIndex + 1 + TILEX;
+		}
+
+		if (state == CHARACTER_STATE::WALK_UP)
+		{
+			if (playerIndex - TILEX - 1 >= 0)
+				nextIndex[0] = playerIndex - 1 - TILEX;
+
+			nextIndex[1] = playerIndex - TILEX;
+
+			if (playerIndex - TILEX + 1 < TILEX)
+				nextIndex[2] = playerIndex + 1 - TILEX;
+		}
+
+		if (state == CHARACTER_STATE::WALK_DOWN)
+		{
+			if (playerIndex - 1 + TILEX >= 0)
+				nextIndex[0] = playerIndex - 1 + TILEX;
+
+			nextIndex[1] = playerIndex + TILEX;
+
+			if (playerIndex + 1 + TILEX < TILEX * TILEY)
+				nextIndex[2] = playerIndex + 1 + TILEX;
+		}
+
+		RECT overlapRect[3]{};
+		int overlapCenterX;
+		int overlapCenterY;
+		bool overlapNum[3] = { false,false,false };
+
+		bool check = false;
+		for (auto & waterBallIndex : *waterBall)
+		{
+			RECT objectRect = waterBallIndex->Get_Rect();
+			int waterBall_index = waterBallIndex->Get_LocationIndex();
+
+			//int finishIndex = objectCast->Get_finishIndex();
+			RECT temp;
+
+			if (IntersectRect(&temp, &playerRect, &objectRect))
+			{
+
+				if (nextIndex[0] == waterBall_index)
+				{
+					overlapNum[0] = true;
+					overlapRect[0] = objectRect;
+				}
+				if (nextIndex[1] == waterBall_index)
+				{
+					overlapNum[1] = true;
+					overlapRect[1] = objectRect;
+				}
+				if (nextIndex[2] == waterBall_index)
+				{
+					overlapNum[2] = true;
+					overlapRect[2] = objectRect;
+				}
+
+				if (nextIndex[1] == waterBall_index /*|| nextIndex == finishIndex*/)
+				{
+					check = true;
+					return OBJ_WALL;
+				}
+			}
+		}
+
+		if (!check)
+		{
+			switch (state)
+			{
+			case WALK_LEFT:
+				if (overlapNum[0])
+				{
+					if (overlapRect[0].bottom > playerRect.top)
+						return OBJ_WALL;
+					else
+						return OBJ_NONE;
+				}
+				if (overlapNum[1])
+				{
+					if (overlapRect[1].top < playerRect.bottom)
+						return OBJ_WALL;
+					else
+						return OBJ_NONE;
+				}
+				break;
+			case WALK_RIGHT:
+				if (overlapNum[0])
+				{
+					if (overlapRect[0].bottom > playerRect.top)
+						return OBJ_WALL;
+					else
+						return OBJ_NONE;
+				}
+				if (overlapNum[1])
+				{
+					if (overlapRect[1].top < playerRect.bottom)
+						return OBJ_WALL;
+					else
+						return OBJ_NONE;
+				}
+				break;
+			case WALK_UP:
+				if (overlapNum[0])
+				{
+					if (overlapRect[0].right > playerRect.left)
+						return OBJ_WALL;
+					else
+						return OBJ_NONE;
+				}
+				if (overlapNum[1])
+				{
+					if (overlapRect[1].left < playerRect.right)
+						return OBJ_WALL;
+					else
+						return OBJ_NONE;
+				}
+				break;
+			case WALK_DOWN:
+				if (overlapNum[0])
+				{
+					if (overlapRect[0].bottom > playerRect.top)
+						return OBJ_WALL;
+					else
+						return OBJ_NONE;
+				}
+				if (overlapNum[1])
+				{
+					if (overlapRect[1].top < playerRect.bottom)
+						return OBJ_WALL;
+					else
+						return OBJ_NONE;
+				}
+				break;
+			default:
+				break;
+			}
+			return OBJ_NONE;
+		}
+				//	/*if (objectCast->Get_Terrain_Info().isPush)
+				//	{*/
+				//		check = true;
+				//		bool isNextObjectExist = false;
+				//		switch (state)
+				//		{
+				//		case WALK_LEFT:
+				//			if (((int)nextIndex) % TILEX != 0)
+				//			{
+				//				return OBJ_WALL;
+
+				//				/*for (auto nextnext : *waterBall)
+				//				{
+				//					auto nextObjectCast = dynamic_cast<CTerrain*>(nextnext);
+				//					if (nextIndex - 1 == nextObjectCast->Get_Terrain_Info().index)
+				//						isNextObjectExist = true;
+				//				}
+
+				//				if (isNextObjectExist)
+				//					return OBJ_WALL;
+
+				//				if (!objectCast->Get_Pushed())
+				//				{
+				//					objectCast->Set_PushTime();
+				//					pushObject = objectCast;
+				//					if (objectCast->Get_PushTime() >= 0.5)
+				//					{
+				//						objectBW->Set_State(state);
+				//						objectCast->Set_Pushed(true);
+				//						objectCast->Set_finish((tileInfo.centerX - TILECX * expansionSize) - TILECX * expansionSize / 2, tileInfo.pos.y, nextIndex - 1);
+				//						objectCast->ResetPushTime();
+				//					}
+
+				//				}*/
+
+
+				//			}
+				//			else
+				//				return OBJ_WALL;
+				//			break;
+				//		case WALK_RIGHT:
+				//			if (((int)nextIndex) % TILEX != 14)
+				//			{
+				//				return OBJ_WALL;
+
+				//				/*for (auto nextnext : *waterBall)
+				//				{
+				//					auto nextObjectCast = dynamic_cast<CTerrain*>(nextnext);
+				//					if (nextIndex + 1 == nextObjectCast->Get_Terrain_Info().index)
+				//						isNextObjectExist = true;
+				//				}
+
+				//				if (isNextObjectExist)
+				//					return OBJ_WALL;
+
+				//				if (!objectCast->Get_Pushed())
+				//				{
+				//					objectCast->Set_PushTime();
+				//					pushObject = objectCast;
+				//					if (objectCast->Get_PushTime() >= 0.5)
+				//					{
+				//						objectBW->Set_State(state);
+				//						objectCast->Set_Pushed(true);
+				//						objectCast->Set_finish((tileInfo.centerX + TILECX * expansionSize / 2), tileInfo.pos.y, nextIndex + 1);
+				//						objectCast->ResetPushTime();
+				//					}
+				//				}*/
+
+
+				//			}
+				//			else
+				//				return OBJ_WALL;
+				//			break;
+				//		case WALK_UP:
+				//			if (((int)nextIndex) >= TILEX)
+				//			{
+				//				return OBJ_WALL;
+
+				//				/*for (auto nextnext : *waterBall)
+				//				{
+				//					auto nextObjectCast = dynamic_cast<CTerrain*>(nextnext);
+				//					if (nextIndex - TILEX == nextObjectCast->Get_Terrain_Info().index)
+				//						isNextObjectExist = true;
+				//				}
+
+				//				if (isNextObjectExist)
+				//					return OBJ_WALL;
+
+				//				if (!objectCast->Get_Pushed())
+				//				{
+				//					objectCast->Set_PushTime();
+				//					pushObject = objectCast;
+				//					if (objectCast->Get_PushTime() >= 0.5)
+				//					{
+				//						objectBW->Set_State(state);
+				//						objectCast->Set_Pushed(true);
+				//						objectCast->Set_finish(tileInfo.pos.x, (tileInfo.centerY - TILECY * expansionSize) - TILECY * expansionSize / 2, nextIndex - TILEX);
+				//						objectCast->ResetPushTime();
+				//					}
+				//				}*/
+
+
+				//			}
+				//			else
+				//				return OBJ_WALL;
+				//			break;
+				//		case WALK_DOWN:
+				//			if (((int)nextIndex) < TILEX*(TILEY - 1))
+				//			{
+				//				return OBJ_WALL;
+
+				//				/*for (auto nextnext : *waterBall)
+				//				{
+				//					auto nextObjectCast = dynamic_cast<CTerrain*>(nextnext);
+				//					if (nextIndex + TILEX == nextObjectCast->Get_Terrain_Info().index)
+				//						isNextObjectExist = true;
+				//				}
+
+				//				if (isNextObjectExist)
+				//					return OBJ_WALL;
+
+				//				if (!objectCast->Get_Pushed())
+				//				{
+				//					objectCast->Set_PushTime();
+				//					pushObject = objectCast;
+				//					if (objectCast->Get_PushTime() >= 0.5)
+				//					{
+				//						objectBW->Set_State(state);
+				//						objectCast->Set_Pushed(true);
+				//						objectCast->Set_finish(tileInfo.pos.x, tileInfo.centerY + TILECY * expansionSize / 2, nextIndex + TILEX);
+				//						objectCast->ResetPushTime();
+				//					}
+				//				}*/
+
+
+				//			}
+				//			else
+				//				return OBJ_WALL;
+				//			break;
+				//		}
+
+				//		return OBJ_WALL;
+				//	/*}
+				//	else
+				//	{
+				//		overlapCenterX = tileInfo.centerX;
+				//		overlapCenterY = tileInfo.centerY;
+				//		continue;
+				//	}*/
+				//}
+				////else
+				////{
+				////	objectCast->ResetPushTime();
+				////	continue;
+				////}
+
+			//}
+		}
+
+		//if (!check)
+		//{
+		//	switch (state)
+		//	{
+		//	case STAND:
+		//		break;
+		//	case WALK_LEFT:
+		//		//if (overlapRect.right < player_object->Get_PlayerCenterX() && overlapRect.right!=0)
+		//		if (overlapNum0 && !overlapNum1)
+		//			player_object->Set_Pos(0, overLapSpeed);
+		//		else if (overlapNum2 && !overlapNum1)
+		//			player_object->Set_Pos(0, -overLapSpeed);
+		//		else if (overlapNum1)
+		//		{
+		//			if (overlapNum1 && playerRect.bottom < overlapCenterY + TILECY * expansionSize / 4)
+		//				player_object->Set_Pos(0, -0.5);
+		//			else if (!overlapNum2 && playerRect.top > overlapCenterY - TILECY * expansionSize / 4)
+		//				player_object->Set_Pos(0, 0.5);
+		//			else
+		//				return OBJ_WALL;
+		//		}
+		//		else
+		//			return OBJ_NONE;
+		//		break;
+		//	case WALK_RIGHT:
+		//		//if (overlapRect.left > player_object->Get_PlayerCenterX() && overlapRect.left != 0)
+		//		if (overlapNum0 && !overlapNum1)
+		//			player_object->Set_Pos(0, overLapSpeed);
+		//		else if (overlapNum2 && !overlapNum1)
+		//			player_object->Set_Pos(0, -overLapSpeed);
+		//		else if (overlapNum1)
+		//		{
+		//			if (overlapNum1 && playerRect.bottom < overlapCenterY + TILECY * expansionSize / 4)
+		//				player_object->Set_Pos(0, -overLapSpeed);
+		//			else if (overlapNum2 && playerRect.top > overlapCenterY - TILECY * expansionSize / 4)
+		//				player_object->Set_Pos(0, overLapSpeed);
+		//			else
+		//				return OBJ_WALL;
+		//		}
+		//		else
+		//			return OBJ_NONE;
+		//		break;
+		//	case WALK_UP:
+		//		//	if (overlapRect.bottom < player_object->Get_PlayerCenterY()&& overlapRect.bottom!=0)
+		//		if (overlapNum0 && !overlapNum1)
+		//			player_object->Set_Pos(overLapSpeed, 0);
+		//		else if (overlapNum2 && !overlapNum1)
+		//			player_object->Set_Pos(-overLapSpeed, 0);
+		//		else if (overlapNum1)
+		//		{
+		//			if (overlapNum1 && playerRect.right < overlapCenterX + TILECY * expansionSize / 4)
+		//				player_object->Set_Pos(-overLapSpeed, 0);
+		//			else if (overlapNum2 && playerRect.left > overlapCenterX - TILECY * expansionSize / 4)
+		//				player_object->Set_Pos(overLapSpeed, 0);
+		//			else
+		//				return OBJ_WALL;
+		//		}
+		//		else
+		//			return OBJ_NONE;
+		//		break;
+		//	case WALK_DOWN:
+		//		//if (overlapRect.top > player_object->Get_PlayerCenterY()&& overlapRect.top!=0)
+		//		if (overlapNum0 && !overlapNum1)
+		//			player_object->Set_Pos(overLapSpeed, 0);
+		//		else if (overlapNum2 && !overlapNum1)
+		//			player_object->Set_Pos(-overLapSpeed, 0);
+		//		else if (overlapNum1)
+		//		{
+		//			if (overlapNum1 && playerRect.right < overlapCenterX + TILECY * expansionSize / 4)
+		//				player_object->Set_Pos(-overLapSpeed, 0);
+		//			else if (overlapNum2 && playerRect.left > overlapCenterX - TILECY * expansionSize / 4)
+		//				player_object->Set_Pos(overLapSpeed, 0);
+		//			else
+		//				return OBJ_WALL;
+		//		}
+		//		else
+		//			return OBJ_NONE;
+		//		break;
+		//	default:
+		//		break;
+		//	}
+		//	return OBJ_WALL;
+		//}
+		//return OBJ_NONE;
+	//}
 }

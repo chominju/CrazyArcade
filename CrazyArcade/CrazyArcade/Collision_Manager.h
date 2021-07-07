@@ -8,7 +8,7 @@ private:
 	~CCollision_Manager();
 public:
 	static int Collision_Player_Object(list<CGameObject*>* player, list<CGameObject*>* object, CHARACTER_STATE state);
-	static int Collision_WaterBall_Object(list<CGameObject*>* waterball, list<CGameObject*>* object);
+	static int Collision_Player_WaterBall(list<CGameObject*>* player, list<CGameObject*>* waterBall, CHARACTER_STATE state);
 	/*static void Collision_Rect(list<CGameObject*>* listDest, list<CGameObject*>* listSrc);
 	static void Collision_Portal(list<CGameObject*>* player, list<CGameObject*>* portal);
 	static void Collision_Monster(list<CGameObject*>* player, list<CGameObject*>* monster);

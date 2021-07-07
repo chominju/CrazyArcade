@@ -29,13 +29,14 @@ void CPlayer::FrameMove(float speed)
 void CPlayer::PlayerActrion()
 {
 	// »óÇÏÁÂ¿ì
-	int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+	int CollisionObject = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
+	int CollisionWater = CCollision_Manager::Collision_Player_WaterBall(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL), m_curState);
 	
 	if (m_curState == CHARACTER_STATE::WALK_LEFT)
 	{
 		
 		if (!m_moveLock)
-		if(result == OBJ_NONE)
+		if(CollisionObject == OBJ_NONE && CollisionWater!=OBJ_WALL)
 			m_info.pos.x -= m_speed;
 		/*if (m_info.pos.x  >= 0)
 			m_info.pos.x -= m_speed;*/
@@ -46,7 +47,7 @@ void CPlayer::PlayerActrion()
 		//int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
 		if (!m_moveLock)
-		if (result == OBJ_NONE)
+		if (CollisionObject == OBJ_NONE && CollisionWater != OBJ_WALL)
 			m_info.pos.x += m_speed;
 		/*if (m_info.pos.x <= TILECX * 1.5f * TILEX  - 75)
 			m_info.pos.x += m_speed;*/
@@ -57,7 +58,7 @@ void CPlayer::PlayerActrion()
 		//int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
 		if (!m_moveLock)
-		if (result == OBJ_NONE)
+		if (CollisionObject == OBJ_NONE && CollisionWater != OBJ_WALL)
 			m_info.pos.y -= m_speed;
 	/*	if (m_info.pos.y >=  m_speed)
 			m_info.pos.y -= m_speed;*/
@@ -68,7 +69,7 @@ void CPlayer::PlayerActrion()
 		//int result = CCollision_Manager::Collision_Player_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT), m_curState);
 
 		if (!m_moveLock)
-		if (result == OBJ_NONE)
+		if (CollisionObject == OBJ_NONE && CollisionWater != OBJ_WALL)
 			m_info.pos.y += m_speed;
 		/*if (m_info.pos.y <= TILECY * 1.5f * TILEY - 85)
 			m_info.pos.y += m_speed;*/

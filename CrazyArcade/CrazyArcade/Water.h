@@ -8,6 +8,8 @@ public:
 	~CWater();
 
 	void Set_StateKey(wstring stateKey) { m_stateKey = stateKey; }
+	bool Get_IsBoxDestroy(){ return m_isBoxDestroy; }
+	void Set_IsBoxDestroy(bool isBoxDestory) { m_isBoxDestroy = isBoxDestory; }
 
 	virtual void FrameMove(float speed = 1.f);
 	// CGameObject을(를) 통해 상속됨
@@ -22,5 +24,6 @@ private:
 	wstring m_stateKey;
 	int m_indexX;
 	int m_indexY;
+	bool m_isBoxDestroy;
 };
 

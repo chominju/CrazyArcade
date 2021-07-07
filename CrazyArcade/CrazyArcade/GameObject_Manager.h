@@ -13,6 +13,7 @@ public:
 	CGameObject* Get_Player() { return m_listGameObject[OBJECT_ID::PLAYER].front(); }
 
 	bool IsExistObject(int index);
+	bool IsExistWater(int index);
 
 public:
 	HRESULT Add_GameObject_Manager(OBJECT_ID id, CGameObject* object);

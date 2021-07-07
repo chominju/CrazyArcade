@@ -2,6 +2,7 @@
 #include "GameObject_Manager.h"
 #include "GameObject.h"
 #include "Terrain.h"
+#include "Water.h"
 
 IMPLEMENT_SINGLETON(CGameObject_Manager)
 CGameObject_Manager::CGameObject_Manager()
@@ -26,6 +27,20 @@ bool CGameObject_Manager::IsExistObject(int index)
 				castObject->Set_Dead(true);
 			}
 			return true;
+		}
+	}
+	return false;
+}
+
+bool CGameObject_Manager::IsExistWater(int index)
+{
+	for (auto object : m_listGameObject[OBJECT_ID::WATER])
+	{
+		auto castObject = dynamic_cast<CWater*>(object);
+		if (index == castObject->Get_LocationIndex())
+		{
+			if (castObject->Get_IsBoxDestroy())
+				return true;
 		}
 	}
 	return false;

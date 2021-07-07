@@ -4,6 +4,7 @@
 CWater::CWater(int indexX , int indexY)
 	:m_indexX(indexX)
 	,m_indexY(indexY)
+	, m_isBoxDestroy(false)
 {
 }
 
@@ -19,6 +20,7 @@ HRESULT CWater::Ready_GameObject()
 	m_info.pos = { m_indexX * TILECX * expansionSize + STARTX ,m_indexY * TILECY * expansionSize + STARTY,0.f };
 	m_info.dir = { 1.f,1.f,0.f };
 	m_info.size = { expansionSize,expansionSize,0.f };
+	m_LocationIndex = m_indexX + m_indexY * TILEX;
 	m_frame = { 0.f,4.f };
 
 
@@ -39,18 +41,21 @@ void CWater::Late_Update_GameObject()
 
 void CWater::Render_GameObject()
 {
-	const Texture_Info* pTexInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(m_objectKey, m_stateKey, (DWORD)m_frame.frameStart);
-	if (nullptr == pTexInfo)
-		return;
-	D3DXMATRIX matScale, matTrans, matWorld;
-	D3DXMatrixScaling(&matScale, m_info.size.x, m_info.size.y, 0.f);
-	D3DXMatrixTranslation(&matTrans, m_info.pos.x, m_info.pos.y, 0.f);
-	matWorld = matScale * matTrans;
-	//float fCenterX = pTexInfo->imageInfo.Width >> 1;
-	//float fCenterY = pTexInfo->imageInfo.Height >> 1;
+	if (!m_isBoxDestroy)
+	{
+		const Texture_Info* pTexInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(m_objectKey, m_stateKey, (DWORD)m_frame.frameStart);
+		if (nullptr == pTexInfo)
+			return;
+		D3DXMATRIX matScale, matTrans, matWorld;
+		D3DXMatrixScaling(&matScale, m_info.size.x, m_info.size.y, 0.f);
+		D3DXMatrixTranslation(&matTrans, m_info.pos.x, m_info.pos.y, 0.f);
+		matWorld = matScale * matTrans;
+		//float fCenterX = pTexInfo->imageInfo.Width >> 1;
+		//float fCenterY = pTexInfo->imageInfo.Height >> 1;
 
-	CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
-	CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(pTexInfo->texture, nullptr, &D3DXVECTOR3(0/*fCenterX, fCenterY*/, 0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+		CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
+		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(pTexInfo->texture, nullptr, &D3DXVECTOR3(0/*fCenterX, fCenterY*/, 0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
 }
 
 void CWater::FrameMove(float speed)
