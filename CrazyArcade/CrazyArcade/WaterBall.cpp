@@ -115,7 +115,7 @@ int CWaterBall::Update_GameObject()
 					{
 						if (CGameObject_Manager::Get_Instance()->IsExistWater(indexX + DirY[j] * TILEX))
 						{
-							dirBlockX[j] = true;
+							dirBlockY[j] = true;
 							isBoxDestory = true;
 							continue;
 						}
