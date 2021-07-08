@@ -21,7 +21,27 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CComboBox m_comboBox;
+	BYTE m_byDrawID;
+
 	afx_msg void OnDropFiles(HDROP hDropInfo);
-	afx_msg void OnCbnSelchangeCombo2();
+	CListBox m_imageListBox;
+	CListBox m_settingList;
+	afx_msg void OnLbnSelchangeItemList();
+	afx_msg void OnLbnSelchangeSettingList();
+	CButton m_radio_ItemUse[2];
+	CButton m_radio_Kick[2];
+	CButton m_radio_isWaterBall[2];
+	CButton m_radio_isWater[2];
+	CButton m_radio_isSpeed[2];
+	CButton m_radio_isRide[2];
+	CButton m_radio_isShield[2];
+	CButton m_radio_isRevival[2];
+	afx_msg void OnBnClickedButton_Add();
+	afx_msg void OnBnClickedButton_Delete();
+	afx_msg void OnBnClickedButton_Save();
+	afx_msg void OnBnClickedButton_Load();
+
+	map<BYTE, Item_Info*> m_mapItem;
+	CStatic m_picture;
+	CString listName;
 };

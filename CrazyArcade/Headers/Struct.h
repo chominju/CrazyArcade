@@ -47,6 +47,7 @@ typedef struct
 	bool isCollision;
 	
 	float speedUp;
+	bool isImmediateUse;
 	bool isWaterBall;
 	bool isWaterLengthUp;
 	bool isKick;

@@ -42,6 +42,7 @@ bool CGameObject_Manager::IsExistWater(int index)
 			if (castObject->Get_IsBoxDestroy())
 				return true;
 		}
+
 	}
 	return false;
 }

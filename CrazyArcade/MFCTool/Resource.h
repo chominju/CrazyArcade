@@ -33,6 +33,13 @@
 #define IDC_RADIO8                      1019
 #define IDC_RADIO9                      1020
 #define IDC_RADIO10                     1021
+#define IDC_PICTURE2                    1022
+#define IDC_RADIO11                     1027
+#define IDC_RADIO12                     1028
+#define IDC_RADIO13                     1029
+#define IDC_RADIO14                     1030
+#define IDC_RADIO15                     1031
+#define IDC_RADIO16                     1032
 
 // Next default values for new objects
 // 
@@ -40,7 +47,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        314
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1017
+#define _APS_NEXT_CONTROL_VALUE         1023
 #define _APS_NEXT_SYMED_VALUE           313
 #endif
 #endif
