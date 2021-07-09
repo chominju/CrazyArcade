@@ -104,9 +104,25 @@ void CObjectTool::OnLbnSelchangeItemList()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
+
+	for (int i = 0; i < 2; ++i)
+	{
+		m_radio_ItemUse[i].SetCheck(FALSE);
+		m_radio_Kick[i].SetCheck(FALSE);
+		m_radio_isWaterBall[i].SetCheck(FALSE);
+		m_radio_isWater[i].SetCheck(FALSE);
+		m_radio_isSpeed[i].SetCheck(FALSE);
+		m_radio_isRide[i].SetCheck(FALSE);
+		m_radio_isShield[i].SetCheck(FALSE);
+		m_radio_isRevival[i].SetCheck(FALSE);
+
+	}
+
+
 	int iIndex = m_imageListBox.GetCurSel();
 	CString wstrFileName;
 	m_imageListBox.GetText(iIndex, wstrFileName);
+	m_selectItem = wstrFileName;
 	int i = 0;
 	for (; i < wstrFileName.GetLength(); ++i)
 	{
@@ -161,31 +177,105 @@ void CObjectTool::OnLbnSelchangeSettingList()
 	if (LB_ERR == iIndex)
 		return;
 
+
 	CString wstrUnitName;
-	//m_settingList.GetText(iIndex, wstrUnitName);
-	//map<wstring, Item_Info*>::iterator iter = m_mapItem.find(wstrUnitName.GetString());
+	m_settingList.GetText(iIndex, wstrUnitName);
 
-	//if (iter == m_mapItem.end())
-	//	return;
+	int i = 0;
+	for (; i < wstrUnitName.GetLength(); ++i)
+	{
+		// isdigit 0~ 9까지의 숫자인지 아닌지를 판별해주는 함수. 
+		if (isdigit(wstrUnitName[i]))
+			break;
+	}
+	wstrUnitName.Delete(0, i);
+	m_byDrawID = _ttoi(wstrUnitName.GetString());
 
-	//m_wstrName = iter->second->wstrName;
-	//m_iAtt = iter->second->iAtt;
-	//m_iDef = iter->second->iDef;
-	//m_Radio[iter->second->byJob].SetCheck(TRUE);
-	//// 0000 0100
-	//// 0000 0001 &
-	//// 0000 0000
 
-	//if (iter->second->byItem & 검)
-	//	m_CheckBox[0].SetCheck(TRUE);
-	//if (iter->second->byItem & 활)
-	//	m_CheckBox[1].SetCheck(TRUE);
-	//if (iter->second->byItem & 봉)
-	//	m_CheckBox[2].SetCheck(TRUE);
+	map<BYTE, Item_Info*>::iterator iter = m_mapItem.find(m_byDrawID);
+
+	if (iter == m_mapItem.end())
+		return;
+
+	//m_byDrawID = iter->second->drawID;
+	m_tempItemInfo.isCollision = iter->second->isCollision;
+	m_tempItemInfo.isUserUse = iter->second->isUserUse;
+	m_tempItemInfo.isKick = iter->second->isKick;
+	m_tempItemInfo.isRevival =iter->second->isRevival;
+	m_tempItemInfo.isRide =iter->second->isRide;
+	m_tempItemInfo.isShield =iter->second->isShield;
+	m_tempItemInfo.isWaterBall =iter->second->isWaterBall;
+	m_tempItemInfo.isWaterLengthUp =iter->second->isWaterLengthUp;
+	m_tempItemInfo.isSpeedUp = iter->second->isSpeedUp;
+
+
+
+		if (iter->second->isUserUse)
+			m_radio_ItemUse[0].SetCheck(true);
+		else
+			m_radio_ItemUse[1].SetCheck(true);
+
+		if (iter->second->isKick)
+			m_radio_Kick[0].SetCheck(true);
+		else
+			m_radio_Kick[1].SetCheck(true);
+
+		if (iter->second->isWaterBall)
+			m_radio_isWaterBall[0].SetCheck(true);
+		else
+			m_radio_isWaterBall[1].SetCheck(true);
+
+		if (iter->second->isWaterLengthUp)
+			m_radio_isWater[0].SetCheck(true);
+		else
+			m_radio_isWater[1].SetCheck(true);
+
+		if (iter->second->isSpeedUp)
+			m_radio_isSpeed[0].SetCheck(true);
+		else
+			m_radio_isSpeed[1].SetCheck(true);
+
+		if (iter->second->isRide)
+			m_radio_isRide[0].SetCheck(true);
+		else
+			m_radio_isRide[1].SetCheck(true);
+
+		if (iter->second->isShield)
+			m_radio_isShield[0].SetCheck(true);
+		else
+			m_radio_isShield[1].SetCheck(true);
+
+		if (iter->second->isRevival)
+			m_radio_isRevival[0].SetCheck(true);
+		else
+			m_radio_isRevival[1].SetCheck(true);
+
+
+		iter->second->drawID = m_byDrawID;
+
+
+		CGraphic_Device::Get_Instance()->Render_Begin();
+		const Texture_Info* textureInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"Item", L"ItemObj", m_byDrawID);
+		if (nullptr == textureInfo)
+			return;
+
+		D3DXMATRIX matScale, matTrans, matWorld;
+		float ratioX = float(WINCX) / textureInfo->imageInfo.Width;
+		float ratioY = float(WINCY) / textureInfo->imageInfo.Height;
+
+		D3DXMatrixScaling(&matScale, ratioX, ratioY, 0.f);
+		D3DXMatrixTranslation(&matTrans, WINCX / 2, WINCY / 2, 0.f);
+		matWorld = matScale * matTrans;
+
+		float fCenterX = textureInfo->imageInfo.Width >> 1;
+		float fCenterY = textureInfo->imageInfo.Height >> 1;
+
+		CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
+		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(fCenterX, fCenterY, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+		CGraphic_Device::Get_Instance()->Render_End(m_picture.m_hWnd);
 
 	UpdateData(FALSE);
-
-
 
 }
 
@@ -204,41 +294,63 @@ void CObjectTool::OnBnClickedButton_Add()
 	}
 
 	
+		if (m_radio_ItemUse[0].GetCheck())
+			itemInfo->isUserUse = true;
+		else
+			itemInfo->isUserUse = false;
 
-	for (int i = 0; i < 2; i++)
-	{
-		if (m_radio_ItemUse[i].GetCheck())
-			itemInfo->isImmediateUse = true;
-
-		if (m_radio_Kick[i].GetCheck())
+		if (m_radio_Kick[0].GetCheck())
 			itemInfo->isKick = true;
+		else
+			itemInfo->isKick = false;
 
-		if (m_radio_isWaterBall[i].GetCheck())
+		if (m_radio_isWaterBall[0].GetCheck())
 			itemInfo->isWaterBall=true;
+		else
+			itemInfo->isWaterBall = false;
 
-		if (m_radio_isWater[i].GetCheck())
+		if (m_radio_isWater[0].GetCheck())
 			itemInfo->isWaterLengthUp = true;
+		else
+			itemInfo->isWaterLengthUp = false;
 
-		if (m_radio_isSpeed[i].GetCheck())
-			itemInfo->speedUp = true;
+		if (m_radio_isSpeed[0].GetCheck())
+			itemInfo->isSpeedUp = true;
+		else
+			itemInfo->isSpeedUp = false;
 
-		if (m_radio_isRide[i].GetCheck())
+		if (m_radio_isRide[0].GetCheck())
 			itemInfo->isRide = true;
+		else
+			itemInfo->isRide = false;
 
-		if (m_radio_isShield[i].GetCheck())
+		if (m_radio_isShield[0].GetCheck())
 			itemInfo->isShield = true;
+		else
+			itemInfo->isShield = false;
 
-		if (m_radio_isRevival[i].GetCheck())
+		if (m_radio_isRevival[0].GetCheck())
 			itemInfo->isRevival = true;
+		else
+			itemInfo->isRevival = false;
 
 		itemInfo->drawID = m_byDrawID;
 		itemInfo->isCollision = true;
-	}
 
-	CString temp = listName + 
 
-	m_mapItem.emplace(m_byDrawID, itemInfo);
-	m_settingList.AddString(listName + m_byDrawID)
+	//char chTemp = (char)m_byDrawID;
+	//CString convert = listName;
+
+	//m_imageListBox.
+
+	///*CString stringTemp = */convert.AppendChar(chTemp); //+chTemp;
+
+	//int iIndex = m_imageListBox.GetCurSel();
+	//CString wstrFileName;
+	//m_imageListBox.GetText(iIndex, wstrFileName);
+	
+ 	m_mapItem.emplace(itemInfo->drawID, itemInfo);
+	m_settingList.AddString(m_selectItem);
 
 
 }
@@ -253,12 +365,108 @@ void CObjectTool::OnBnClickedButton_Delete()
 void CObjectTool::OnBnClickedButton_Save()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CFileDialog Dlg(FALSE, // 다른이름으로 저장. 만약 TRUE 파일 열기. 
+		L"dat",// 디폴트 확장자 
+		L"*.dat",// 디폴트 파일 이름 
+		OFN_OVERWRITEPROMPT);// 덮어쓸때 경고 메시지 띄어주겠다. 
+	TCHAR szCurDir[MAX_PATH]{};
+	GetCurrentDirectory(MAX_PATH, szCurDir);
+	//D:\박병건\118C\D2D\Framework_v1
+	PathRemoveFileSpec(szCurDir);
+	lstrcat(szCurDir, L"\\Data");
+	Dlg.m_ofn.lpstrInitialDir = szCurDir;
+	if (IDOK == Dlg.DoModal())
+	{
+		CString wstrFilePath = Dlg.GetPathName();
+		HANDLE hFile = CreateFile(wstrFilePath.GetString(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (INVALID_HANDLE_VALUE == hFile)
+			return;
+		DWORD byte = 0;
+		for (auto& rPair : m_mapItem)
+		{
+			WriteFile(hFile, rPair.second, sizeof(Item_Info), &byte, nullptr);
+		/*	dwStringCount = (rPair.second->wstrName.GetLength() + 1) * sizeof(wchar_t);
+			WriteFile(hFile, &dwStringCount, sizeof(DWORD), &dwByte, nullptr);
+			WriteFile(hFile, rPair.second->wstrName.GetString(), dwStringCount, &dwByte, nullptr);*/
+
+		/*	WriteFile(hFile, &rPair.second->drawID, sizeof(BYTE), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isCollision, sizeof(bool), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isUserUse, sizeof(bool), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isKick, sizeof(bool), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isWaterBall, sizeof(bool), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isWaterLengthUp, sizeof(bool), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isSpeedUp, sizeof(bool), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isRide, sizeof(bool), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isShield, sizeof(bool), &byte, nullptr);
+			WriteFile(hFile, &rPair.second->isRevival, sizeof(bool), &byte, nullptr);*/
+
+		}
+		CloseHandle(hFile);
+	}
 }
 
 
 void CObjectTool::OnBnClickedButton_Load()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CFileDialog Dlg(TRUE, // 다른이름으로 저장. 만약 TRUE 파일 열기. 
+		L"dat",// 디폴트 확장자 
+		L"*.dat",// 디폴트 파일 이름 
+		OFN_OVERWRITEPROMPT);// 덮어쓸때 경고 메시지 띄어주겠다. 
+	TCHAR szCurDir[MAX_PATH]{};
+	GetCurrentDirectory(MAX_PATH, szCurDir);
+	//D:\박병건\118C\D2D\Framework_v1
+	PathRemoveFileSpec(szCurDir);
+	lstrcat(szCurDir, L"\\Data");
+	Dlg.m_ofn.lpstrInitialDir = szCurDir;
+	if (IDOK == Dlg.DoModal())
+	{
+		CString wstrFilePath = Dlg.GetPathName();
+		HANDLE hFile = CreateFile(wstrFilePath.GetString(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (INVALID_HANDLE_VALUE == hFile)
+			return;
+		m_settingList.ResetContent();
+		for (auto& rPair : m_mapItem)
+			Safe_Delete(rPair.second);
+		m_mapItem.clear();
+
+		DWORD dwByte = 0;
+		Item_Info* itemInfo = nullptr;
+		while (true)
+		{
+			//if (0 == dwByte)
+			//	break;
+			itemInfo = new Item_Info;
+			ReadFile(hFile, itemInfo, sizeof(Item_Info), &dwByte, nullptr);
+
+			if (0 == dwByte)
+			{
+				Safe_Delete(itemInfo);
+				break;
+			}
+
+		/*	ReadFile(hFile, &itemInfo->drawID, sizeof(BYTE), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isCollision, sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isUserUse, sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isKick, sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isWaterBall, sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isWaterLengthUp, sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isSpeedUp, sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isRide, sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isShield, sizeof(bool), &dwByte, nullptr);
+			ReadFile(hFile, &itemInfo->isRevival, sizeof(bool), &dwByte, nullptr);*/
+
+
+			m_mapItem.emplace(itemInfo->drawID, itemInfo);
+			char ch[1] = { itemInfo->drawID };
+			CString temp(ch);
+			temp.GetString();
+			CString temp2 = listName;
+			temp2.Append(temp.GetString());
+			m_settingList.AddString(listName);
+		}
+		CloseHandle(hFile);
+	}
 }
 
 

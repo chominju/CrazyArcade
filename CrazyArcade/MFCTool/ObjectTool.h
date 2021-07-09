@@ -44,4 +44,6 @@ public:
 	map<BYTE, Item_Info*> m_mapItem;
 	CStatic m_picture;
 	CString listName;
+	CString m_selectItem;
+	Item_Info  m_tempItemInfo;
 };

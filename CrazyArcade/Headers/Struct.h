@@ -46,10 +46,10 @@ typedef struct
 	int parentIndex;
 	bool isCollision;
 	
-	float speedUp;
-	bool isImmediateUse;
+	bool isUserUse;
 	bool isWaterBall;
 	bool isWaterLengthUp;
+	bool isSpeedUp;
 	bool isKick;
 	bool isRide;
 	bool isShield;
