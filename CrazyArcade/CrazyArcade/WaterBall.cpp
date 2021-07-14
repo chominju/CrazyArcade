@@ -32,7 +32,7 @@ int CWaterBall::Update_GameObject()
 {
 	m_time -= CTime_Manager::Get_Instance()->Get_DeltaTime();
 
-	if (m_time <= 0 || m_dead)
+	if ((m_time <= 0 || m_dead)&& !m_isPushed)
 	{
 		CGameObject_Manager::Get_Instance()->Get_Player()->Decrese_WaterBall();
 		int waterLength = CGameObject_Manager::Get_Instance()->Get_Player()->Get_WaterLength();
@@ -167,6 +167,63 @@ int CWaterBall::Update_GameObject()
 
 		return OBJ_DEAD;
 	}
+
+	if (m_LocationIndex != m_finishIndex)
+	{
+		if (m_isPushed && !m_dead)
+		{
+
+			if (m_curState == WALK_LEFT || m_curState == WALK_RIGHT)
+			{
+				if (m_finishX == m_info.pos.x)
+				{
+					m_isPushed = false;
+					//m_info.centerX = m_info.pos.x + TILECX * expansionSize / 2;
+					m_LocationIndex = m_finishIndex;
+					m_finishIndex = -1;
+					m_time = 3.f;
+					indexY = m_LocationIndex / TILEX;
+					indexX = (int)m_LocationIndex % TILEX;
+				}
+			}
+			if (m_curState == WALK_UP || m_curState == WALK_DOWN)
+			{
+				if (m_finishY == m_info.pos.y)
+				{
+					m_isPushed = false;
+					//m_tileInfo.centerY = m_tileInfo.pos.y + TILECY * expansionSize / 2;
+					m_LocationIndex = m_finishIndex;
+					m_finishIndex = -1;
+					m_time = 3.f;
+					indexY = m_LocationIndex / TILEX;
+					indexX = (int)m_LocationIndex % TILEX;
+
+				}
+			}
+
+			if (m_isPushed)
+			{
+				switch (m_curState)
+				{
+				case WALK_LEFT:
+					m_info.pos.x -= 10;
+					break;
+				case WALK_RIGHT:
+					m_info.pos.x += 10;
+					break;
+				case WALK_UP:
+					m_info.pos.y -= 10;
+					break;
+				case WALK_DOWN:
+					m_info.pos.y += 10;
+					break;
+				}
+			}
+		}
+	}
+	else
+		m_isPushed = false;
+
 	
 	return 0;
 }

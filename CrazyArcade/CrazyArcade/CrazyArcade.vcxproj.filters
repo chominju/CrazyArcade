@@ -76,6 +76,15 @@
     <ClCompile Include="Water.cpp">
       <Filter>02.GameObject\03.Water\01.Water</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>02.GameObject\03.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterStage1.cpp">
+      <Filter>03.Scene\04.Monster_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>02.GameObject\04.Monster\00.Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrazyArcade.h">
@@ -161,6 +170,15 @@
     </ClInclude>
     <ClInclude Include="Water.h">
       <Filter>02.GameObject\03.Water\01.Water</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>02.GameObject\03.Item</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterStage1.h">
+      <Filter>03.Scene\04.Monster_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>02.GameObject\04.Monster\00.Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -279,6 +297,15 @@
     </Filter>
     <Filter Include="02.GameObject\03.Water\01.Water">
       <UniqueIdentifier>{a1310db3-4776-4dd6-960b-233aaae850f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03.Item\NewFilter1">
+      <UniqueIdentifier>{2d50b6a3-4c70-44fe-89c4-1917694b7e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Monster\00.Monster">
+      <UniqueIdentifier>{7e3f0ad4-c0ca-44e2-b21b-5b44be5fed12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Monster\01.Boss">
+      <UniqueIdentifier>{ab15a94a-bf9a-47c9-8108-207808711910}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

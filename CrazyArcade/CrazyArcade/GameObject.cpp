@@ -11,6 +11,10 @@ CGameObject::CGameObject()
 	, m_player_centerY(0)
 	, m_moveLock(false)
 	, m_dead(false)
+	, m_pushTime(0.f)
+	, m_isPushed(false)
+	, m_finishIndex(-1)
+	, m_renderID(RENDER_ID::RENDER_OBJECT)
 {
 }
 

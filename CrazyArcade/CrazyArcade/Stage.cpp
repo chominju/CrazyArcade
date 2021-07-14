@@ -3,6 +3,7 @@
 #include "GameObject_Manager.h"
 #include "Terrain.h"
 #include "Player.h"
+#include "Collision_Manager.h"
 
 CStage::CStage()
 	:m_gameObject_Manager(CGameObject_Manager::Get_Instance())
@@ -25,6 +26,8 @@ HRESULT CStage::Ready_Scene()
 		L"../Resource/Ui/UIFrm.png", L"MainUI")))
 		return E_FAIL;
 
+	CGameObject_Manager::Get_Instance()->Get_ItemData(1);
+
 	/*CGameObject* object = new CTerrain;
 	if (FAILED(object->Ready_GameObject()))
 		return E_FAIL;
@@ -41,6 +44,11 @@ void CStage::Update_Scene()
 {
 	CKey_Manager::Get_Instance()->Update_Key_Manager();
 	m_gameObject_Manager->Update_GameObject_Manager();
+
+	CCollision_Manager::Collision_Player_Item(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::ITEM));
+	CCollision_Manager::Collision_Item_Water(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::ITEM), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATER));
+	CCollision_Manager::Collision_Item_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::ITEM), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT));
+	CCollision_Manager::Collision_Player_Water(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATER));
 }
 
 void CStage::Render_Scene()

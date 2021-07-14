@@ -38,7 +38,9 @@ HRESULT CLoad_Manager::LoadTerrainData(const wstring & filePath)
 		{
 		case SCENE_OBJECT_ID::TILE:
 			object = new CTile;
+			object->Set_RenderID(RENDER_ID::RENDER_TILE);
 			dynamic_cast<CTerrain*>(object)->Set_Terrain_Info(tile);
+			dynamic_cast<CTerrain*>(object)->Set_Info_Pos();
 			if (dynamic_cast<CTerrain*>(object)->Get_Terrain_Info().drawID == 1)
 				CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::RESPAWN_TILE, object);
 			else
@@ -48,12 +50,14 @@ HRESULT CLoad_Manager::LoadTerrainData(const wstring & filePath)
 		case SCENE_OBJECT_ID::BOX:
 			object = new CBox;
 			dynamic_cast<CTerrain*>(object)->Set_Terrain_Info(tile);
+			dynamic_cast<CTerrain*>(object)->Set_Info_Pos();
 			CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::OBEJCT, object);
 			break;
 
 		case SCENE_OBJECT_ID::WALL:
 			object = new CWall;
 			dynamic_cast<CTerrain*>(object)->Set_Terrain_Info(tile);
+			dynamic_cast<CTerrain*>(object)->Set_Info_Pos();
 			CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::OBEJCT, object);
 			break;
 		default:
@@ -107,4 +111,26 @@ HRESULT CLoad_Manager::LoadTextureData(const string & filePath)
 
 	return S_OK;
 
+}
+
+HRESULT CLoad_Manager::LoadItemData(const wstring & filePath)
+{
+	HANDLE file = CreateFile(filePath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (INVALID_HANDLE_VALUE == file)
+		return E_FAIL;
+
+	while (true)
+	{
+		DWORD byte = 0;
+
+		Item_Info item;
+		//tile = new Tile_Info;
+		ReadFile(file, &item, sizeof(Item_Info), &byte, nullptr);
+		if (0 == byte)
+			break;
+
+		CGameObject_Manager::Get_Instance()->Add_ItemData(item);
+	}
+	CloseHandle(file);
+	return S_OK;
 }

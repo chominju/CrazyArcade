@@ -8,6 +8,7 @@ public:
 
 	static HRESULT LoadTerrainData(const wstring& filePath);
 	static HRESULT LoadTextureData(const string& filePath);
+	static HRESULT LoadItemData(const wstring& filePath);
 
 };
 

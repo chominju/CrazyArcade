@@ -458,11 +458,11 @@ void CObjectTool::OnBnClickedButton_Load()
 
 
 			m_mapItem.emplace(itemInfo->drawID, itemInfo);
-			char ch[1] = { itemInfo->drawID };
-			CString temp(ch);
-			temp.GetString();
-			CString temp2 = listName;
-			temp2.Append(temp.GetString());
+			//char ch[1] = { itemInfo->drawID };
+			//CString temp(ch);
+			//temp.GetString();
+			//CString temp2 = listName;
+			//temp2.Append(temp.GetString());
 			m_settingList.AddString(listName);
 		}
 		CloseHandle(hFile);

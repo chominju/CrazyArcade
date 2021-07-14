@@ -39,6 +39,7 @@ unsigned  CLoading::ImageLoading(LPVOID pVoid)
 	CLoad_Manager::LoadTextureData("../Data/ResoureList.txt");
 //	CLoad_Manager::LoadTerrainData(L"../Data/testMap2.dat");
 	CLoad_Manager::LoadTerrainData(L"../Data/TerrainData.dat");
+	CLoad_Manager::LoadItemData(L"../Data/ItemData.dat");
 	////Player-Attack Texture 
 	//if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(CTexture_Manager::TEX_MULTI,
 	//	L"../Texture/Stage/Player/Attack/AKIHA_AKI01_00%d.png", L"Player", L"Attack", 6)))

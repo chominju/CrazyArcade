@@ -169,10 +169,13 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObject_Manager.h" />
     <ClInclude Include="Graphic_Device.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Key_Manager.h" />
     <ClInclude Include="Loading.h" />
     <ClInclude Include="Load_Manager.h" />
     <ClInclude Include="MainApp.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterStage1.h" />
     <ClInclude Include="Multi_Texture.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
@@ -198,10 +201,13 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObject_Manager.cpp" />
     <ClCompile Include="Graphic_Device.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Key_Manager.cpp" />
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="Load_Manager.cpp" />
     <ClCompile Include="MainApp.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterStage1.cpp" />
     <ClCompile Include="Multi_Texture.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />

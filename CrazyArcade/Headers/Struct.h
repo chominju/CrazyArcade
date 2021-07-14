@@ -68,6 +68,7 @@ typedef struct
 	int WaterBallCurrentMax;
 	int WaterBallCurrent;
 	float speed;
+	float speedMax;
 	float WaterLength;
 	float WaterLengthMax;
 }Player_Info;

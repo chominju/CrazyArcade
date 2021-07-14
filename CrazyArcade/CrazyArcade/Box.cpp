@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "Box.h"
 #include "GameObject_Manager.h"
+#include "Item.h"
 
 HRESULT CBox::Ready_GameObject()
 {
@@ -17,8 +18,32 @@ CBox::~CBox()
 
 int CBox::Update_GameObject()
 {
+	m_LocationIndex = m_tileInfo.index;
 	if (m_dead)
+	{
+		int randTemp = rand() % 100;
+		int randIndex = 0;
+		if (randTemp > 90)
+		{
+			randIndex = 9;// rand() % 8 + 3;
+			if (randIndex == 4 || randIndex == 5)
+				randIndex = 6;
+		}
+		else if(randTemp > 50)
+		{
+			randIndex = rand() % 3;
+		}
+		else
+			return OBJ_DEAD;
+
+		CItem * item = new CItem(randIndex);
+		item->Set_ItemData();
+		item->Set_Info(m_tileInfo);
+		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::ITEM, item);
+
+
 		return OBJ_DEAD;
+	}
 
 	if (m_isPushed && m_tileInfo.drawID==9)
 	{

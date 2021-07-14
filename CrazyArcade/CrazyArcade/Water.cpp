@@ -23,6 +23,7 @@ HRESULT CWater::Ready_GameObject()
 	m_LocationIndex = m_indexX + m_indexY * TILEX;
 	m_frame = { 0.f,4.f };
 
+	Set_Rect();
 
 	return E_NOTIMPL;
 }

@@ -12,17 +12,25 @@ public:
 	list<CGameObject*>& Get_Object(OBJECT_ID id) { return m_listGameObject[id]; }
 	CGameObject* Get_Player() { return m_listGameObject[OBJECT_ID::PLAYER].front(); }
 
+	Item_Info Get_ItemData(BYTE index);
+
+	
+
 	bool IsExistObject(int index);
 	bool IsExistWater(int index);
 
 public:
 	HRESULT Add_GameObject_Manager(OBJECT_ID id, CGameObject* object);
+	HRESULT Add_ItemData(Item_Info& data);
 	void Update_GameObject_Manager();
 	void Render_GameObject_Manager();
 	void Release_GameObject_Manager();
 
 private:
 	list<CGameObject*> m_listGameObject[OBJECT_END];
+	list<CGameObject*> m_listRenderingGameObject[OBJECT_END];
+
+	map<BYTE, Item_Info>m_mapItemInfo;
 
 };
 

@@ -8,6 +8,7 @@ HRESULT CWall::Ready_GameObject()
 
 int CWall::Update_GameObject()
 {
+	m_LocationIndex = m_tileInfo.index;
 	return 0;
 }
 

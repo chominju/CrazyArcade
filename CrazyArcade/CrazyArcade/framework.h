@@ -14,6 +14,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include <process.h>
+#include <time.h>
 
 #include "Headers.h"
 #include "Frame_Manager.h"

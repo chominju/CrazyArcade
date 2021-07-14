@@ -51,6 +51,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	CFrame_Manager frameManager;
 	frameManager.Ready_Frame_Manager(100.f);
 
+	srand(time(NULL));
+
     // 기본 메시지 루프입니다:
 	while (msg.message != WM_QUIT)
 	{
