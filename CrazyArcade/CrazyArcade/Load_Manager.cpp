@@ -18,6 +18,8 @@ CLoad_Manager::~CLoad_Manager()
 // 	LoadTileData_Terrain(L"../Data/TerrainData.dat");
 HRESULT CLoad_Manager::LoadTerrainData(const wstring & filePath)
 {
+	CGameObject_Manager::Get_Instance()->Reset_Object(OBJECT_ID::SCENE_TILE);
+	CGameObject_Manager::Get_Instance()->Reset_Object(OBJECT_ID::OBEJCT);
 
 	HANDLE file = CreateFile(filePath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (INVALID_HANDLE_VALUE == file)

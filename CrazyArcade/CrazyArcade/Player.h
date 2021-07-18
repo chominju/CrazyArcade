@@ -36,18 +36,13 @@ public:
 	virtual HRESULT Ready_GameObject()			override;
 	virtual int		Update_GameObject()			override;
 	virtual void	Late_Update_GameObject()	override;
-	virtual void	Render_GameObject()	override;
+	virtual void	Render_GameObject()			override;
 	virtual void	Release_GameObject()		override;
 
 private:
 	//CHARACTER_STATE m_curState;
 	//CHARACTER_STATE m_preState;
-	wstring m_objectKey;
-	wstring m_stateKey;
 	float m_startIndex;
-	float m_saveSpeed;
-	int indexX;
-	int indexY;
 	float m_playerSize[2];
 
 	float m_invincibilityTime;

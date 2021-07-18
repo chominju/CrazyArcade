@@ -13,6 +13,11 @@ public:
 	static int Collision_Player_Item(list<CGameObject*>* player, list<CGameObject*>* item);
 
 
+	static int Collision_Monster_Object(CGameObject* monster, list<CGameObject*>* object, list<CGameObject*>* waterBall, CHARACTER_STATE& state);
+	static int Collision_Monster_Water(list<CGameObject*>* monster, list<CGameObject*>* water);
+	
+
+
 	static int Collision_Item_Water(list<CGameObject*>* item, list<CGameObject*>* water);
 	static int Collision_Item_Object(list<CGameObject*>* item, list<CGameObject*>* object);
 	/*static void Collision_Rect(list<CGameObject*>* listDest, list<CGameObject*>* listSrc);

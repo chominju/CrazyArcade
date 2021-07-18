@@ -59,6 +59,8 @@ public:
 	void Set_RenderID(RENDER_ID renderID) { m_renderID = renderID; }
 	RENDER_ID Get_RenderID() { return m_renderID; }
 
+	void Reset_PlayerInfo();
+
 public:
 	virtual HRESULT Ready_GameObject()PURE;
 	virtual int Update_GameObject()PURE;
@@ -69,6 +71,7 @@ public:
 protected:
 	Object_Info m_info;
 	Player_Info m_playerableInfo;
+	float m_saveSpeed;
 	CHARACTER_STATE m_curState;
 	CHARACTER_STATE m_preState;
 	Frame m_frame;
@@ -83,11 +86,15 @@ protected:
 	bool m_isPushed;
 	bool m_dead;
 
-
+	int indexX;
+	int indexY;
 
 	int m_finishX;
 	int m_finishY;
 	int m_finishIndex;
+
+	wstring m_objectKey;
+	wstring m_stateKey;
 
 	RENDER_ID m_renderID;
 };

@@ -230,7 +230,7 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									auto waterBallTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
 									for (auto nextnext : waterBallTemp)
 									{
-										if (nextIndex[1] - 1 == nextnext->Get_LocationIndex())
+										if (nextIndex[1] + 1 == nextnext->Get_LocationIndex())
 											isNextObjectExist = true;
 									}
 									if (isNextObjectExist)
@@ -266,7 +266,7 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									auto waterBallTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
 									for (auto nextnext : waterBallTemp)
 									{
-										if (nextIndex[1] - 1 == nextnext->Get_LocationIndex())
+										if (nextIndex[1] - TILEX == nextnext->Get_LocationIndex())
 											isNextObjectExist = true;
 									}
 									if (isNextObjectExist)
@@ -302,7 +302,7 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									auto waterBallTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
 									for (auto nextnext : waterBallTemp)
 									{
-										if (nextIndex[1] - 1 == nextnext->Get_LocationIndex())
+										if (nextIndex[1] + TILEX == nextnext->Get_LocationIndex())
 											isNextObjectExist = true;
 									}
 									if (isNextObjectExist)
@@ -981,6 +981,324 @@ int CCollision_Manager::Collision_Player_Item(list<CGameObject*>* player, list<C
 				itemObj->Set_Dead(true);
 			}
 		}
+	}
+	return 0;
+}
+
+int CCollision_Manager::Collision_Monster_Object(CGameObject* monster, list<CGameObject*>* object, list<CGameObject*>* waterBall, CHARACTER_STATE& state)
+{
+	if (state == CHARACTER_STATE::STAND)
+	{
+		if (pushObject != nullptr && !pushObject->Get_IsDead())
+		{
+			dynamic_cast<CTerrain*>(pushObject)->ResetPushTime();
+			pushObject = nullptr;
+		}
+		/*for (auto & objectBW : *object)
+		{
+			auto objectCast = dynamic_cast<CTerrain*>(objectBW);
+			objectCast->ResetPushTime();
+		}*/
+	}
+	RECT monsterRect = monster->Get_Rect();
+
+	RECT backRc{};
+	backRc.left = STARTX;
+	backRc.top = STARTY;
+	backRc.right = ((TILEX)* TILECX * expansionSize + STARTX);
+	backRc.bottom = ((TILEY)* TILECY * expansionSize + STARTY);
+
+	bool isWallCheck[4] = { false,false,false,false };
+
+	// 왼쪽
+	if (monsterRect.left <= backRc.left/* && indexX == 0*/ && state == CHARACTER_STATE::WALK_LEFT)
+		isWallCheck[0] = true;
+
+	// 오른쪽
+	if (monsterRect.right >= backRc.right/* && indexX == TILEX - 1*/ && state == CHARACTER_STATE::WALK_RIGHT)
+		isWallCheck[1] = true;
+
+	// 위쪽
+	if (monsterRect.top <= backRc.top/* && indexX == 0 */&& state == CHARACTER_STATE::WALK_UP)
+		isWallCheck[2] = true;
+
+	// 아래쪽
+	if (monsterRect.bottom >= backRc.bottom/* && indexX == 0 */&& state == CHARACTER_STATE::WALK_DOWN)
+		isWallCheck[3] = true;
+
+
+	float nextIndex[4] = { -1,-1,-1,-1 };
+	float monsterIndex = monster->Get_LocationIndex();
+
+	if (state == CHARACTER_STATE::WALK_LEFT)
+	{
+		// 위
+		if (monsterIndex - TILEX >= 0)
+			nextIndex[0] = monsterIndex - TILEX;
+
+		// 왼쪽
+		nextIndex[1] = monsterIndex - 1;
+
+		// 아래
+		if (monsterIndex + TILEX < TILEX * TILEY)
+			nextIndex[2] = monsterIndex + TILEX;
+
+		// 오른쪽
+		if ((int)monsterIndex % TILEX != TILEX - 1)
+			nextIndex[3] = monsterIndex + 1;
+	}
+
+	if (state == CHARACTER_STATE::WALK_RIGHT)
+	{
+		// 위
+		if (monsterIndex - TILEX >= 0)
+			nextIndex[0] = monsterIndex - TILEX;
+
+		// 오른쪽
+		nextIndex[1] = monsterIndex + 1;
+
+		// 아래
+		if (monsterIndex + TILEX < TILEX*TILEY)
+			nextIndex[2] = monsterIndex + TILEX;
+
+		// 왼쪽
+		if ((int)monsterIndex % TILEX != 0)
+			nextIndex[3] = monsterIndex - 1;
+	}
+
+	if (state == CHARACTER_STATE::WALK_UP)
+	{
+		// 왼쪽
+		if ((int)monsterIndex % TILEX != 0)
+			nextIndex[0] = monsterIndex - 1;
+
+		// 위
+		nextIndex[1] = monsterIndex - TILEX;
+
+		// 오른쪽
+		if ((int)monsterIndex % TILEX != TILEX - 1)
+			nextIndex[2] = monsterIndex + 1;
+
+		// 아래
+		if (monsterIndex + TILEX < TILEX * TILEY)
+			nextIndex[3] = monsterIndex + TILEX;
+
+	}
+
+	if (state == CHARACTER_STATE::WALK_DOWN)
+	{
+		// 왼쪽
+		if ((int)monsterIndex % TILEX != 0)
+			nextIndex[0] = monsterIndex - 1;
+
+		// 아래
+		nextIndex[1] = monsterIndex + TILEX;
+
+		// 오른쪽
+		if ((int)monsterIndex % TILEX != TILEX - 1)
+			nextIndex[2] = monsterIndex + 1;
+
+		// 위
+		if ((int)monsterIndex - TILEX >= 0)
+			nextIndex[3] = monsterIndex - TILEX;
+	}
+
+	RECT overlapRect{};
+	int overlapCenterX;
+	int overlapCenterY;
+	bool overlapNum0 = false;
+	bool overlapNum1 = false;
+	bool overlapNum2 = false;
+	bool overlapNum3 = false;
+
+	bool check = false;
+	for (auto & objectBW : *object)
+	{
+		RECT objectRect = objectBW->Get_Rect();
+		CTerrain* objectCast = dynamic_cast<CTerrain*>(objectBW);
+		Tile_Info tileInfo = objectCast->Get_Terrain_Info();
+		RECT temp;
+
+		//if (IntersectRect(&temp, &monsterRect, &objectRect))
+		//{
+		if (nextIndex[0] == tileInfo.index)
+		{
+			overlapNum0 = true;
+		}
+
+		if (nextIndex[1] == tileInfo.index)
+		{
+			if (IntersectRect(&temp, &monsterRect, &objectRect))
+			{
+				check = true;
+				overlapNum1 = true;
+			}
+		}
+
+		if (nextIndex[2] == tileInfo.index)
+		{
+			overlapNum2 = true;
+		}
+
+
+		if (nextIndex[3] == tileInfo.index)
+		{
+			overlapNum3 = true;
+		}
+		//}
+	}
+
+
+	for (auto & waterBallObject : *waterBall)
+	{
+		RECT waterBallRect = waterBallObject->Get_Rect();
+		int waterBallIndex = waterBallObject->Get_LocationIndex();
+		RECT temp;
+
+		if (nextIndex[0] == waterBallIndex)
+		{
+			overlapNum0 = true;
+		}
+
+		if (nextIndex[1] == waterBallIndex)
+		{
+			if (IntersectRect(&temp, &monsterRect, &waterBallRect))
+			{
+				check = true;
+				overlapNum1 = true;
+			}
+		}
+
+		if (nextIndex[2] == waterBallIndex)
+		{
+			overlapNum2 = true;
+		}
+
+
+		if (nextIndex[3] == waterBallIndex)
+		{
+			overlapNum3 = true;
+		}
+	}
+	if (!check && !isWallCheck[0] && !isWallCheck[1] && !isWallCheck[2] && !isWallCheck[3])
+		return OBJ_NONE;
+
+	switch (state)
+	{
+	case WALK_LEFT:
+		if (!overlapNum1 && !isWallCheck[0] && nextIndex[1] != -1)
+		{
+			state = CHARACTER_STATE::WALK_LEFT;
+		}
+		else if (!overlapNum0 && !isWallCheck[2] && nextIndex[0] != -1)
+		{
+			state = CHARACTER_STATE::WALK_UP;
+		}
+		else if (!overlapNum2 && !isWallCheck[3] && nextIndex[2] != -1)
+		{
+			state = CHARACTER_STATE::WALK_DOWN;
+		}
+		else if (!overlapNum3 && !isWallCheck[1] && nextIndex[3] != -1)
+		{
+			state = CHARACTER_STATE::WALK_RIGHT;
+		}
+		else
+			return OBJ_WALL;
+		break;
+	case WALK_RIGHT:
+		if (!overlapNum1 && !isWallCheck[1] && nextIndex[1] != -1)
+		{
+			state = CHARACTER_STATE::WALK_RIGHT;
+		}
+		else if (!overlapNum0 && !isWallCheck[2] && nextIndex[0] != -1)
+		{
+			state = CHARACTER_STATE::WALK_UP;
+		}
+		else if (!overlapNum2 && !isWallCheck[3] && nextIndex[2] != -1)
+		{
+			state = CHARACTER_STATE::WALK_DOWN;
+		}
+		else if (!overlapNum3 && !isWallCheck[0] && nextIndex[3] != -1)
+		{
+			state = CHARACTER_STATE::WALK_LEFT;
+		}
+		else
+			return OBJ_WALL;
+		break;
+	case WALK_UP:
+		if (!overlapNum1 && !isWallCheck[2] && nextIndex[1] != -1)
+		{
+			state = CHARACTER_STATE::WALK_UP;
+		}
+		else if (!overlapNum0 && !isWallCheck[0] && nextIndex[0] != -1)
+		{
+			state = CHARACTER_STATE::WALK_LEFT;
+		}
+		else if (!overlapNum2 && !isWallCheck[1] && nextIndex[2] != -1)
+		{
+			state = CHARACTER_STATE::WALK_RIGHT;
+		}
+		else if (!overlapNum3 && !isWallCheck[3] && nextIndex[3] != -1)
+		{
+			state = CHARACTER_STATE::WALK_DOWN;
+		}
+		else
+			return OBJ_WALL;
+		break;
+	case WALK_DOWN:
+		if (!overlapNum1 && !isWallCheck[3] && nextIndex[1] != -1)
+		{
+			state = CHARACTER_STATE::WALK_DOWN;
+		}
+		else if (!overlapNum0 && !isWallCheck[0] && nextIndex[0] != -1)
+		{
+			state = CHARACTER_STATE::WALK_LEFT;
+		}
+		else if (!overlapNum2 && !isWallCheck[1] && nextIndex[2] != -1)
+		{
+			state = CHARACTER_STATE::WALK_RIGHT;
+		}
+		else if (!overlapNum3 && !isWallCheck[2] && nextIndex[3] != -1)
+		{
+			state = CHARACTER_STATE::WALK_UP;
+		}
+		else
+			return OBJ_WALL;
+		break;
+	}
+}
+
+int CCollision_Manager::Collision_Monster_Water(list<CGameObject*>* monster, list<CGameObject*>* water)
+{
+	for (auto monsterObj : *monster)
+	{
+			for (auto waterObj : *water)
+			{
+				if (!dynamic_cast<CWater*>(waterObj)->Get_IsBoxDestroy())
+				{
+					RECT temp;
+					RECT waterRect = waterObj->Get_Rect();
+					RECT monsterRect = monsterObj->Get_Rect();
+
+					monsterRect.left += 5;
+					monsterRect.top += 5;
+					monsterRect.right -= 5;
+					monsterRect.bottom -= 5;
+
+					if (IntersectRect(&temp, &monsterRect, &waterRect))
+					{
+						int x = temp.right - temp.left;
+						int y = temp.bottom - temp.top;
+
+						if (x*y > TILECX * TILECY * expansionSize * expansionSize / 2)
+						{
+							monsterObj->Set_Dead(true);
+							//dynamic_cast<CPlayer*>(playerObj)->Set_IsTrappeed(true);
+							//playerObj->Set_Dead(true);
+						}
+					}
+				}
+			}
 	}
 	return 0;
 }

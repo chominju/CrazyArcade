@@ -15,10 +15,24 @@ CGameObject_Manager::~CGameObject_Manager()
 	Release_GameObject_Manager();
 }
 
+CGameObject * CGameObject_Manager::Get_Player()
+{
+	if (m_listGameObject[OBJECT_ID::PLAYER].empty())
+		return nullptr;
+	return m_listGameObject[OBJECT_ID::PLAYER].front(); 
+}
+
 Item_Info CGameObject_Manager::Get_ItemData(BYTE index)
 {
 	auto iter = m_mapItemInfo.find(index);
 	return iter->second;
+}
+
+void CGameObject_Manager::Reset_Object(OBJECT_ID id)
+{
+	for (auto& gameObject : m_listGameObject[id])
+		Safe_Delete(gameObject);
+	m_listGameObject[id].clear();
 }
 
 bool CGameObject_Manager::IsExistObject(int index)

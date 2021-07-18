@@ -1,67 +1,51 @@
 #include "framework.h"
-#include "Stage.h"
+#include "Monster_Scene1.h"
 #include "GameObject_Manager.h"
 #include "Terrain.h"
 #include "Player.h"
 #include "Collision_Manager.h"
 #include "Monster.h"
+#include "Load_Manager.h"
 
-CStage::CStage()
+
+CMonster_Scene1::CMonster_Scene1()
 	:m_gameObject_Manager(CGameObject_Manager::Get_Instance())
 {
 }
 
-CStage::~CStage()
+CMonster_Scene1::~CMonster_Scene1()
 {
-	Release_Scene();
 }
 
-HRESULT CStage::Ready_Scene()
+HRESULT CMonster_Scene1::Ready_Scene()
 {
-	CGameObject * object = new CPlayer;
-	if (FAILED(object->Ready_GameObject()))
-		return E_FAIL;
-	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::PLAYER, object);
+	if (m_gameObject_Manager->Get_Player() != nullptr)
+		m_gameObject_Manager->Get_Player()->Reset_PlayerInfo();
+	else 
+	{
+		CGameObject * object = new CPlayer;
+		if (FAILED(object->Ready_GameObject()))
+			return E_FAIL;
+		m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::PLAYER, object);
+	}
+
+	CGameObject_Manager::Get_Instance()->Reset_Object(OBJECT_ID::RESPAWN_TILE);
+	CGameObject_Manager::Get_Instance()->Reset_Object(OBJECT_ID::MONSTER);
+	CGameObject_Manager::Get_Instance()->Reset_Object(OBJECT_ID::WATER);
+	CGameObject_Manager::Get_Instance()->Reset_Object(OBJECT_ID::WATERBALL);
 
 	if (FAILED(CTexture_Manager::Get_Instance()->Insert_Texture_Manager(TEXTURE_ID::TEXTURE_SINGLE,
 		L"../Resource/Ui/UIFrm.png", L"MainUI")))
 		return E_FAIL;
 
-	CGameObject_Manager::Get_Instance()->Get_ItemData(1);
+	CLoad_Manager::LoadTerrainData(L"../Data/MonsterMap1.dat");
 
-	//CGameObject* monster = new CMonster;
-	//monster->Ready_GameObject();
-	//monster->Set_State(CHARACTER_STATE::WALK_DOWN);
-	//CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::MONSTER, monster);
+	Create_Monster();
 
-	//CGameObject* monster = new CMonster;
-	//monster->Ready_GameObject();
-	//monster->Set_State(CHARACTER_STATE::WALK_LEFT);
-	//CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::MONSTER, monster);
-
-	//CGameObject* monster = new CMonster;
-	//monster->Ready_GameObject();
-	//monster->Set_State(CHARACTER_STATE::WALK_RIGHT);
-	//CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::MONSTER, monster);
-
-	//CGameObject*monster = new CMonster;
-	//monster->Ready_GameObject();
-	//monster->Set_State(CHARACTER_STATE::WALK_UP);
-	//CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::MONSTER, monster);
-
-	/*CGameObject* object = new CTerrain;
-	if (FAILED(object->Ready_GameObject()))
-		return E_FAIL;
-	
-	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::SCENE_TILE, object);
-	object = new CPlayer;
-	if(FAILED(object->Ready_GameObject()))
-		return E_FAIL;
-	m_gameObject_Manager->Add_GameObject_Manager(OBJECT_ID::PLAYER, object);*/
 	return S_OK;
 }
 
-void CStage::Update_Scene()
+void CMonster_Scene1::Update_Scene()
 {
 	CKey_Manager::Get_Instance()->Update_Key_Manager();
 	m_gameObject_Manager->Update_GameObject_Manager();
@@ -70,11 +54,13 @@ void CStage::Update_Scene()
 	CCollision_Manager::Collision_Item_Water(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::ITEM), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATER));
 	CCollision_Manager::Collision_Item_Object(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::ITEM), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT));
 	CCollision_Manager::Collision_Player_Water(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATER));
+
+	CCollision_Manager::Collision_Monster_Water(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::MONSTER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATER));
 }
 
-void CStage::Render_Scene()
+void CMonster_Scene1::Render_Scene()
 {
-	D3DXMATRIX matTrans , matScale , matWorld;
+	D3DXMATRIX matTrans, matScale, matWorld;
 	const Texture_Info* pTexInfo = CTexture_Manager::Get_Instance()->Get_TextureInfo_Manager(L"MainUI");
 
 	if (nullptr == pTexInfo)
@@ -89,7 +75,33 @@ void CStage::Render_Scene()
 	m_gameObject_Manager->Render_GameObject_Manager();
 }
 
-void CStage::Release_Scene()
+void CMonster_Scene1::Release_Scene()
 {
 	m_gameObject_Manager->Destroy_Instance();
+}
+
+void CMonster_Scene1::Create_Monster()
+{
+	auto respawnTile = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::RESPAWN_TILE);
+	int respawnSize = respawnTile.size();
+
+	for (int i = 0; i < respawnSize; i++)
+	{
+		CMonster* monster = new CMonster;
+		if (i == 0 || i == respawnSize - 1)
+		{
+			monster->Set_MonsterIndex(2);
+			monster->Ready_GameObject();
+			monster->Set_RespawnPos(i);
+		}
+		else
+		{
+			monster->Set_MonsterIndex(1);
+			monster->Ready_GameObject();
+			monster->Set_RespawnPos(i);
+		}
+
+		CGameObject_Manager::Get_Instance()->Add_GameObject_Manager(OBJECT_ID::MONSTER, monster);
+	}
+
 }

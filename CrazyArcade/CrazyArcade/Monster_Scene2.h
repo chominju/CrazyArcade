@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.h"
-class CMonsterStage1 :
+class CMonster_Scene2 :
 	public CScene
 {
 	// CScene을(를) 통해 상속됨

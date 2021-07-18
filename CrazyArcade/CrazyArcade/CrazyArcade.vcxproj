@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Boss_Scene.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Collision_Manager.h" />
     <ClInclude Include="CrazyArcade.h" />
@@ -175,7 +176,8 @@
     <ClInclude Include="Load_Manager.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="Monster.h" />
-    <ClInclude Include="MonsterStage1.h" />
+    <ClInclude Include="Monster_Scene1.h" />
+    <ClInclude Include="Monster_Scene2.h" />
     <ClInclude Include="Multi_Texture.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
@@ -194,6 +196,7 @@
     <ClInclude Include="WaterBall.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Boss_Scene.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Collision_Manager.cpp" />
     <ClCompile Include="CrazyArcade.cpp" />
@@ -207,7 +210,8 @@
     <ClCompile Include="Load_Manager.cpp" />
     <ClCompile Include="MainApp.cpp" />
     <ClCompile Include="Monster.cpp" />
-    <ClCompile Include="MonsterStage1.cpp" />
+    <ClCompile Include="Monster_Scene1.cpp" />
+    <ClCompile Include="Monster_Scene2.cpp" />
     <ClCompile Include="Multi_Texture.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />

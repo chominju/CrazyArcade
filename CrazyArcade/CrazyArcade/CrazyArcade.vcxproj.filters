@@ -79,11 +79,17 @@
     <ClCompile Include="Item.cpp">
       <Filter>02.GameObject\03.Item</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterStage1.cpp">
-      <Filter>03.Scene\04.Monster_Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>02.GameObject\04.Monster\00.Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss_Scene.cpp">
+      <Filter>03.Scene\04.Monster_Scene\02.Boss_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Scene2.cpp">
+      <Filter>03.Scene\04.Monster_Scene\01.Monster_Scene2</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster_Scene1.cpp">
+      <Filter>03.Scene\04.Monster_Scene\00.Monster_Scene1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,11 +180,17 @@
     <ClInclude Include="Item.h">
       <Filter>02.GameObject\03.Item</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterStage1.h">
-      <Filter>03.Scene\04.Monster_Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>02.GameObject\04.Monster\00.Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_Scene.h">
+      <Filter>03.Scene\04.Monster_Scene\02.Boss_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Scene2.h">
+      <Filter>03.Scene\04.Monster_Scene\01.Monster_Scene2</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster_Scene1.h">
+      <Filter>03.Scene\04.Monster_Scene\00.Monster_Scene1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +318,15 @@
     </Filter>
     <Filter Include="02.GameObject\04.Monster\01.Boss">
       <UniqueIdentifier>{ab15a94a-bf9a-47c9-8108-207808711910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\04.Monster_Scene\00.Monster_Scene1">
+      <UniqueIdentifier>{52fe56ca-8539-459a-a7b1-13fe8ecefc23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\04.Monster_Scene\01.Monster_Scene2">
+      <UniqueIdentifier>{d0b89eae-3404-4111-b839-5f4912602747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Scene\04.Monster_Scene\02.Boss_Scene">
+      <UniqueIdentifier>{f80ac9b9-c033-4f12-bbec-6150da484664}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

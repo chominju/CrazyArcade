@@ -2,6 +2,9 @@
 #include "Scene_Manager.h"
 #include "Stage.h"
 #include "Loading.h"
+#include "Monster_Scene1.h"
+#include "Monster_Scene2.h"
+#include "Boss_Scene.h"
 
 IMPLEMENT_SINGLETON(CScene_Manager)
 
@@ -31,6 +34,16 @@ HRESULT CScene_Manager::Change_Scene_Manager(SCENE_ID nextScene)
 			break;
 		case SCENE_ID::STAGE:
 			m_scene = new CStage;
+			break;
+		case SCENE_ID::MONSTER_SCENE1:
+			m_scene = new CMonster_Scene1;
+			m_scene->Ready_Scene();
+			break;
+		case SCENE_ID::MONSTER_SCENE2:
+			m_scene = new CMonster_Scene2;
+			break;
+		case SCENE_ID::BOSS_SCENE:
+			m_scene = new CBoss_Scene;
 			break;
 		case SCENE_ID::SCENE_END:
 			break;

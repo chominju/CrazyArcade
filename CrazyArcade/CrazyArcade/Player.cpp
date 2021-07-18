@@ -6,10 +6,7 @@
 #include "Terrain.h"
 
 CPlayer::CPlayer()
-	: m_saveSpeed(0.f)
-	, m_startIndex(0.f)
-	, m_objectKey(L"Cappi")
-	, m_stateKey(L"Stand")
+	: m_startIndex(0.f)
 	, m_invincibilityCurrnetTime(0.f)
 	, m_invincibilityTime(1.f)
 	, m_isInvincibility(false)
@@ -337,14 +334,19 @@ HRESULT CPlayer::Ready_GameObject()
 	iter++;
 	iter++;
 	iter++;
-	m_info.pos.x = dynamic_cast<CTerrain*>(*iter)->Get_Terrain_Info().pos.x - 10;
-	m_info.pos.y = dynamic_cast<CTerrain*>(*iter)->Get_Terrain_Info().pos.y - 30;
+	//m_info.pos.x = dynamic_cast<CTerrain*>(*iter)->Get_Terrain_Info().pos.x - 10;
+	//m_info.pos.y = dynamic_cast<CTerrain*>(*iter)->Get_Terrain_Info().pos.y - 30;
+	m_info.pos.x = dynamic_cast<CTerrain*>(*iter)->Get_Terrain_Info().pos.x;
+	m_info.pos.y = dynamic_cast<CTerrain*>(*iter)->Get_Terrain_Info().pos.y -90;
 	m_info.pos.z = 0.0f;
 	m_info.dir = { 1.f,1.f,0.f };
 	m_info.size = { expansionSize,expansionSize,0.f };
 	m_frame = { 0.f,4.f };
 	m_playerSize[0] = 56 * expansionSize;
 	m_playerSize[1] = 60 * expansionSize;
+
+	m_objectKey = L"Cappi";// (L"Cappi")
+	m_stateKey = L"Stand";// (L"Stand")
 
 	m_playerableInfo.isKick = false;
 	m_playerableInfo.isRevival = false;

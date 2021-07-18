@@ -15,6 +15,7 @@ CGameObject::CGameObject()
 	, m_isPushed(false)
 	, m_finishIndex(-1)
 	, m_renderID(RENDER_ID::RENDER_OBJECT)
+	, m_saveSpeed(0.f)
 {
 }
 
@@ -37,6 +38,19 @@ void CGameObject::FrameMove(float speed)
 	m_frame.frameStart += m_frame.frameEnd * CTime_Manager::Get_Instance()->Get_DeltaTime() * speed;
 	if (m_frame.frameEnd < m_frame.frameStart)
 		m_frame.frameStart = 0;
+}
+
+void CGameObject::Reset_PlayerInfo()
+{
+	m_playerableInfo.isKick = false;
+	m_playerableInfo.isRevival = false;
+	m_playerableInfo.isRide = false;
+	m_playerableInfo.isShield = false;
+	m_playerableInfo.speed = 1;
+	m_saveSpeed = m_playerableInfo.speed;
+	m_playerableInfo.WaterBallCurrent = 0;
+	m_playerableInfo.WaterBallCurrentMax = 2;
+	m_playerableInfo.WaterLength = 2;
 }
 
 void CGameObject::Set_Rect()

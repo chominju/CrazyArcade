@@ -10,11 +10,11 @@ private:
 public:
 	list<CGameObject*>& Get_Tile() { return m_listGameObject[OBJECT_ID::SCENE_TILE]; }
 	list<CGameObject*>& Get_Object(OBJECT_ID id) { return m_listGameObject[id]; }
-	CGameObject* Get_Player() { return m_listGameObject[OBJECT_ID::PLAYER].front(); }
+	CGameObject* Get_Player();
 
 	Item_Info Get_ItemData(BYTE index);
 
-	
+	void Reset_Object(OBJECT_ID id);
 
 	bool IsExistObject(int index);
 	bool IsExistWater(int index);
