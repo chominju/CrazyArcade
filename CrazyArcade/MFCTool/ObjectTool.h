@@ -46,4 +46,5 @@ public:
 	CString listName;
 	CString m_selectItem;
 	Item_Info  m_tempItemInfo;
+
 };

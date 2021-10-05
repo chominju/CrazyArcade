@@ -15,9 +15,13 @@ public:
 	Item_Info Get_ItemData(BYTE index);
 
 	void Reset_Object(OBJECT_ID id);
+	void Reset_RenderingList();
 
 	bool IsExistObject(int index);
 	bool IsExistWater(int index);
+
+	void SavePlayerData();
+	Player_Info GetSavePlayerData() { return m_savePlayerData; }
 
 public:
 	HRESULT Add_GameObject_Manager(OBJECT_ID id, CGameObject* object);
@@ -31,6 +35,8 @@ private:
 	list<CGameObject*> m_listRenderingGameObject[OBJECT_END];
 
 	map<BYTE, Item_Info>m_mapItemInfo;
+
+	Player_Info m_savePlayerData;
 
 };
 

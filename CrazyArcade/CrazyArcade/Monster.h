@@ -27,7 +27,7 @@ public:
 
 private:
 	int m_monsterIndex;
-	RECT m_monsterSensorRect;
+	RECT m_monsterSensorRect[4];
 
 	int m_monsterSizeX;
 	int m_monsterSizeY;

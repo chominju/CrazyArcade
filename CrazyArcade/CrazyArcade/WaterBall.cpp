@@ -3,9 +3,19 @@
 #include "GameObject_Manager.h"
 #include "Water.h"
 
+CWaterBall::CWaterBall()
+{
+}
+
 CWaterBall::CWaterBall(int index)
 	: m_animIndex(0)
 	, m_time(3.f)
+	, m_isBossMonster(false)
+	, m_bossState(WALK_DOWN)
+	, m_isWaterBallMove(true)
+	, m_isCheckIndex(false)
+	, m_isTimerWaterBall(false)
+	, m_isBossMonsterHit(false)
 {
 	m_LocationIndex = index;
 	indexY = index / TILEX;
@@ -30,12 +40,31 @@ HRESULT CWaterBall::Ready_GameObject()
 
 int CWaterBall::Update_GameObject()
 {
-	m_time -= CTime_Manager::Get_Instance()->Get_DeltaTime();
+	if (!m_isWaterBallMove && m_isBossMonster)
+		m_time -= CTime_Manager::Get_Instance()->Get_DeltaTime();
+	else if(!m_isBossMonster)
+		m_time -= CTime_Manager::Get_Instance()->Get_DeltaTime();
+
+	Move_BossWaterBall();
 
 	if ((m_time <= 0 || m_dead)&& !m_isPushed)
 	{
-		CGameObject_Manager::Get_Instance()->Get_Player()->Decrese_WaterBall();
-		int waterLength = CGameObject_Manager::Get_Instance()->Get_Player()->Get_WaterLength();
+		CSoundMgr::Get_Instance()->PlaySound(L"Water.mp3", CSoundMgr::EFFECT);
+
+		if (m_finishIndex != -1)
+			m_LocationIndex = m_finishIndex;
+		m_finishIndex = -1;
+		indexX = (int)m_LocationIndex % TILEX;
+		indexY = (int)m_LocationIndex / TILEX;
+
+		int waterLength = 0;
+		if (!m_isBossMonster)
+		{
+			CGameObject_Manager::Get_Instance()->Get_Player()->Decrese_WaterBall();
+			waterLength = CGameObject_Manager::Get_Instance()->Get_Player()->Get_WaterLength();
+		}
+		else
+			waterLength = 2;
 
 		auto waterBallList = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
 
@@ -170,12 +199,11 @@ int CWaterBall::Update_GameObject()
 
 	if (m_LocationIndex != m_finishIndex)
 	{
-		if (m_isPushed && !m_dead)
+		if ((m_isPushed && !m_dead) || m_isBossMonsterHit)
 		{
-
 			if (m_curState == WALK_LEFT || m_curState == WALK_RIGHT)
 			{
-				if (m_finishX == m_info.pos.x)
+				if (m_finishX == m_info.pos.x || m_isBossMonsterHit)
 				{
 					m_isPushed = false;
 					//m_info.centerX = m_info.pos.x + TILECX * expansionSize / 2;
@@ -188,7 +216,7 @@ int CWaterBall::Update_GameObject()
 			}
 			if (m_curState == WALK_UP || m_curState == WALK_DOWN)
 			{
-				if (m_finishY == m_info.pos.y)
+				if (m_finishY == m_info.pos.y || m_isBossMonsterHit)
 				{
 					m_isPushed = false;
 					//m_tileInfo.centerY = m_tileInfo.pos.y + TILECY * expansionSize / 2;
@@ -253,8 +281,165 @@ void CWaterBall::Render_GameObject()
 
 		CGraphic_Device::Get_Instance()->Get_Sprite()->SetTransform(&matWorld);
 		CGraphic_Device::Get_Instance()->Get_Sprite()->Draw(textureInfo->texture, nullptr, &D3DXVECTOR3(/*centerX, centerY*/0, 0, 0.f), nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+
+
+	/*	CGraphic_Device::Get_Instance()->Get_Sprite()->End();
+
+		D3DXVECTOR2 vLine[5]{ {(float)m_rect.left, (float)m_rect.top}, {(float)m_rect.right, (float)m_rect.top},{(float)m_rect.right, (float)m_rect.bottom },{ (float)m_rect.left, (float)m_rect.bottom },{ (float)m_rect.left, (float)m_rect.top }, };
+		CGraphic_Device::Get_Instance()->Get_Line()->Draw(vLine, 5, D3DCOLOR_ARGB(255, 0, 0, 0));
+
+		CGraphic_Device::Get_Instance()->Get_Sprite()->Begin(D3DXSPRITE_ALPHABLEND);*/
+
 }
 
 void CWaterBall::Release_GameObject()
 {
+}
+
+void CWaterBall::Move_BossWaterBall()
+{
+	if (m_isBossMonster && m_isWaterBallMove)
+	{
+		if (!m_isCheckIndex)
+		{
+			int nextIndex = -1;
+			switch (m_bossState)
+			{
+			case WALK_LEFT:
+				if (indexX - 1 >= 0)
+				{
+					m_finishX = indexX - 1;
+					m_finishY = indexY;
+					nextIndex = (indexY * TILEX) + indexX - 1;
+				}
+				break;
+			case WALK_RIGHT:
+				if (indexX + 1 < TILEX)
+				{
+					m_finishX = indexX + 1;
+					m_finishY = indexY;
+					nextIndex = (indexY * TILEX) + indexX + 1;
+				}
+				break;
+			case WALK_UP:
+				if (indexY - 1 >= 0)
+				{
+					m_finishX = indexX;
+					m_finishY = indexY - 1;
+					nextIndex = ((indexY - 1) * TILEX) + indexX;
+				}
+				break;
+			case WALK_DOWN:
+				if (indexY + 1 < TILEY)
+				{
+					m_finishX = indexX;
+					m_finishY = indexY + 1;
+					nextIndex = ((indexY + 1) * TILEX) + indexX;
+				}
+				break;
+			default:
+				break;
+			}
+
+			if (nextIndex == -1)
+			{
+				m_isWaterBallMove = false;
+				return;
+			}
+
+			auto playerList = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER);
+			auto objectList = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT);
+			auto waterBallList = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
+
+			bool isObjectExist = false;
+
+			for (auto player : playerList)
+			{
+				if (player->Get_LocationIndex() == nextIndex)
+				{
+					isObjectExist = true;
+					m_isWaterBallMove = false;
+					break;
+				}
+			}
+
+			for (auto object : objectList)
+			{
+				if (object->Get_LocationIndex() == nextIndex)
+				{
+					isObjectExist = true;
+					m_isWaterBallMove = false;
+					break;
+				}
+			}
+
+			for (auto waterBall : waterBallList)
+			{
+				if (waterBall->Get_LocationIndex() == nextIndex)
+				{
+					isObjectExist = true;
+					m_isWaterBallMove = false;
+					break;
+				}
+			}
+
+			if (!isObjectExist)
+			{
+				m_isCheckIndex = true;
+				m_finishIndex = nextIndex;
+				indexX = m_finishX;
+				indexY = m_finishY;
+				m_finishX = m_finishX * TILECX * expansionSize + STARTX;
+				m_finishY = m_finishY * TILECY * expansionSize + STARTY;
+
+			}
+		}
+		else // m_isCheckIndex == true
+		{
+			switch (m_bossState)
+			{
+			case WALK_LEFT:
+				if (m_info.pos.x > m_finishX)
+					m_info.pos.x -= 10;
+				else
+				{
+					m_LocationIndex = m_finishIndex;
+					m_isCheckIndex = false;
+				}
+				break;
+			case WALK_RIGHT:
+				if (m_info.pos.x < m_finishX)
+					m_info.pos.x += 10;
+				else
+				{
+					m_LocationIndex = m_finishIndex;
+					m_isCheckIndex = false;
+				}
+				break;
+			case WALK_UP:
+				if (m_info.pos.y > m_finishY)
+					m_info.pos.y -= 10;
+				else
+				{
+					m_LocationIndex = m_finishIndex;
+					m_isCheckIndex = false;
+				}
+				break;
+			case WALK_DOWN:
+				if (m_info.pos.y < m_finishY)
+					m_info.pos.y += 10;
+				else
+				{
+					m_LocationIndex = m_finishIndex;
+					m_isCheckIndex = false;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+
+	}
 }

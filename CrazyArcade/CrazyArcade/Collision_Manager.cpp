@@ -7,6 +7,9 @@
 #include "Water.h"
 #include "Item.h"
 #include "WaterBall.h"
+#include "Monster.h"
+#include "Boss.h"
+
 CGameObject* CCollision_Manager::pushObject = nullptr;
 CGameObject* CCollision_Manager::pushWater = nullptr;
 
@@ -195,6 +198,13 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 											isNextObjectExist = true;
 									}
 
+									auto monsterTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::MONSTER);
+									for (auto nextnext : monsterTemp)
+									{
+										if (nextIndex[1] - 1 == nextnext->Get_LocationIndex())
+											isNextObjectExist = true;
+									}
+
 
 									if (isNextObjectExist)
 										return OBJ_WALL;
@@ -229,6 +239,12 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									}
 									auto waterBallTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
 									for (auto nextnext : waterBallTemp)
+									{
+										if (nextIndex[1] + 1 == nextnext->Get_LocationIndex())
+											isNextObjectExist = true;
+									}
+									auto monsterTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::MONSTER);
+									for (auto nextnext : monsterTemp)
 									{
 										if (nextIndex[1] + 1 == nextnext->Get_LocationIndex())
 											isNextObjectExist = true;
@@ -269,6 +285,12 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 										if (nextIndex[1] - TILEX == nextnext->Get_LocationIndex())
 											isNextObjectExist = true;
 									}
+									auto monsterTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::MONSTER);
+									for (auto nextnext : monsterTemp)
+									{
+										if (nextIndex[1] - TILEX == nextnext->Get_LocationIndex())
+											isNextObjectExist = true;
+									}
 									if (isNextObjectExist)
 										return OBJ_WALL;
 
@@ -301,6 +323,12 @@ int CCollision_Manager::Collision_Player_Object(list<CGameObject*>* player, list
 									}
 									auto waterBallTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
 									for (auto nextnext : waterBallTemp)
+									{
+										if (nextIndex[1] + TILEX == nextnext->Get_LocationIndex())
+											isNextObjectExist = true;
+									}
+									auto monsterTemp = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::MONSTER);
+									for (auto nextnext : monsterTemp)
 									{
 										if (nextIndex[1] + TILEX == nextnext->Get_LocationIndex())
 											isNextObjectExist = true;
@@ -912,7 +940,7 @@ int CCollision_Manager::Collision_Player_Water(list<CGameObject*>* player, list<
 {
 	for (auto playerObj : *player)
 	{
-		if(!dynamic_cast<CPlayer*>(playerObj)->Get_IsInvincibility())
+		if(!dynamic_cast<CPlayer*>(playerObj)->Get_IsInvincibility() && !dynamic_cast<CPlayer*>(playerObj)->Get_IsUseShield())
 		{ 
 			for (auto waterObj : *water)
 			{
@@ -922,17 +950,17 @@ int CCollision_Manager::Collision_Player_Water(list<CGameObject*>* player, list<
 					RECT waterRect = waterObj->Get_Rect();
 					RECT playerRect = playerObj->Get_Rect();
 
-					playerRect.left += 5;
-					playerRect.top += 5;
-					playerRect.right -= 5;
-					playerRect.bottom -= 5;
+					//playerRect.left += 5;
+					playerRect.top += 10;
+					//playerRect.right -= 5;
+					//playerRect.bottom -= 5;
 
 					if (IntersectRect(&temp, &playerRect, &waterRect))
 					{
 						int x = temp.right - temp.left;
 						int y = temp.bottom - temp.top;
 
-						if (x*y > TILECX * TILECY * expansionSize * expansionSize / 2)
+						if (x*y > TILECX * TILECY * expansionSize * expansionSize / 4)
 						{
 							if (playerObj->Get_IsRide())
 							{
@@ -942,7 +970,8 @@ int CCollision_Manager::Collision_Player_Water(list<CGameObject*>* player, list<
 								return 0;
 							}
 
-							//dynamic_cast<CPlayer*>(playerObj)->Set_IsTrappeed(true);
+							if(!dynamic_cast<CPlayer*>(playerObj)->Get_IsTrappeed() && !dynamic_cast<CPlayer*>(playerObj)->Get_IsDeadAnim())
+							dynamic_cast<CPlayer*>(playerObj)->Set_IsTrappeed(true);
 							//playerObj->Set_Dead(true);
 						}
 					}
@@ -962,23 +991,77 @@ int CCollision_Manager::Collision_Player_Item(list<CGameObject*>* player, list<C
 			RECT temp;
 			RECT itemRect = itemObj->Get_Rect();
 			RECT playerRect = playerObj->Get_Rect();
-			itemRect.left += 25;
-			itemRect.top += 25;
-			itemRect.right -= 25;
-			itemRect.bottom -= 25;
+			itemRect.left += 15;
+			itemRect.top += 15;
+			itemRect.right -= 15;
+			itemRect.bottom -= 15;
 
-			playerRect.left += 10;
-			playerRect.top += 10;
-			playerRect.right -= 10;
-			playerRect.bottom -= 10;
+			playerRect.left += 5;
+			playerRect.top += 5;
+			playerRect.right -= 5;
+			playerRect.bottom -= 5;
 
 			if (IntersectRect(&temp, &playerRect, &itemRect))
 			{
-				if(dynamic_cast<CItem*>(itemObj)->Get_ItemData().isUserUse)
+				CSoundMgr::Get_Instance()->PlaySound(L"ItemEat.wav", CSoundMgr::PLAYER);
+				if (dynamic_cast<CItem*>(itemObj)->Get_ItemData().isUserUse)
+				{
 					dynamic_cast<CPlayer*>(playerObj)->Manual_Item(dynamic_cast<CItem*>(itemObj)->Get_ItemData());
+				}
 				else
 					dynamic_cast<CPlayer*>(playerObj)->Auto_Item(dynamic_cast<CItem*>(itemObj)->Get_ItemData() , dynamic_cast<CItem*>(itemObj)->Get_Object_Info());
 				itemObj->Set_Dead(true);
+			}
+		}
+	}
+	return 0;
+}
+
+int CCollision_Manager::Collision_Player_Monster(list<CGameObject*>* player, list<CGameObject*>* monster)
+{
+	for (auto playerObj : *player)
+	{
+		if (!dynamic_cast<CPlayer*>(playerObj)->Get_IsInvincibility() && !dynamic_cast<CPlayer*>(playerObj)->Get_IsUseShield())
+		{
+			for (auto monsterObj : *monster)
+			{
+					RECT temp;
+					RECT monsterRect = monsterObj->Get_Rect();
+					RECT playerRect = playerObj->Get_Rect();
+
+					playerRect.left += 20;
+					playerRect.top += 20;
+					playerRect.right -= 20;
+					playerRect.bottom -= 20;
+
+					//monsterRect.left += 10;
+					//monsterRect.top += 10;
+					//monsterRect.right -= 10;
+					//monsterRect.bottom -= 10;
+
+
+					if (IntersectRect(&temp, &playerRect, &monsterRect))
+					{
+						if (monsterObj->Get_isBossMonster())
+						{
+							if (monsterObj->Get_IsDead())
+								dynamic_cast<CBoss*>(monsterObj)->Set_IsDeadAnimFin(true);
+							else
+							{
+								if (!dynamic_cast<CPlayer*>(playerObj)->Get_IsDeadAnim())
+									dynamic_cast<CPlayer*>(playerObj)->Set_IsDeadAnim(true);
+							}
+
+						}
+						else
+						{
+							if (monsterObj->Get_IsDead())
+								continue;
+							if(!dynamic_cast<CPlayer*>(playerObj)->Get_IsDeadAnim())
+								dynamic_cast<CPlayer*>(playerObj)->Set_IsDeadAnim(true);
+						}
+
+					}
 			}
 		}
 	}
@@ -1280,27 +1363,195 @@ int CCollision_Manager::Collision_Monster_Water(list<CGameObject*>* monster, lis
 					RECT waterRect = waterObj->Get_Rect();
 					RECT monsterRect = monsterObj->Get_Rect();
 
-					monsterRect.left += 5;
-					monsterRect.top += 5;
-					monsterRect.right -= 5;
-					monsterRect.bottom -= 5;
+					monsterRect.left += 10;
+					monsterRect.top += 10;
+					monsterRect.right -= 10;
+					monsterRect.bottom -= 10;
 
-					if (IntersectRect(&temp, &monsterRect, &waterRect))
+					if (!waterObj->Get_IsDead())
 					{
-						int x = temp.right - temp.left;
-						int y = temp.bottom - temp.top;
-
-						if (x*y > TILECX * TILECY * expansionSize * expansionSize / 2)
+						if (IntersectRect(&temp, &monsterRect, &waterRect))
 						{
-							monsterObj->Set_Dead(true);
-							//dynamic_cast<CPlayer*>(playerObj)->Set_IsTrappeed(true);
-							//playerObj->Set_Dead(true);
+							if (monsterObj->Get_isBossMonster())
+							{
+								if (!monsterObj->Get_IsInvincibility())
+								{
+									if (dynamic_cast<CBoss*>(monsterObj)->Get_BossHp())
+									{
+										dynamic_cast<CBoss*>(monsterObj)->Decrease_BossHp();
+										monsterObj->Set_State(CHARACTER_STATE::HIT);
+										dynamic_cast<CBoss*>(monsterObj)->Set_IsInvincibility(true);
+									}
+									else
+										monsterObj->Set_Dead(true);
+								}
+							}
+							else
+								monsterObj->Set_Dead(true);
+
+							waterObj->Set_Dead(true);
 						}
 					}
 				}
 			}
 	}
 	return 0;
+}
+
+int CCollision_Manager::Collision_Boss_WaterBall(CGameObject * monster, list<CGameObject*>* waterBall, int & bossHp)
+{
+		for (auto waterBallObj : *waterBall)
+		{
+				RECT temp;
+				RECT waterRect = waterBallObj->Get_Rect();
+				RECT monsterRect = monster->Get_Rect();
+
+				//monsterRect.left += 5;
+				//monsterRect.top += 5;
+				//monsterRect.right -= 5;
+				//monsterRect.bottom -= 5;
+
+				if (!waterBallObj->Get_IsDead())
+				{
+					if (IntersectRect(&temp, &monsterRect, &waterRect))
+					{
+						if (monster->Get_isBossMonster())
+						{
+							if (dynamic_cast<CBoss*>(monster)->Get_BossHp() > 0)
+							{
+								//dynamic_cast<CBoss*>(monster)->Decrease_BossHp();
+								monster->Set_State(CHARACTER_STATE::HIT);
+							}
+							else
+								monster->Set_Dead(true);
+						}
+						else
+							monster->Set_Dead(true);
+
+
+						int intersectIndexX = ((temp.left + temp.right - STARTX * 2)/2) / (TILECX * expansionSize);
+						int intersectIndexY = ((temp.top + temp.bottom - STARTY * 2)/2) / (TILECY * expansionSize);
+
+						
+						waterBallObj->Set_finish(intersectIndexX * TILECX * expansionSize, intersectIndexY * TILECX * expansionSize, intersectIndexY * TILEX + intersectIndexX);
+
+						waterBallObj->Set_Dead(true);
+						waterBallObj->Set_Pushed(false);
+						dynamic_cast<CWaterBall*>(waterBallObj)->Set_IsBossMonsterHit(true);
+					}
+
+				}
+		}
+	return 0;
+}
+
+void CCollision_Manager::Collision_Monster_Sensor(RECT * rect, list<CGameObject*>* player, CHARACTER_STATE& state)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (auto playerObject : *player)
+		{
+			RECT temp;
+			RECT playerRect = playerObject->Get_Rect();
+			playerRect.left += 5.f;
+			playerRect.right -= 5.f;
+			playerRect.top += 5.f;
+			playerRect.bottom -= 5.f;
+
+			if (IntersectRect(&temp, &rect[i], &playerRect) && !dynamic_cast<CPlayer*>(playerObject)->Get_IsDeadAnim())
+			{
+				bool isWallExist = false;
+				switch (i)
+				{
+				case 0:
+				{
+					auto object= CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT);
+					for (auto objectTemp : object)
+					{
+						if (IntersectRect(&temp, &rect[i], &objectTemp->Get_Rect()))
+							isWallExist = true;
+					}
+
+					auto waterBallObject = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
+					for (auto objectTemp : waterBallObject)
+					{
+						if (IntersectRect(&temp, &rect[i], &objectTemp->Get_Rect()))
+							isWallExist = true;
+					}
+
+					if(!isWallExist)
+						state = CHARACTER_STATE::WALK_LEFT;
+					return;
+				}
+				case 1:
+				{
+					auto object = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT);
+					for (auto objectTemp : object)
+					{
+						if (IntersectRect(&temp, &rect[i], &objectTemp->Get_Rect()))
+							isWallExist = true;
+					}
+
+					auto waterBallObject = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
+					for (auto objectTemp : waterBallObject)
+					{
+						if (IntersectRect(&temp, &rect[i], &objectTemp->Get_Rect()))
+							isWallExist = true;
+					}
+
+					if (!isWallExist)
+						state = CHARACTER_STATE::WALK_RIGHT;
+					return;
+				}
+				case 2:
+				{
+					auto object = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT);
+					for (auto objectTemp : object)
+					{
+						if (IntersectRect(&temp, &rect[i], &objectTemp->Get_Rect()))
+							isWallExist = true;
+					}
+
+					auto waterBallObject = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
+					for (auto objectTemp : waterBallObject)
+					{
+						if (IntersectRect(&temp, &rect[i], &objectTemp->Get_Rect()))
+							isWallExist = true;
+					}
+
+
+					if (!isWallExist)
+						state = CHARACTER_STATE::WALK_UP;
+					return;
+				}
+				case 3:
+				{
+					auto object = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::OBEJCT);
+					for (auto objectTemp : object)
+					{
+						if (IntersectRect(&temp, &rect[i], &objectTemp->Get_Rect()))
+							isWallExist = true;
+					}
+
+					auto waterBallObject = CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATERBALL);
+					for (auto objectTemp : waterBallObject)
+					{
+						if (IntersectRect(&temp, &rect[i], &objectTemp->Get_Rect()))
+							isWallExist = true;
+					}
+
+
+					if (!isWallExist)
+						state = CHARACTER_STATE::WALK_DOWN;
+					return;
+				}
+
+				default:
+					return;
+				}
+			}
+		}
+	}
 }
 
 int CCollision_Manager::Collision_Item_Water(list<CGameObject*>* item, list<CGameObject*>* water)

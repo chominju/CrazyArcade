@@ -29,7 +29,7 @@ void CFrame_Manager::Render_Frame_Manager()
 	m_fpsTime += CTime_Manager::Get_Instance()->Get_DeltaTime();
 	if (1.f <= m_fpsTime)
 	{
-		swprintf_s(m_szfps, L"FPS : %d", m_fps);
+		//swprintf_s(m_szfps, L"FPS : %d", m_fps);
 		m_fps = 0;
 		m_fpsTime = 0.f;
 	}

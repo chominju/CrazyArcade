@@ -18,4 +18,5 @@ public:
 	void Create_Monster();
 private:
 	CGameObject_Manager* m_gameObject_Manager;
+
 };

@@ -6,7 +6,7 @@
 #include "Collision_Manager.h"
 #include "Monster.h"
 #include "Load_Manager.h"
-
+#include "Scene_Manager.h"
 
 CMonster_Scene1::CMonster_Scene1()
 	:m_gameObject_Manager(CGameObject_Manager::Get_Instance())
@@ -40,6 +40,9 @@ HRESULT CMonster_Scene1::Ready_Scene()
 
 	CLoad_Manager::LoadTerrainData(L"../Data/MonsterMap1.dat");
 
+	CSoundMgr::Get_Instance()->StopAll();
+	CSoundMgr::Get_Instance()->PlayBGM(L"MonsterScene.mp3");
+
 	Create_Monster();
 
 	return S_OK;
@@ -56,6 +59,18 @@ void CMonster_Scene1::Update_Scene()
 	CCollision_Manager::Collision_Player_Water(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::PLAYER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATER));
 
 	CCollision_Manager::Collision_Monster_Water(&CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::MONSTER), &CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::WATER));
+
+	if (CGameObject_Manager::Get_Instance()->Get_Object(OBJECT_ID::MONSTER).size() == 0)
+	{
+		if (!m_winSound)
+		{
+			m_winSound = true;
+			CSoundMgr::Get_Instance()->PlaySound(L"GameWin.wav", CSoundMgr::PLAYER);
+		}
+		m_nextSceneTime -= CTime_Manager::Get_Instance()->Get_DeltaTime();
+		if(m_nextSceneTime <=0)
+			CScene_Manager::Get_Instance()->Change_Scene_Manager(SCENE_ID::MONSTER_SCENE2);
+	}
 }
 
 void CMonster_Scene1::Render_Scene()

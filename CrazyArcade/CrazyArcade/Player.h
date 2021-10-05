@@ -24,12 +24,15 @@ public:
 	void Set_IsTrappeed(bool trapped) { m_isTrapped = trapped; m_frame.frameStart = 0; }
 	bool Get_IsTrappeed() { return m_isTrapped; }
 
+
+	void Set_IsDeadAnim(bool deadAnim) { m_isDeadAnim = deadAnim; }
+	bool Get_IsDeadAnim() { return m_isDeadAnim; }
 	void IsRide();
 
-	void Set_IsInvincibility(bool isInvincibility) { m_isInvincibility = isInvincibility; }
-	bool Get_IsInvincibility() { return m_isInvincibility; }
+	void Set_IsUseShield(bool shield) { m_isUseShield = shield; }
+	bool Get_IsUseShield() { return m_isUseShield; }
 
-	void Set_InvincibilityCurrentTime();
+	void Use_Item();
 
 public:
 	// CGameObject을(를) 통해 상속됨
@@ -45,14 +48,21 @@ private:
 	float m_startIndex;
 	float m_playerSize[2];
 
-	float m_invincibilityTime;
-	float m_invincibilityCurrnetTime;
-	bool m_isInvincibility;
 
 	bool m_isTrapped;
 
 	float m_rideSpeed;
 
+	bool m_animCheck;
+
+	bool m_itemUseable;
+
+	bool m_isUseShield;
+
+	int m_waterBallNumber;
+
 	Item_Info m_haveItem;
+
+	int m_TimerwaterBallNum;
 };
 

@@ -68,6 +68,9 @@ HRESULT CLoading::Ready_Scene()
 	if (nullptr == m_thread)
 		return E_FAIL;
 
+	CSoundMgr::Get_Instance()->StopAll();
+	CSoundMgr::Get_Instance()->PlayBGM(L"LoadingScene.wav");
+
 	return S_OK;
 }
 

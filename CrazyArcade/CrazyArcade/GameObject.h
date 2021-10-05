@@ -34,6 +34,7 @@ public:
 
 
 	void Set_Pos(float x, float y) { m_info.pos.x += x; m_info.pos.y += y; }
+	void Set_Pos2(float x, float y) { m_info.pos.x = x; m_info.pos.y = y; }
 
 	void Set_MoveLock(bool lock) { m_moveLock = lock; }
 	bool Get_MoveLock() { return m_moveLock; }
@@ -60,6 +61,15 @@ public:
 	RENDER_ID Get_RenderID() { return m_renderID; }
 
 	void Reset_PlayerInfo();
+
+	bool Get_isBossMonster() { return m_isBossMonster; }
+
+	void Set_IsInvincibility(bool isInvincibility) { m_isInvincibility = isInvincibility; }
+	bool Get_IsInvincibility() { return m_isInvincibility; }
+	void Set_InvincibilityCurrentTime();
+
+	Player_Info Get_PlayerData() { return m_playerableInfo; }
+	void Set_PlayerData(Player_Info loadData) { m_playerableInfo = loadData; }
 
 public:
 	virtual HRESULT Ready_GameObject()PURE;
@@ -97,6 +107,17 @@ protected:
 	wstring m_stateKey;
 
 	RENDER_ID m_renderID;
+
+	bool m_isDeadAnim;
+	bool m_isDeadAnimFin;
+
+	bool m_isBossMonster;
+
+
+	float m_invincibilityTime;
+	float m_invincibilityCurrnetTime;
+	bool m_isInvincibility;
+
 };
 
 

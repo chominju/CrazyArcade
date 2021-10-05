@@ -35,6 +35,12 @@ void CGameObject_Manager::Reset_Object(OBJECT_ID id)
 	m_listGameObject[id].clear();
 }
 
+void CGameObject_Manager::Reset_RenderingList()
+{
+	for (int i = 0; i < RENDER_ID::RENDER_END; ++i)
+		m_listRenderingGameObject[i].clear();
+}
+
 bool CGameObject_Manager::IsExistObject(int index)
 {
 	for (auto object : m_listGameObject[OBJECT_ID::OBEJCT])
@@ -67,6 +73,12 @@ bool CGameObject_Manager::IsExistWater(int index)
 	return false;
 }
 
+void CGameObject_Manager::SavePlayerData()
+{
+	if (!m_listGameObject[PLAYER].empty())
+		m_savePlayerData = m_listGameObject[PLAYER].front()->Get_PlayerData();
+}
+
 HRESULT CGameObject_Manager::Add_GameObject_Manager(OBJECT_ID id, CGameObject * object)
 {
 	if (id >= OBJECT_ID::OBJECT_END || nullptr == object)
@@ -83,6 +95,7 @@ HRESULT CGameObject_Manager::Add_ItemData(Item_Info & data)
 
 void CGameObject_Manager::Update_GameObject_Manager()
 {
+	SavePlayerData();
 	for (int i = 0; i < OBJECT_ID::OBJECT_END; ++i)
 	{
 		list<CGameObject*>::iterator iter = m_listGameObject[i].begin();

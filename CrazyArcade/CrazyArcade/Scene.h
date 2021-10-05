@@ -10,5 +10,9 @@ public:
 	virtual void	Update_Scene()PURE;
 	virtual void	Render_Scene()PURE;
 	virtual void	Release_Scene()PURE;
+
+protected:
+	float m_nextSceneTime;
+	bool m_winSound;
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.h"
-
+class CGameObject_Manager;
 class CBoss_Scene :
 	public CScene
 {
@@ -12,4 +12,9 @@ public:
 	virtual void Update_Scene() override;
 	virtual void Render_Scene() override;
 	virtual void Release_Scene() override;
+
+	void Create_Monster();
+	void Create_Item();
+private:
+	CGameObject_Manager* m_gameObject_Manager;
 };

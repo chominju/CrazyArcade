@@ -32,6 +32,8 @@ void CKey_Manager::Update_Key_Manager()
 		m_key |= KEY_SPACE;
 	if (GetAsyncKeyState('C') & 0x8000)
 		m_key |= KEY_C;
+	if (GetAsyncKeyState('Q') & 0x8000)
+		m_key |= KEY_Q;
 	/*if (GetAsyncKeyState('A') & 0x8000)
 		m_key |= KEY_A;
 	if (GetAsyncKeyState('Q') & 0x8000)

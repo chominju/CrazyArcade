@@ -402,6 +402,9 @@ void CObjectTool::OnBnClickedButton_Save()
 
 		}
 		CloseHandle(hFile);
+
+		vector<int> temp;
+		
 	}
 }
 

@@ -91,6 +91,18 @@
     <ClCompile Include="Monster_Scene1.cpp">
       <Filter>03.Scene\04.Monster_Scene\00.Monster_Scene1</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>02.GameObject\04.Monster\01.Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundMgr.cpp">
+      <Filter>06.Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerWaterBall.cpp">
+      <Filter>02.GameObject\03.Item\TimerWaterBall</Filter>
+    </ClCompile>
+    <ClCompile Include="Shield.cpp">
+      <Filter>02.GameObject\03.Item\Shield</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CrazyArcade.h">
@@ -192,6 +204,18 @@
     <ClInclude Include="Monster_Scene1.h">
       <Filter>03.Scene\04.Monster_Scene\00.Monster_Scene1</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>02.GameObject\04.Monster\01.Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundMgr.h">
+      <Filter>06.Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerWaterBall.h">
+      <Filter>02.GameObject\03.Item\TimerWaterBall</Filter>
+    </ClInclude>
+    <ClInclude Include="Shield.h">
+      <Filter>02.GameObject\03.Item\Shield</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="CrazyArcade.ico">
@@ -243,9 +267,6 @@
     </Filter>
     <Filter Include="03.Scene\01.Loading_Scene">
       <UniqueIdentifier>{1cc0ca06-9a97-4d97-ac90-c4c4b4add357}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Scene\02.Mode_Scene">
-      <UniqueIdentifier>{2a10abbb-c6a3-4fce-ac30-b84f6684fc5d}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.Scene\03.Normal_Scene">
       <UniqueIdentifier>{1c336bd2-d09d-421d-9292-41f16c2f2eb4}</UniqueIdentifier>
@@ -310,9 +331,6 @@
     <Filter Include="02.GameObject\03.Water\01.Water">
       <UniqueIdentifier>{a1310db3-4776-4dd6-960b-233aaae850f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\03.Item\NewFilter1">
-      <UniqueIdentifier>{2d50b6a3-4c70-44fe-89c4-1917694b7e9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\04.Monster\00.Monster">
       <UniqueIdentifier>{7e3f0ad4-c0ca-44e2-b21b-5b44be5fed12}</UniqueIdentifier>
     </Filter>
@@ -327,6 +345,15 @@
     </Filter>
     <Filter Include="03.Scene\04.Monster_Scene\02.Boss_Scene">
       <UniqueIdentifier>{f80ac9b9-c033-4f12-bbec-6150da484664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Sound">
+      <UniqueIdentifier>{77e9eb18-b5d7-45f0-9daa-d7fdde9b9960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03.Item\TimerWaterBall">
+      <UniqueIdentifier>{2d50b6a3-4c70-44fe-89c4-1917694b7e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03.Item\Shield">
+      <UniqueIdentifier>{0b1b309a-e4e9-487f-be9b-b908e60523b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

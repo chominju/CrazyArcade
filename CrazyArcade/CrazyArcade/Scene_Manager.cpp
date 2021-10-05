@@ -37,13 +37,15 @@ HRESULT CScene_Manager::Change_Scene_Manager(SCENE_ID nextScene)
 			break;
 		case SCENE_ID::MONSTER_SCENE1:
 			m_scene = new CMonster_Scene1;
-			m_scene->Ready_Scene();
+			//m_scene->Ready_Scene();
 			break;
 		case SCENE_ID::MONSTER_SCENE2:
 			m_scene = new CMonster_Scene2;
+		//	m_scene->Ready_Scene();
 			break;
 		case SCENE_ID::BOSS_SCENE:
 			m_scene = new CBoss_Scene;
+			//m_scene->Ready_Scene();
 			break;
 		case SCENE_ID::SCENE_END:
 			break;
@@ -65,6 +67,7 @@ HRESULT CScene_Manager::Change_Scene_Manager(SCENE_ID nextScene)
 void CScene_Manager::Update_Scene_Manager()
 {
 	m_scene->Update_Scene();
+
 }
 
 void CScene_Manager::Render_Scene_Manager()
